@@ -1,7 +1,6 @@
 <template>
   <div>
-asdasdasdas啊实打实打算
-  </div>
+asdasdasdas啊实打实打顶顶顶的的的
 </template>
 
 <script>
