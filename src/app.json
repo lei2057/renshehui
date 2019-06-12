@@ -1,0 +1,42 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/logs/main",
+    "pages/counter/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "优肯供应链",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999",
+    "backgroundColor": "#fafafa",
+    "selectedColor": "#333",
+    "borderStyle": "white",
+
+    "list": [{
+      "text": "优肯",
+      "pagePath": "pages/index/main",
+      "iconPath": "static/tabs/youken.png",
+      "selectedIconPath": "static/tabs/youken-active.png"
+    }, {
+      "text": "人脉",
+      "pagePath": "pages/logs/main",
+      "iconPath": "static/tabs/mai.png",
+      "selectedIconPath": "static/tabs/mai-active.png"
+    }, {
+      "text": "资料",
+      "pagePath": "pages/counter/main",
+      "iconPath": "static/tabs/data.png",
+      "selectedIconPath": "static/tabs/data-active.png"
+    }, {
+      "text": "我的",
+      "pagePath": "pages/logs/main",
+      "iconPath": "static/tabs/my.png",
+      "selectedIconPath": "static/tabs/my-active.png"
+    }],
+    "position": "bottom"
+  }
+}
