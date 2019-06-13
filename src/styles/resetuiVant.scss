@@ -2,10 +2,11 @@
 .vant-css {
 	.van-tabs__line {
 		background-color:#3AAFFC;
-		height: 2px;
-		bottom: 10px;
+		height: 1px;
+		bottom: 8px;
 	}
 	.van-tab--active {
 		color: #3AAFFC;
+		font-size: 16px;
 	}
 }

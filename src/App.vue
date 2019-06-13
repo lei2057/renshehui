@@ -47,4 +47,14 @@ export default {
   -webkit-transition: width 2s;
   -o-transition: width 2s;
 }
+page {
+  background: #f4f4f4;
+}
+img {
+  width: 100%;
+  height: 100%;
+}
+html,body {
+  font-size: 14px;
+}
 </style>

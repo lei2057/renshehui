@@ -10,8 +10,15 @@
       消息提示
     </van-button>
     <van-dialog id="van-dialog" /> -->
+    <!-- 轮播图 -->
     <div class="head-wrapper" id="head_wrapper">
-      <img src="../assets/img.png" alt="">  
+      <swiper :indicator-dots="indicatorDots" circular="true" style="height:100%" previous-margin="20px" next-margin="20px">
+        <block v-for="item in imgUrls" :key="item">
+          <swiper-item>
+            <img :src="item" class="slide-image" width="100%" height="100%"/>
+          </swiper-item>
+        </block>
+      </swiper>
     </div> 
     <!-- 导航 -->
     <div class="menu-wrapper">
@@ -26,11 +33,59 @@
       </div>
     </div>
     <!-- 内容区开始  -->
-    <scroll-view :scroll-y="setFixed" v-if="cont == 1" class="content">
+    <scroll-view :scroll-y="setFixed" v-if="cont == 0" class="content">
       <ul class="item-wrapper">
-        <li>
-asds
+        <li class="list-wrapper">
+          <img class="list-bg" src="../assets/listBg.png" alt="">
+          <div class="list-cont disflex">
+            <img class="list-left" src="../assets/listTou.png" alt="">
+            <div class="flex list-right">
+              <div class="right-title"><div class="title-text">申领类代办</div></div>
+              <div class="right-cont">税薪-工资代发服务咨询标题超过两行显示工资代发服务咨询标题超过两行显示</div>
+              <span class="right-time">2019.04.29</span>
+            </div>
+          </div>
+          <div class="disflex pd10">
+            <div class="list-bottom-icon"><img src="../assets/listTou.png" alt=""></div>
+            <div class="flex">
+              优科达商业管理有限责任公司
+            </div>
+          </div>
         </li>
+        <li class="list-wrapper">
+          <img class="list-bg" src="../assets/listBg.png" alt="">
+          <div class="list-cont disflex">
+            <img class="list-left" src="../assets/listTou.png" alt="">
+            <div class="flex list-right">
+              <div class="right-title"><div class="title-text">申领类代办</div></div>
+              <div class="right-cont">税薪-工资代发服务咨询标题超过两行显示工资代发服务咨询标题超过两行显示</div>
+              <span class="right-time">2019.04.29</span>
+            </div>
+          </div>
+          <div class="disflex pd10">
+            <div class="list-bottom-icon"><img src="../assets/listTou.png" alt=""></div>
+            <div class="flex">
+              优科达商业管理有限责任公司
+            </div>
+          </div>
+        </li> 
+        <li class="list-wrapper">
+          <img class="list-bg" src="../assets/listBg.png" alt="">
+          <div class="list-cont disflex">
+            <img class="list-left" src="../assets/listTou.png" alt="">
+            <div class="flex list-right">
+              <div class="right-title"><div class="title-text">申领类代办</div></div>
+              <div class="right-cont">税薪-工资代发服务咨询标题超过两行显示工资代发服务咨询标题超过两行显示</div>
+              <span class="right-time">2019.04.29</span>
+            </div>
+          </div>
+          <div class="disflex pd10">
+            <div class="list-bottom-icon"><img src="../assets/listTou.png" alt=""></div>
+            <div class="flex">
+              优科达商业管理有限责任公司
+            </div>
+          </div>
+        </li> 
       </ul>
     </scroll-view>
   </div>
@@ -45,7 +100,13 @@ export default {
       scrollY: false,
       headHeight: '', // 距离顶部的高度
       // active: 0,
-      cont: 0
+      cont: 0,
+      imgUrls: [
+        'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+        'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
+        'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
+      ],
+      indicatorDots: true
     }
   },
   onShow () {
@@ -93,7 +154,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .head-wrapper {
   width: 100%;
   height: 180px;
@@ -117,7 +178,63 @@ export default {
   height: 100%;
   .item-wrapper {
     min-height: 100px; 
-    padding-top: 50px;
+    padding: 50px 10px;
+    .list-wrapper {
+      background: #fff;
+      border-radius: 8px;
+      margin-bottom: 5px; 
+      position: relative;
+      .list-bg {
+        width: 100%;
+        height: 110px;
+      }
+      .list-cont {
+        position: absolute;
+        top: 0;
+        .list-left {
+          width: 175px;
+          height: 110px;
+        }
+        .list-right {
+          margin-left: 10px;
+          .right-title {
+            font-size: 10px;
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+            margin-bottom: 3px;
+            .title-text {
+              background: #3AAFFC;
+              color: #fff;
+              width: 62px;
+              padding: 2px 0 2px 8px;
+              border-bottom-left-radius: 8px;
+              border-top-left-radius: 8px;
+            }
+          }
+          .right-cont {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+          }
+          .right-time {
+            display: flex;
+            justify-content: flex-end;
+            font-size: 12px;
+            margin-top: 20px;
+            margin-right: 13px;
+          }
+        }
+      }
+      .list-bottom-icon {
+        width: 35px;
+        height: 35px;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-right: 10px;
+      }
+    }
   }
 }
 
