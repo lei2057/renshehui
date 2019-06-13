@@ -1,0 +1,35 @@
+// 公共样式
+img {
+  width: 100%;
+  height: 100%;
+}
+.disflex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex {
+  flex: 1;
+}
+.wrapper {
+  background: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+.border_cell {
+  position: relative;
+}
+.border_cell:before {
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 1px;
+  border-top: 1px solid #F4F4F4;
+  color: #F4F4F4;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(0.5);
+  transform: scaleY(0.5);
+}
