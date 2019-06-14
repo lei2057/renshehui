@@ -10,10 +10,15 @@
 .pd10 {
   padding: 10px;
 }
+.icon {
+  width: 34px;
+  height: 34px;
+}
 .wrapper {
   background: #fff;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
 }
 .border_cell {
   position: relative;
