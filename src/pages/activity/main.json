@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "活动展示",
+  "usingComponents": {
+    "van-popup": "/static/vant/popup/index"
+  }
+}

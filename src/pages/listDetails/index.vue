@@ -1,11 +1,11 @@
 <template>
   <div class="pd10">
-    <div class="details-wrapper">
-      <img src="../assets/detailsBg.png" alt="">
+    <div class="details-wrapper" style="background-image: url('../assets/detailsBg.png'); background-size: 100% 100%;">
       <div class="details-cont">
         <div class="cont-title disflex">
           <div class="title-text">税薪-工资代发服务咨询文字超过显示字超过显示字超过显示</div>
-          <div class="title-icon"><img src="../assets/kxin.png" alt=""></div>
+          <div class="title-icon" @click="collect" v-if="!xin"><img src="../assets/kxin.png" alt=""></div>
+          <div class="title-icon" @click="collect" v-if="xin"><img src="../assets/xin.png" alt=""></div>
         </div>
         <div class="details-item">服务费用<span class="item-cont">咨询议价</span></div>
         <div class="details-item">服务类型<span class="item-cont">代办业务 — 申领类代办</span></div>
@@ -32,7 +32,7 @@
         <div class="service-cont">定制化薪酬咨询、时间管理、薪酬计算、薪酬发放及个税全国服务等</div>
       </div>
     </div>
-    <div class="service-wrapper disflex">
+    <div class="service-wrapper">
       <div class="disflex service-btn">
         <div class="service-icon"><img src="../assets/top.png" alt=""></div>
         分享好友
@@ -49,10 +49,14 @@
 export default {
   data () {
     return {
-
+      xin: false
+    }
+  },
+  methods: {
+    collect () {
+      this.xin = !this.xin
     }
   }
-
 }
 </script>
 
@@ -60,13 +64,10 @@ export default {
 .details-wrapper {
   width: 100%;
   height: 240px;
-  position: relative;
   margin-bottom: 15px;
   box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   .details-cont {
-    position: absolute;
-    top: 0;
     margin-left: 18px;
     .cont-title {
       margin-top: 12px;
@@ -105,6 +106,9 @@ export default {
 .service-wrapper {
   position: fixed;
   bottom: 10px;
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
   .service-btn {
     width: 116px;
     height: 34px;
