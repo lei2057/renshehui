@@ -1,7 +1,7 @@
 <template>
-  <div :class="show?'aa':''">
+  <div :class="show?'height':''">
     <div style="height:190px;">
-      <img src="../assets/img02.png" alt="">
+      <img src="../../assets/listBg.png" alt="">
     </div>
     <div class="pd10">
       <div class="wrapper activity">
@@ -15,13 +15,13 @@ Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rh
         </div>
       </div>
       <div class="enroll-wrapper disflex">
-        <img src="../assets/img02.png" alt="">
+        <img src="../../assets/img02.png" alt="">
         <div class="enroll-introduce disflex">
           此活动已有 <div class="enroll-people">9999+</div> 人参与，赶紧报名吧！
         </div>
       </div>
       <div class="wrapper activity-table">
-        <img src="../assets/activityBg.png" alt="">
+        <img src="../../assets/activityBg.png" alt="">
         <div class="activity-table-cont">
           <div class="activity-table-title">活动报名</div>
           <div class="activity-table-input disflex">
@@ -41,33 +41,47 @@ Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rh
       </div>
       <div class="service-wrapper">
         <div class="disflex service-btn" @click="message">
-          <div class="service-icon"><img src="../assets/ermai.png" alt=""></div>
+          <div class="service-icon"><img src="../../assets/ermai.png" alt=""></div>
           联系客服
         </div>
         <div class="disflex service-btn" @click="share">
-          <div class="service-icon"><img src="../assets/top.png" alt=""></div>
+          <div class="service-icon"><img src="../../assets/top.png" alt=""></div>
           分享活动
         </div>
       </div>
       <!-- 弹出层  -->
-      <van-popup :show="show" @close="onClose" catchtouchmove="ture">
-        <div class="popup" style="background-image: url('../assets/empowerBg.png'); background-size: 100% 100%;">
-          <div class="popup-cont">
-            <div class="popup-out">
-              <div class="popup-icon" @click="onClose"><img src="../assets/out.png" alt=""></div>
+      <div  class="vant-css">
+        <van-popup :show="show" @close="onClose">
+          <div class="popup">
+            <div class="popup-top" style="background-image: url('../../assets/empowerBg.png'); background-size: 100% 100%;">
+              <div class="popup-out">
+                <div class="popup-icon" @click="onClose"><img src="../../assets/out.png" alt=""></div>
+              </div>
+              <div class="popup-title">温馨提示</div>
             </div>
-            <div class="popup-title">温馨提示</div>
-            <div class="popup-text">有任何问题，请在接下来的页面留言</div>
-            <div class="popup-btn">立即留言</div>
+            <div class="popup-cont">
+              <div class="popup-text">有任何问题，请在接下来的页面留言</div>
+              <div class="popup-btn">立即留言</div>
+            </div>
           </div>
-        </div>
-      </van-popup>
+        </van-popup>
+      </div>
       <van-popup
         :show="show1"
         position="bottom"
         @close="onClose"
       >
-        内容
+        <div class="share-title">分享活动</div>
+        <div class="disflex share-bottom">
+          <div class="flex share-btn">
+            <div class="share-icon">
+              <img src="../../assets/pyq.png" alt="">
+            </div>保存海报</div>
+          <div class="flex share-btn">
+            <div class="share-icon">
+              <img src="../../assets/haoyou.png" alt="">
+            </div>分享好友</div>
+        </div>
       </van-popup>
     </div>
   </div>
@@ -102,7 +116,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.aa {
+.height {//蒙层后禁止滚动
   height: 100vh;
   overflow: hidden;
 }
@@ -225,10 +239,8 @@ export default {
 }
 .popup {
   width: 275px;
-  height: 275px;
-  border-radius: 8px;
-  .popup-cont {
-    width: 100%;
+  .popup-top {
+    height: 65px;
     .popup-out {
       height: 25px;
       display: flex;
@@ -246,13 +258,15 @@ export default {
       color: #fff;
       text-shadow:1px 2px 5px rgba(166,27,27,0.15);
     }
+  }
+  .popup-cont {
+    margin-top: 15px;
     .popup-text {
-      width: 155px;
       text-align: center;
       margin: 25px auto 0;
     }
     .popup-btn {
-      margin: 13px auto 0;
+      margin: 13px auto 20px;
       width: 200px;
       height: 39px;
       line-height: 39px;
@@ -262,6 +276,23 @@ export default {
       border-radius:20px;
       text-align: center;
     }
+  }
+}
+.share-title {
+  text-align: center;
+  margin: 10px 0;
+}
+.share-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  color: #727272;
+  .share-icon {
+    width: 31px;
+    height: 31px;
+    margin-bottom: 5px;
   }
 }
 </style>

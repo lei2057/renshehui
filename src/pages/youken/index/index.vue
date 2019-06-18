@@ -3,20 +3,20 @@
     <!-- 弹出层  -->
     <van-popup :show="show" @close="onClose" catchtouchmove="ture">
       <div class="popup">
-        <div class="popup-top" style="background-image: url('../assets/empowerBg.png'); background-size: 100% 100%;">
+        <div class="popup-top" style="background-image: url('../../assets/empowerBg.png'); background-size: 100% 100%;">
           <div class="popup-out">
-            <div class="popup-icon" @click="onClose"><img src="../assets/out.png" alt=""></div>
+            <div class="popup-icon" @click="onClose"><img src="../../assets/out.png" alt=""></div>
           </div>
           <div class="popup-title">温馨提示</div>
         </div>
         <div class="popup-cont">
           <div class="popup-text">为了带来更好的用户体验我们建议你使用微信登录</div>
           <div class="popup-empower disflex">
-            <div class="empower-icon"><img src="../assets/user.png" alt=""></div>
-            <div class="empower-center-icon"><img src="../assets/jiaohuan.png" alt=""></div>
-            <div class="empower-icon"><img src="../assets/youken.png" alt=""></div>
+            <div class="empower-icon"><img src="../../assets/user.png" alt=""></div>
+            <div class="empower-center-icon"><img src="../../assets/jiaohuan.png" alt=""></div>
+            <div class="empower-icon"><img src="../../assets/youken.png" alt=""></div>
           </div>
-          <div class="popup-btn disflex"><div class="btn-icon"><img src="../assets/weixin.png" alt=""></div>微信登陆</div>
+          <div class="popup-btn disflex"><div class="btn-icon"><img src="../../assets/weixin.png" alt=""></div>微信登陆</div>
         </div>
       </div>
     </van-popup>
@@ -45,9 +45,9 @@
     <!-- 内容区  -->
     <scroll-view :scroll-y="setFixed" v-if="cont == 0" class="content">
       <ul class="item-wrapper">
-        <li class="list-wrapper" v-for="(item,index) in count" :key="index" @click="next(index)" style="background-image: url('../assets/listBg.png'); background-size: 100% 100%;">
-          <div class="list-cont disflex">
-            <img class="list-left" src="../assets/listTou.png" alt="">
+        <li class="list-wrapper" v-for="(item,index) in count" :key="index" @click="next(index)">
+          <div class="list-cont disflex" style="background-image: url('../../assets/listBg.png'); background-size: 100% 100%;">
+            <img class="list-left" src="../../assets/listTou.png" alt="">
             <div class="flex list-right">
               <div class="right-title"><div class="title-text">{{item.title}}</div></div>
               <div class="right-cont">{{item.cont}}</div>
@@ -55,7 +55,7 @@
             </div>
           </div>
           <div class="disflex pd10">
-            <div class="list-bottom-icon"><img src="../assets/youkenf.png" alt=""></div>
+            <div class="list-bottom-icon"><img src="../../assets/youkenf.png" alt=""></div>
             <div class="flex">优科达商业管理有限责任公司</div>
           </div>
         </li>
@@ -240,9 +240,9 @@ export default {
 }
 .popup {
   width: 275px;
-  height: 275px;
-  border-radius: 8px;
+  // height: 275px;
   .popup-top {
+    height: 65px;
     .popup-out {
       height: 25px;
       display: flex;
@@ -262,12 +262,11 @@ export default {
     }
   }
   .popup-cont {
-    // width: 100%;
-
+    margin-top: 15px;
     .popup-text {
       width: 155px;
       text-align: center;
-      margin: 25px auto 0;
+      margin: auto;
     }
     .popup-empower {
       margin-top: 14px;
@@ -282,7 +281,7 @@ export default {
       }
     }
     .popup-btn {
-      margin: 13px auto 0;
+      margin: 13px auto;
       width: 200px;
       height: 39px;
       line-height: 39px;

@@ -1,9 +1,9 @@
 {
   "pages": [
-    "pages/index/main",
-    "pages/listDetails/main",
-    "pages/activity/main",
-    "pages/logs/main",
+    "pages/youken/index/main",
+    "pages/youken/listDetails/main",
+    "pages/youken/activity/main",
+    "pages/connections/index/main",
     "pages/counter/main"
   ],
   "window": {
@@ -19,12 +19,12 @@
     "borderStyle": "white",
     "list": [{
       "text": "优肯",
-      "pagePath": "pages/index/main",
+      "pagePath": "pages/youken/index/main",
       "iconPath": "static/tabs/youken.png",
       "selectedIconPath": "static/tabs/youken-active.png"
     }, {
       "text": "人脉",
-      "pagePath": "pages/logs/main",
+      "pagePath": "pages/connections/index/main",
       "iconPath": "static/tabs/mai.png",
       "selectedIconPath": "static/tabs/mai-active.png"
     }, {
@@ -34,7 +34,7 @@
       "selectedIconPath": "static/tabs/data-active.png"
     }, {
       "text": "我的",
-      "pagePath": "pages/logs/main",
+      "pagePath": "pages/counter/main",
       "iconPath": "static/tabs/my.png",
       "selectedIconPath": "static/tabs/my-active.png"
     }],
