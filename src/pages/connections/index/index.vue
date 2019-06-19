@@ -5,7 +5,7 @@
       <img src="../../assets/renmaiBg.png" alt="">
     </div>
     <div class="connections-item">
-      <div class="" style=""><img src="../../assets/renmaiBg.png" alt=""></div>
+      <div class="" style=""><img src="../../assets/user.png" alt=""></div>
       <div>
         <div>用户姓名</div>
         <div>查看我的名片</div>
