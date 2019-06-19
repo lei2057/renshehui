@@ -53,12 +53,7 @@ Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rh
       <div  class="vant-css">
         <van-popup :show="show" @close="onClose">
           <div class="popup">
-            <div class="popup-top" style="background-image: url('../../assets/empowerBg.png'); background-size: 100% 100%;">
-              <div class="popup-out">
-                <div class="popup-icon" @click="onClose"><img src="../../assets/out.png" alt=""></div>
-              </div>
-              <div class="popup-title">温馨提示</div>
-            </div>
+            <popup text="温馨提示" @show="onClose"></popup>
             <div class="popup-cont">
               <div class="popup-text">有任何问题，请在接下来的页面留言</div>
               <div class="popup-btn">立即留言</div>
@@ -88,13 +83,16 @@ Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rh
 </template>
 
 <script>
+import Popup from '../../../components/popup'
 export default {
   data () {
     return {
       show: false, // 弹框
       show1: false // 弹框
-
     }
+  },
+  components: {
+    Popup
   },
   methods: {
     message () {
@@ -105,10 +103,6 @@ export default {
     },
     onClose () {
       this.show = false
-      this.show1 = false
-    },
-    onSelect (event) {
-      console.log(event.mp.detail)
       this.show1 = false
     }
   }
@@ -239,26 +233,6 @@ export default {
 }
 .popup {
   width: 275px;
-  .popup-top {
-    height: 65px;
-    .popup-out {
-      height: 25px;
-      display: flex;
-      justify-content: flex-end;
-      .popup-icon {
-        width: 13px;
-        height: 13px;
-        margin-top: 10px;
-        margin-right: 10px;
-      }
-    }
-    .popup-title {
-      font-size: 24px;
-      text-align: center;
-      color: #fff;
-      text-shadow:1px 2px 5px rgba(166,27,27,0.15);
-    }
-  }
   .popup-cont {
     margin-top: 15px;
     .popup-text {

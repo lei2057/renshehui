@@ -38,7 +38,7 @@
 				{
 					"id": 0,
 					"name": "demo",
-					"pathName": "pages/activity/main",
+					"pathName": "pages/connections/index/main",
 					"query": "",
 					"scene": null
 				}
