@@ -131,7 +131,6 @@ export default {
       this.show = false
     },
     getOffsetHeight () {
-      // let self = this
       this.query = wx.createSelectorQuery()
       this.query
         .select('#head_wrapper')

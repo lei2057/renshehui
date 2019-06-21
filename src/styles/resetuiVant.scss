@@ -1,5 +1,5 @@
 // vant样式修改
-.vant-css {
+.vant-css { //蓝色底杠
 	.van-tabs__line {
 		background-color:#3AAFFC;
 		height: 1px;
@@ -11,5 +11,21 @@
 	}
 	.van-popup {
 		border-radius: 8px;
+	}
+}
+.vant-blue { //蓝色
+	.vat-tab {
+		font-size: 15px;
+	}
+	.van-tabs__nav--card .van-tab.van-tab--active {
+		color: #3AAFFC;
+		background-color: #fff;
+	}
+	.van-tabs__nav--card .van-tab {
+		color: #000;
+		border-right: 1px solid #000;
+	}
+	.van-tabs__scroll--card {
+		border: 0;
 	}
 }
