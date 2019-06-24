@@ -29,3 +29,33 @@
 		border: 0;
 	}
 }
+.vant-exchange { //名片交换导航
+	.vat-tab {
+		font-size: 15px;
+	}
+	.van-tabs__nav--card .van-tab.van-tab--active {
+		color: #3AAFFC;
+		background-color: #fff;
+	}
+	.van-tabs__nav--card .van-tab {
+		color: #000;
+		border-right: 20px solid rgb(244,244,244);
+	}
+	.van-tabs__scroll--card {
+		border: 0;
+	}
+}
+.vant-sepp {
+	.van-swipe-cell__left,
+	.van-swipe-cell__right {
+		display: inline-block;
+		width: 65px;
+		height: 44px;
+		font-size: 15px;
+		line-height: 44px;
+		color: #fff;
+		text-align: center;
+		background-color: #f44;
+	}
+
+}

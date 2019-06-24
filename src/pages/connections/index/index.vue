@@ -3,15 +3,22 @@
     <div class="connectionsBg">
       <img src="../../assets/renmaiBg.png" alt="">
     </div>
-    <div class="sousuo disflex" id="head_wrapper" v-if="aa">
-      <div class="sousuo-icon"><img src="../../assets/sousuo.png" alt=""></div>
-      <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
-      <div class="del-icon" v-if="sousuo" @click="del"><img src="../../assets/del.png" alt=""></div>
+    <div class="sousuo-wrapper" id="head_wrapper" v-if="!souShow">
+      <div class="sousuo disflex" >
+        <div class="sousuo-icon"><img src="../../assets/sousuo.png" alt=""></div>
+        <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
+        <div class="del-icon" v-if="sousuo" @click="del"><img src="../../assets/del.png" alt=""></div>
+      </div>
     </div>
-    <div class="sousuo disflex" id="head_wrapper" :class="{'fixed':setFixed}" v-if="!aa">
-      <!-- <div class="sousuo-icon"><img src="../../assets/sousuo.png" alt=""></div>
-      <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
-      <div class="del-icon" v-if="sousuo" @click="del"><img src="../../assets/del.png" alt=""></div> -->
+    <div class="scrollTop-wrapper" :class="{'fixed':setFixed}" v-if="souShow">
+      <div class="sousuo disflex">
+        <div class="sousuo-icon"><img src="../../assets/sousuo.png" alt=""></div>
+        <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
+        <div class="del-icon" v-if="sousuo" @click="del"><img src="../../assets/del.png" alt=""></div>
+      </div>
+      <div class="scrollTop disflex" @click="scrollTop">
+        <div class="top-icon"><img src="../../assets/scrollTop.png" alt=""></div>
+      </div>
     </div>
     <div class="pd10 connections">
       <div class="disflex card-item">
@@ -31,7 +38,7 @@
         </van-tabs>
       </div>
       <div v-if="cont === 0">
-        <scroll-view :scroll-y="setFixed" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll">
+        <scroll-view :scroll-y="setFixed">
           <div class="wrapper-list disflex">
             <div class="list-photo"><img src="../../assets/user.png" alt=""></div>
             <div class="list-cont flex">
@@ -107,7 +114,7 @@
         </scroll-view>
       </div>
       <div v-if="cont === 1">
-        <div class="wrapper-list disflex">
+        <div class="wrapper-list disflex" @click="myCard">
           <div class="list-photo"><img src="../../assets/user.png" alt=""></div>
           <div class="list-cont flex">
             <div class="list-name">用户姓名</div>
@@ -133,8 +140,8 @@ export default {
       qrcode: false, // 二维码切换
       sousuo: '', // 搜索内容
       setFixed: false,
-      headHeight: '',
-      aa: false
+      headHeight: '', // 获取搜索框高度
+      souShow: false
     }
   },
   onShow () {
@@ -142,23 +149,18 @@ export default {
       this.getOffsetHeight()
     })
   },
-  onPageScroll (e) {
+  onPageScroll (e) { // 根据滚动的距离执行状态
     var height = Math.floor(this.headHeight) // 高度向下取整
-    console.log(height)
-    console.log(e.scrollTop)
     if (e.scrollTop >= height) {
-      if (this.setFixed) { // 当滚动到menu的时候，添加吸顶样式
-        return // 已经为true时直接return
-      }
       this.setFixed = true
-      this.aa = true
+      this.souShow = true
     } else {
       this.setFixed = false
-      this.aa = false
+      this.souShow = false
     }
   },
   methods: {
-    getOffsetHeight () {
+    getOffsetHeight () { // 获取指定DOM高度
       this.query = wx.createSelectorQuery()
       this.query
         .select('#head_wrapper')
@@ -167,12 +169,22 @@ export default {
         })
         .exec()
     },
+    scrollTop () { // 回到顶部
+      wx.pageScrollTo({
+        scrollTop: 0
+      })
+    },
     onChange (event) {
       this.cont = event.mp.detail.index
       this.qrcode = event.mp.detail.index
     },
     del () { // 搜索框删除内容
       this.sousuo = ''
+    },
+    myCard () {
+      wx.navigateTo({
+        url: '../myCard/main'
+      })
     }
   },
   components: {
@@ -185,23 +197,48 @@ export default {
 .connectionsBg {
   height: 170px;
 }
-.aaa {
-  background: green;
-  height: 200px;
-}
-.sousuo {
-  width: 97%;
-  height: 34px;
-  border-radius: 17px;
-  background: #fff;
+.scrollTop-wrapper {
+  width: 100%;
   position: fixed;
   top: 0;
   left: 0;
-  margin: 7px 5px 0 5px;
-  z-index: 9;
+  height: 50px;
   &.fixed {
-    background: crimson;   //吸顶的时候改为fixed布局
+    background: #3AAFFC;   //吸顶的时候改为fixed布局
+    z-index: 9;
   }
+  .sousuo {
+    width: 78%;
+    float: left;
+  }
+  .scrollTop {
+    width: 60px;
+    height: 34px;
+    border-radius: 17px;
+    background: #fff;
+    float: right;
+    margin: 7px 5px 0 5px;
+    .top-icon {
+      width: 13px;
+      height: 16px;
+    }
+  }
+}
+.sousuo-wrapper {
+  width: 100%;
+  height: 85px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+.sousuo {
+  height: 34px;
+  border-radius: 17px;
+  background: #fff;
+  z-index: 9;
+  margin: 7px 5px 0 5px;
+  position: relative;
   .sousuo-icon {
     width: 23px;
     height: 23px;
