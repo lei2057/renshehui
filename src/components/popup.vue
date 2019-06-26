@@ -1,7 +1,7 @@
 <template>
-  <div class="popup-top" style="background-image: url('../../assets/empowerBg.png'); background-size: 100% 100%;">
+  <div class="popup-top" style="background-image: url('../assets/empowerBg.png'); background-size: 100% 100%;">
     <div class="popup-out">
-      <div class="popup-icon" @click="onClose"><img src="../pages/assets/out.png" alt=""></div>
+      <div class="popup-icon" @click="onClose"><img src="../assets/out.png" alt=""></div>
     </div>
     <div class="popup-title">{{text}}</div>
   </div>

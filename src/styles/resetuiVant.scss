@@ -30,32 +30,64 @@
 	}
 }
 .vant-exchange { //名片交换导航
-	.vat-tab {
+	margin-top: 20px;
+	.van-tabs__wrap {
+		background-color: rgba(255,255,255,0);
+	}
+	.van-tab {
 		font-size: 15px;
+		padding: 0;
+	}
+	.van-tabs--card {
+		padding-top: 45px;
+	}
+	.van-tabs--card .van-tabs__wrap {
+		height: 100%;
+		padding: 0 8px;
+	}
+	.van-tabs__nav--card {
+		height: 100%;
 	}
 	.van-tabs__nav--card .van-tab.van-tab--active {
 		color: #3AAFFC;
-		background-color: #fff;
+		background: #fff;
 	}
 	.van-tabs__nav--card .van-tab {
 		color: #000;
-		border-right: 20px solid rgb(244,244,244);
+		background: linear-gradient(210deg, #fff, #f3f2f2);
+		box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.15);
+		line-height: 45px;
+		margin: 0 10px;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		border-right: 0;
 	}
 	.van-tabs__scroll--card {
 		border: 0;
 	}
 }
-.vant-sepp {
-	.van-swipe-cell__left,
+.vant-cell {
+	background: #fff;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.15);
+	margin: 0 10px;
+	padding-top: 10px;
+	padding-bottom: 20px;
 	.van-swipe-cell__right {
-		display: inline-block;
-		width: 65px;
-		height: 44px;
-		font-size: 15px;
-		line-height: 44px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 80px;
+		font-size: 12px;
 		color: #fff;
 		text-align: center;
-		background-color: #f44;
+		background-color: #3AAFFC;
 	}
-
+	.van-swipe-cell {
+		height: 100%;
+	}
+	.van-popup {
+		background: #E8E8E8;
+	}
 }
