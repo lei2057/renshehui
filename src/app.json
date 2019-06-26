@@ -6,7 +6,8 @@
     "pages/connections/index/main",
     "pages/connections/myCard/main",
     "pages/connections/exchangeCard/main",
-    "pages/counter/main"
+    "pages/counter/main",
+    "pages/datacenter/index/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -31,7 +32,7 @@
       "selectedIconPath": "static/tabs/mai-active.png"
     }, {
       "text": "资料",
-      "pagePath": "pages/counter/main",
+      "pagePath": "pages/datacenter/index/main",
       "iconPath": "static/tabs/data.png",
       "selectedIconPath": "static/tabs/data-active.png"
     }, {
