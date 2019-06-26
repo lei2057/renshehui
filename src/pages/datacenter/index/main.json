@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "海量资料",
+  "usingComponents": {
+    "van-tree-select":"/static/vant/tree-select/index",
+    "van-tab": "/static/vant/tab/index",
+    "van-tabs": "/static/vant/tabs/index"
+  }
+  
+}
