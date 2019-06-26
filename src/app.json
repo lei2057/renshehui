@@ -5,6 +5,8 @@
     "pages/youken/activity/main",
     "pages/connections/index/main",
     "pages/connections/myCard/main",
+    "pages/connections/friendCard/main",
+    "pages/connections/addCard/main",
     "pages/connections/exchangeCard/main",
     "pages/counter/main"
   ],

@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="wrapper pd10 disflex">
-      <div class="icon" style="margin: 0 9px 0 7px;"><img src="../../../assets/youkenf.png" alt=""></div>
+      <div class="icon34" style="margin: 0 9px 0 7px;"><img src="../../../assets/youkenf.png" alt=""></div>
       <div class="flex">优科达商业管理有限责任公司</div>
       <div style="width: 17px;height: 17px;"><img src="../../../assets/right.png"></div>
     </div>

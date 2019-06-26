@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 0 10px;">
-    <div class="mycard-wrapper">
+    <!-- <div class="mycard-wrapper">
       <div class="mycard-cont">
         <img src="../../../assets/img03.png" alt="">
         <div class="qrcode-jiao">
@@ -27,21 +27,38 @@
         <div class="synopsis-cont">米您是否可见的官方纪录时刻的各类考试，最多输入37个字。</div>
         <div class="tag">简介</div>
       </div>
-    </div>
+    </div> -->
+    <card :synopsis="synopsis" :userinfo="userinfo" ></card>
     <div class="mycardinfo-btn" @click="exchange">名片交换信息<div class="mycardinfo-num">99</div></div>
     <div class="disflex">
-      <div class="mycard-btn">保存名片</div>
+      <div class="mycard-btn" @click="aa">保存名片</div>
       <div class="mycard-btn">分享名片</div>
     </div>
-    <!-- <popup text="仅需两步获取海量人脉信息"></popup> -->
+    <van-popup :show="show" @close="onClose" catchtouchmove="ture">
+      <div class="popup-top">
+        <div class="popup-out">
+          <div class="popup-icon" @click="onClose"><img src="../../../assets/out.png" alt=""></div>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
+import Card from '../../../components/mycard'
 export default {
   data () {
     return {
-
+      show: false, // 弹框
+      synopsis: '您是否可见的官方纪录时刻的各类考试，最多输入37个字。',
+      userinfo: {
+        name: '我的姓名',
+        job: '职位',
+        phone: '1008610086',
+        company: '杭州优科达商业管理有限公司',
+        email: '1207453420@qq.com',
+        address: '浙江省杭州市'
+      }
     }
   },
   methods: {
@@ -49,105 +66,21 @@ export default {
       wx.navigateTo({
         url: '../exchangeCard/main'
       })
+    },
+    onClose () {
+      this.show = false
+    },
+    aa () {
+      this.show = true
     }
+  },
+  components: {
+    Card
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
-.mycard-wrapper {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-  .mycard-cont {
-    height: 224px;
-    position: relative;
-    overflow: hidden;
-    .qrcode-jiao {
-      width: 60px;
-      height: 60px;
-      box-shadow: 0 0 7px #000 inset;
-      transform: rotate(45deg);
-      background: #3AAEFB;
-      position: absolute;
-      right: -30px;
-      bottom: -30px;
-      overflow: hidden;
-      .qrcode {
-        width: 20px;
-        height: 20px;
-        transform: rotate(-45deg);
-        position: absolute;
-        bottom: 20px;
-        right: 50px;
-      }
-    }
-    .mycard-info {
-      width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      color: #fff;
-      .info-top {
-        padding: 10px 10px 12px 20px;
-        .info-photo {
-          width: 91px;
-          height: 91px;
-          margin-top: 4px;
-        }
-        .info-text {
-          margin-left: 10px;
-          .text-name {
-            font-size: 21px;
-            margin-bottom: 10px;
-          }
-          .text-job {
-            font-size: 15px;
-          }
-        }
-        .info-update {
-          width: 20px;
-          height: 20px;
-          margin-bottom: 70px;
-        }
-      }
-      .info-bottom {
-        padding-left: 19px;
-        .info-item {
-          margin-bottom: 5px;
-          .info-icon {
-            width: 15px;
-            height: 15px;
-            margin-right: 9px;
-          }
-        }
-      }
-    }
-  }
-  .synopsis {
-    padding: 20px;
-    background: #fff;
-    position: relative;
-    overflow: hidden;
-    .synopsis-cont {
-      text-indent: 2em;
-    }
-    .tag {
-      width: 60px;
-      height: 60px;
-      background: #3AAEFB;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      transform: rotate(-45deg);
-      position: absolute;
-      top: -30px;
-      left: -30px;
-    }
-  }
-}
 .mycardinfo-btn {
   width: 300px;
   height: 45px;
@@ -186,5 +119,25 @@ export default {
   font-size: 15px;
   text-align: center;
   margin: 0 22px;
+}
+.popup-top {
+  height: 65px;
+  .popup-out {
+    height: 25px;
+    display: flex;
+    justify-content: flex-end;
+    .popup-icon {
+      width: 13px;
+      height: 13px;
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+  }
+  .popup-title {
+    font-size: 24px;
+    text-align: center;
+    color: #fff;
+    text-shadow:1px 2px 5px rgba(166,27,27,0.15);
+  }
 }
 </style>

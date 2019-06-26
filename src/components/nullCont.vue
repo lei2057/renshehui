@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div style="width: 178px;height: 149px;main"><img :src="img" alt=""></div>
-    <div>{{text}}</div>
+    <div class="nullCont-img"><img :src="img" alt=""></div>
+    <div class="nullCont-text">{{text}}</div>
   </div>
 </template>
 
@@ -15,5 +15,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.nullCont-img {
+  width: 178px;
+  height: 149px;
+  margin: 65px auto 10px;
+}
+.nullCont-text {
+  width: 130px;
+  margin: auto;
+  color: #727272;
+}
 </style>
