@@ -1,11 +1,11 @@
 <template>
   <div class="pd10">
-    <div class="details-wrapper" style="background-image: url('../../assets/detailsBg.png'); background-size: 100% 100%;">
+    <div class="details-wrapper" style="background-image: url('../../../assets/detailsBg.png'); background-size: 100% 100%;">
       <div class="details-cont">
         <div class="disflex">
           <div class="title-text">税薪-工资代发服务咨询文字超过显示字超过显示字超过显示</div>
-          <div class="title-icon" @click="collect" v-if="!xin"><img src="../../assets/kxin.png" alt=""></div>
-          <div class="title-icon" @click="collect" v-if="xin"><img src="../../assets/xin.png" alt=""></div>
+          <div class="title-icon" @click="collect" v-if="!xin"><img src="../../../assets/kxin.png" alt=""></div>
+          <div class="title-icon" @click="collect" v-if="xin"><img src="../../../assets/xin.png" alt=""></div>
         </div>
         <div class="details-item">服务费用<span class="item-cont">咨询议价</span></div>
         <div class="details-item">服务类型<span class="item-cont">代办业务 — 申领类代办</span></div>
@@ -14,9 +14,9 @@
       </div>
     </div>
     <div class="wrapper pd10 disflex">
-      <div class="icon" style="margin: 0 9px 0 7px;"><img src="../../assets/youkenf.png" alt=""></div>
+      <div class="icon" style="margin: 0 9px 0 7px;"><img src="../../../assets/youkenf.png" alt=""></div>
       <div class="flex">优科达商业管理有限责任公司</div>
-      <div style="width: 17px;height: 17px;"><img src="../../assets/right.png"></div>
+      <div style="width: 17px;height: 17px;"><img src="../../../assets/right.png"></div>
     </div>
     <div class="wrapper pd10">
       <div class="service">
@@ -34,11 +34,11 @@
     </div>
     <div class="service-wrapper">
       <div class="disflex service-btn">
-        <div class="service-icon"><img src="../../assets/top.png" alt=""></div>
+        <div class="service-icon"><img src="../../../assets/top.png" alt=""></div>
         分享好友
       </div>
       <div class="disflex service-btn">
-        <div class="service-icon"><img src="../../assets/phone.png" alt=""></div>
+        <div class="service-icon"><img src="../../../assets/phone.png" alt=""></div>
         马上咨询
       </div>
     </div>

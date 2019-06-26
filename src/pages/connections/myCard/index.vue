@@ -2,24 +2,24 @@
   <div style="padding: 0 10px;">
     <div class="mycard-wrapper">
       <div class="mycard-cont">
-        <img src="../../assets/img03.png" alt="">
+        <img src="../../../assets/img03.png" alt="">
         <div class="qrcode-jiao">
-          <div class="qrcode"><img src="../../assets/kxin.png" alt=""></div>
+          <div class="qrcode"><img src="../../../assets/kxin.png" alt=""></div>
         </div>
         <div class="mycard-info">
           <div class="info-top disflex">
-            <div class="info-photo"><img src="../../assets/user.png" alt=""></div>
+            <div class="info-photo"><img src="../../../assets/user.png" alt=""></div>
             <div class="info-text flex">
               <div class="text-name">我的姓名</div>
               <div class="text-job">职位</div>
             </div>
-            <div class="info-update"><img src="../../assets/xin.png" alt=""></div>
+            <div class="info-update"><img src="../../../assets/xin.png" alt=""></div>
           </div>
           <div class="info-bottom">
-            <div class="info-item"><div class="info-icon"><img src="../../assets/dianhua.png" alt=""></div>电话：1008610086</div>
-            <div class="info-item"><div class="info-icon"><img src="../../assets/company.png" alt=""></div>公司：杭州优科达商业管理有限公司</div>
-            <div class="info-item"><div class="info-icon"><img src="../../assets/email.png" alt=""></div>邮箱：1207453420@qq.com</div>
-            <div class="info-item"><div class="info-icon"><img src="../../assets/address.png" alt=""></div>城市：浙江省杭州市</div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/dianhua.png" alt=""></div><span class="flex">电话：1008610086</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/company.png" alt=""></div><span class="flex">公司：杭州优科达商业管理有限公司</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/email.png" alt=""></div><span class="flex">邮箱：1207453420@qq.com</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/address.png" alt=""></div><span class="flex">城市：浙江省杭州市</span></div>
           </div>
         </div>
       </div>
@@ -116,6 +116,11 @@ export default {
         padding-left: 19px;
         .info-item {
           margin-bottom: 5px;
+          .info-icon {
+            width: 15px;
+            height: 15px;
+            margin-right: 9px;
+          }
         }
       }
     }

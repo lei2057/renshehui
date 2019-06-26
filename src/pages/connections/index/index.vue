@@ -1,35 +1,35 @@
 <template>
   <div>
     <div class="connectionsBg">
-      <img src="../../assets/renmaiBg.png" alt="">
+      <img src="../../../assets/renmaiBg.png" alt="">
     </div>
     <div class="sousuo-wrapper" id="head_wrapper" v-if="!souShow">
       <div class="sousuo disflex" >
-        <div class="sousuo-icon"><img src="../../assets/sousuo.png" alt=""></div>
+        <div class="sousuo-icon"><img src="../../../assets/sousuo.png" alt=""></div>
         <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
-        <div class="del-icon" v-if="sousuo" @click="del"><img src="../../assets/del.png" alt=""></div>
+        <div class="del-icon" v-if="sousuo" @click="del"><img src="../../../assets/del.png" alt=""></div>
       </div>
     </div>
     <div class="scrollTop-wrapper" :class="{'fixed':setFixed}" v-if="souShow">
       <div class="sousuo disflex">
-        <div class="sousuo-icon"><img src="../../assets/sousuo.png" alt=""></div>
+        <div class="sousuo-icon"><img src="../../../assets/sousuo.png" alt=""></div>
         <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
-        <div class="del-icon" v-if="sousuo" @click="del"><img src="../../assets/del.png" alt=""></div>
+        <div class="del-icon" v-if="sousuo" @click="del"><img src="../../../assets/del.png" alt=""></div>
       </div>
       <div class="scrollTop disflex" @click="scrollTop">
-        <div class="top-icon"><img src="../../assets/scrollTop.png" alt=""></div>
+        <div class="top-icon"><img src="../../../assets/scrollTop.png" alt=""></div>
       </div>
     </div>
     <div class="pd10 connections">
       <div class="disflex card-item">
-        <div class="item-photo"><img src="../../assets/user.png" alt=""></div>
+        <div class="item-photo"><img src="../../../assets/user.png" alt=""></div>
         <div class="item-cont flex">
           <div class="cont-name">用户姓名</div>
           <div class="cont-text">查看我的名片</div>
         </div>
-        <div class="item-qrcode" v-if="!qrcode"><img src="../../assets/qrcode.png" alt=""></div>
+        <div class="item-qrcode" v-if="!qrcode"><img src="../../../assets/qrcode.png" alt=""></div>
         <div class="item-num" v-else>99</div>
-        <div class="item-icon"><img src="../../assets/right.png" alt=""></div>
+        <div class="item-icon"><img src="../../../assets/right.png" alt=""></div>
       </div>
       <div class="wrapper-item pd10 vant-blue">
         <van-tabs type="card" @change="onChange">
@@ -40,91 +40,32 @@
       <div v-if="cont === 0">
         <scroll-view :scroll-y="setFixed">
           <div class="wrapper-list disflex">
-            <div class="list-photo"><img src="../../assets/user.png" alt=""></div>
+            <div class="list-photo"><img src="../../../assets/user.png" alt=""></div>
             <div class="list-cont flex">
               <div class="list-name">用户姓名</div>
               <div class="list-text">用户公司</div>
               <div class="list-text">用户职位</div>
             </div>
             <div class="list-icon">
-              <div class="jiaohuan-icon"><img src="../../assets/jiaohuan.png" alt=""></div>
-              <div>互换名片</div>
-            </div>
-          </div>
-          <div class="wrapper-list disflex">
-            <div class="list-photo"><img src="../../assets/user.png" alt=""></div>
-            <div class="list-cont flex">
-              <div class="list-name">用户姓名</div>
-              <div class="list-text">用户公司</div>
-              <div class="list-text">用户职位</div>
-            </div>
-            <div class="list-icon">
-              <div class="jiaohuan-icon"><img src="../../assets/jiaohuan.png" alt=""></div>
-              <div>互换名片</div>
-            </div>
-          </div>
-          <div class="wrapper-list disflex">
-            <div class="list-photo"><img src="../../assets/user.png" alt=""></div>
-            <div class="list-cont flex">
-              <div class="list-name">用户姓名</div>
-              <div class="list-text">用户公司</div>
-              <div class="list-text">用户职位</div>
-            </div>
-            <div class="list-icon">
-              <div class="jiaohuan-icon"><img src="../../assets/jiaohuan.png" alt=""></div>
-              <div>互换名片</div>
-            </div>
-          </div>
-          <div class="wrapper-list disflex">
-            <div class="list-photo"><img src="../../assets/user.png" alt=""></div>
-            <div class="list-cont flex">
-              <div class="list-name">用户姓名</div>
-              <div class="list-text">用户公司</div>
-              <div class="list-text">用户职位</div>
-            </div>
-            <div class="list-icon">
-              <div class="jiaohuan-icon"><img src="../../assets/jiaohuan.png" alt=""></div>
-              <div>互换名片</div>
-            </div>
-          </div>
-          <div class="wrapper-list disflex">
-            <div class="list-photo"><img src="../../assets/user.png" alt=""></div>
-            <div class="list-cont flex">
-              <div class="list-name">用户姓名</div>
-              <div class="list-text">用户公司</div>
-              <div class="list-text">用户职位</div>
-            </div>
-            <div class="list-icon">
-              <div class="jiaohuan-icon"><img src="../../assets/jiaohuan.png" alt=""></div>
-              <div>互换名片</div>
-            </div>
-          </div>
-          <div class="wrapper-list disflex">
-            <div class="list-photo"><img src="../../assets/user.png" alt=""></div>
-            <div class="list-cont flex">
-              <div class="list-name">用户姓名</div>
-              <div class="list-text">用户公司</div>
-              <div class="list-text">用户职位</div>
-            </div>
-            <div class="list-icon">
-              <div class="jiaohuan-icon"><img src="../../assets/jiaohuan.png" alt=""></div>
+              <div class="jiaohuan-icon"><img src="../../../assets/jiaohuan.png" alt=""></div>
               <div>互换名片</div>
             </div>
           </div>
         </scroll-view>
       </div>
       <div v-if="cont === 1">
-        <div class="wrapper-list disflex" @click="myCard">
-          <div class="list-photo"><img src="../../assets/user.png" alt=""></div>
+        <!-- <div class="wrapper-list disflex" @click="myCard">
+          <div class="list-photo"><img src="../../../assets/user.png" alt=""></div>
           <div class="list-cont flex">
             <div class="list-name">用户姓名</div>
             <div class="list-text">用户公司</div>
             <div class="list-text">用户职位</div>
           </div>
           <div class="list-icon">
-            <div class="phone-icon"><img src="../../assets/phoneMp.png" alt=""></div>
+            <div class="phone-icon"><img src="../../../assets/phoneMp.png" alt=""></div>
           </div>
-        </div>
+        </div> -->
+        <null text="你还没有收到名片哦赶紧去人脉圈交换吧" img="../../../assets/null.png"></null>
       </div>
     </div>
     <!-- <popup text="仅需两步获取海量人脉信息"></popup> -->
@@ -133,6 +74,7 @@
 
 <script>
 import Popup from '../../../components/popup'
+import Null from '../../../components/nullCont'
 export default {
   data () {
     return {
@@ -188,7 +130,8 @@ export default {
     }
   },
   components: {
-    Popup
+    Popup,
+    Null
   }
 }
 </script>

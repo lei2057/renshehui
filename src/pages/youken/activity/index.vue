@@ -1,7 +1,7 @@
 <template>
   <div :class="show?'height':''">
     <div style="height:190px;">
-      <img src="../../assets/listBg.png" alt="">
+      <img src="../../../assets/listBg.png" alt="">
     </div>
     <div class="pd10">
       <div class="wrapper activity">
@@ -15,13 +15,13 @@ Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rh
         </div>
       </div>
       <div class="enroll-wrapper disflex">
-        <img src="../../assets/img02.png" alt="">
+        <img src="../../../assets/img02.png" alt="">
         <div class="enroll-introduce disflex">
           此活动已有 <div class="enroll-people">9999+</div> 人参与，赶紧报名吧！
         </div>
       </div>
       <div class="wrapper activity-table">
-        <img src="../../assets/activityBg.png" alt="">
+        <img src="../../../assets/activityBg.png" alt="">
         <div class="activity-table-cont">
           <div class="activity-table-title">活动报名</div>
           <div class="activity-table-input disflex">
@@ -41,11 +41,11 @@ Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rh
       </div>
       <div class="service-wrapper">
         <div class="disflex service-btn" @click="message">
-          <div class="service-icon"><img src="../../assets/ermai.png" alt=""></div>
+          <div class="service-icon"><img src="../../../assets/ermai.png" alt=""></div>
           联系客服
         </div>
         <div class="disflex service-btn" @click="share">
-          <div class="service-icon"><img src="../../assets/top.png" alt=""></div>
+          <div class="service-icon"><img src="../../../assets/top.png" alt=""></div>
           分享活动
         </div>
       </div>
@@ -70,11 +70,11 @@ Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rh
         <div class="disflex share-bottom">
           <div class="flex share-btn">
             <div class="share-icon">
-              <img src="../../assets/pyq.png" alt="">
+              <img src="../../../assets/pyq.png" alt="">
             </div>保存海报</div>
           <div class="flex share-btn">
             <div class="share-icon">
-              <img src="../../assets/haoyou.png" alt="">
+              <img src="../../../assets/haoyou.png" alt="">
             </div>分享好友</div>
         </div>
       </van-popup>

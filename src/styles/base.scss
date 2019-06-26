@@ -32,12 +32,11 @@
 .border_cell:before {
   content: " ";
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
+  left: 10%;
+  bottom: 0;
+  width: 80%;
   height: 1px;
-  border-top: 1px solid #F4F4F4;
-  color: #F4F4F4;
+  border-bottom: 1px solid #DEDBDB;
   -webkit-transform-origin: 0 0;
   transform-origin: 0 0;
   -webkit-transform: scaleY(0.5);
