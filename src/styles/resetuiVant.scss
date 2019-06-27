@@ -87,6 +87,11 @@
 	.van-swipe-cell {
 		height: 100%;
 	}
+}
+.vant-popup {
+	van-transition > view {
+		background-color: rgba(0, 0, 0, 0) !important;
+	}
 	.van-popup {
 		background: #E8E8E8;
 	}

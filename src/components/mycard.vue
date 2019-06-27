@@ -3,6 +3,9 @@
     <div class="mycard-wrapper">
       <div class="mycard-cont">
         <img src="../assets/img03.png" alt="">
+        <div class="qrcode-jiao">
+          <div class="qrcode"><img src="../assets/kxin.png" alt=""></div>
+        </div>
         <div class="mycard-info">
           <div class="info-top disflex">
             <div class="info-photo"><img src="../assets/user.png" alt=""></div>
@@ -10,6 +13,7 @@
               <div class="text-name">{{userinfo.name}}</div>
               <div class="text-job">{{userinfo.job}}</div>
             </div>
+            <div class="info-update"><img src="../assets/xin.png" alt=""></div>
           </div>
           <div class="info-bottom">
             <div class="info-item disflex"><div class="info-icon"><img src="../assets/dianhua.png" alt=""></div><span class="flex">电话：{{userinfo.phone}}</span></div>
@@ -45,6 +49,25 @@ export default {
     height: 224px;
     position: relative;
     overflow: hidden;
+    .qrcode-jiao {
+      width: 60px;
+      height: 60px;
+      box-shadow: 0 0 7px #000 inset;
+      transform: rotate(45deg);
+      background: #3AAEFB;
+      position: absolute;
+      right: -30px;
+      bottom: -30px;
+      overflow: hidden;
+      .qrcode {
+        width: 20px;
+        height: 20px;
+        transform: rotate(-45deg);
+        position: absolute;
+        bottom: 20px;
+        right: 50px;
+      }
+    }
     .mycard-info {
       width: 100%;
       position: absolute;
@@ -67,6 +90,11 @@ export default {
           .text-job {
             font-size: 15px;
           }
+        }
+        .info-update {
+          width: 20px;
+          height: 20px;
+          margin-bottom: 70px;
         }
       }
       .info-bottom {
