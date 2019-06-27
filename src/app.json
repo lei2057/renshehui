@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/datacenter/index/main",
     "pages/youken/index/main",
     "pages/youken/listDetails/main",
     "pages/youken/activity/main",
@@ -7,7 +8,8 @@
     "pages/connections/myCard/main",
     "pages/connections/exchangeCard/main",
     "pages/counter/main",
-    "pages/datacenter/index/main"
+    
+    "pages/datacenter/personalData/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "个人专属",
+  "usingComponents": {
+    "van-tab": "/static/vant/tab/index",
+    "van-tabs": "/static/vant/tabs/index"
+  }
+}

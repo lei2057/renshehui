@@ -4,7 +4,7 @@
         <!-- 输入框 -->
         <div class="sousuo-wrapper" id="head_wrapper">
           <div class="sousuo disflex" >
-            <div class="sousuo-icon"><img src="../../assets/sousuo.png" alt=""></div>
+            <div class="sousuo-icon"><img src="../../../assets/sousuo.png" alt=""></div>
             <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="请搜索关键字" placeholder-style="font-size: 12px;text-align: center;">
             <div class="sousuobtn" @click ="sousuomsg()">搜索</div>
           </div>
@@ -16,8 +16,8 @@
           <p>绩效指标设定</p>
           <p>劳务关系</p>
         </div>
-        <div class="z-gerenzhuanshu">
-          <img src="../../assets/huangg.png" alt="">
+        <div class="z-gerenzhuanshu" @click="gogerenzhuanshu">
+          <img src="../../../assets/huangg.png" alt="">
           <span>个人专属</span>
         </div>
       </div>
@@ -26,7 +26,14 @@
           <p v-for="(item,index) in msgarr" :key="index" :class="activeindex==index?'active':''"  @click="gotap(index)">{{item}}</p>
         </div>
         <div class="z-tabright">
-
+          <div class="list">
+            <div class="content">
+              <div class="contentlist">
+                <p>入离职</p>
+                <img src="../../../assets/jichurenshi.png" alt="">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
   </div>
@@ -45,11 +52,19 @@ export default {
   },
 
   methods: {
+    // 点击切换左侧列表
     gotap (index) {
       this.activeindex = index
     },
+    // 点击搜索按钮
     sousuomsg () {
       console.log('点击了搜索按钮')
+    },
+    // 点击个人专属
+    gogerenzhuanshu () {
+      wx.navigateTo({
+        url: '../personalData/main'
+      })
     }
   },
   onShow () { // mountend
@@ -154,30 +169,59 @@ export default {
     margin: 9px 6px 7px 12px;
   }
 }
-.z-tableft{
-  width: 95px;
-  height: 400px;
-  // border: 1px solid black;
-  background:rgba(255,255,255,1);
-  overflow: auto;
-  p{
-    width:93px;
-    height:44px;
-    font-size:12px;
-    font-family:PingFangSC-Regular;
-    font-weight:400;
-    color:rgba(37,37,37,1);
-    border:1px dashed rgba(255,77,29,1);
-    text-align: center;
-    line-height: 44px;
-    margin: 10px 0;
+.z-tab{
+  display: flex;
+  .z-tableft{
+    width: 95px;
+    height: 400px;
+    // border: 1px solid black;
+    background:rgba(255,255,255,1);
+    overflow: auto;
+    p{
+      width:93px;
+      height:44px;
+      font-size:12px;
+      font-family:PingFangSC-Regular;
+      font-weight:400;
+      color:rgba(37,37,37,1);
+      // border:1px dashed rgba(255,77,29,1);
+      text-align: center;
+      line-height: 44px;
+      margin: 10px 0;
+    }
+    .active{
+      font-size:15px;
+      font-family:PingFangSC-Medium;
+      font-weight:500;
+      color:rgba(58,175,252,1);
+    }
   }
-  .active{
-    font-size:15px;
-    font-family:PingFangSC-Medium;
-    font-weight:500;
-    color:rgba(58,175,252,1);
+  .z-tabright{
+    width: 280px;
+    .contentlist{
+      position: relative;
+      width: 263px;
+      height: 118px;
+      margin: 13px auto;
+      p{
+        position: absolute;
+        left: 0;
+        top: 0;
+        text-align: center;
+        width: 263px;
+        height: 28px;
+        font-size:18px;
+        font-family:PingFangSC-Medium;
+        font-weight:500;
+        color:rgba(255,255,255,1);
+      }
+      img{
+        width: 263px;
+        height: 118px;
+      }
+    }
   }
 }
+
 
 </style>
