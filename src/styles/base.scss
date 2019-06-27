@@ -33,6 +33,7 @@
   border-radius: 8px;
   margin-bottom: 8px;
 }
+// 1px边框
 .border_cell {
   position: relative;
 }
@@ -46,6 +47,6 @@
   border-bottom: 1px solid #DEDBDB;
   -webkit-transform-origin: 0 0;
   transform-origin: 0 0;
-  -webkit-transform: scaleY(0.5);
-  transform: scaleY(0.5);
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
 }
