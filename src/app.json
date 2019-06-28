@@ -8,12 +8,10 @@
     "pages/connections/friendCard/main",
     "pages/connections/addCard/main",
     "pages/connections/exchangeCard/main",
-    "pages/counter/main",
-    "pages/datacenter/personalData/main",
-    "pages/datacenter/searchResult/main",
-    
     "pages/connections/newCard/main",
     "pages/datacenter/index/main",
+    "pages/datacenter/personalData/main",
+    "pages/datacenter/searchResult/main",
     "pages/my/index/main"
   ],
   "window": {
