@@ -34,13 +34,20 @@
       <div class="mycard-btn" @click="aa">保存名片</div>
       <div class="mycard-btn">分享名片</div>
     </div>
-    <van-popup :show="show" @close="onClose" catchtouchmove="ture">
-      <div class="popup-top">
-        <div class="popup-out">
-          <div class="popup-icon" @click="onClose"><img src="../../../assets/out.png" alt=""></div>
+    <div class="vant-css">
+      <van-popup :show="show" @close="onClose" catchtouchmove="ture">
+        <div class="popup">
+          <div class="popup-out">
+            <div class="popup-icon" @click="onClose"><img src="../../../assets/outMp.png" alt=""></div>
+          </div>
+          <div class="popup-qrcode">
+            <img src="../../../assets/user.png" alt="">
+          </div>
+          <div class="popup-btn">扫一扫添加</div>
+          <div class="popup-text">好友扫描上方二维码即可添加名片</div>
         </div>
-      </div>
-    </van-popup>
+      </van-popup>
+    </div>
   </div>
 </template>
 
@@ -120,8 +127,8 @@ export default {
   text-align: center;
   margin: 0 22px;
 }
-.popup-top {
-  height: 65px;
+.popup {
+  width: 270px;
   .popup-out {
     height: 25px;
     display: flex;
@@ -133,11 +140,27 @@ export default {
       margin-right: 10px;
     }
   }
-  .popup-title {
-    font-size: 24px;
-    text-align: center;
+  .popup-qrcode {
+    width: 155px;
+    height: 155px;
+    margin: 20px auto 30px;
+  }
+  .popup-btn {
+    width: 174px;
+    height: 39px;
+    line-height: 39px;
+    background: linear-gradient(-17deg,rgba(58,175,252,1),rgba(50,200,255,1));
+    box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.15);
     color: #fff;
-    text-shadow:1px 2px 5px rgba(166,27,27,0.15);
+    margin: auto;
+    text-align: center;
+    border-radius: 20px;
+  }
+  .popup-text {
+    font-size: 12px;
+    color: #727272;
+    text-align: center;
+    margin: 20px 0 22px 0;
   }
 }
 </style>

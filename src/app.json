@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/datacenter/index/main",
     "pages/youken/index/main",
     "pages/youken/listDetails/main",
     "pages/youken/activity/main",
@@ -9,10 +8,17 @@
     "pages/connections/friendCard/main",
     "pages/connections/addCard/main",
     "pages/connections/exchangeCard/main",
+<<<<<<< HEAD
     "pages/counter/main",
     "pages/datacenter/personalData/main",
     "pages/datacenter/searchResult/main"
     
+=======
+    "pages/connections/newCard/main",
+    "pages/datacenter/index/main",    
+    "pages/datacenter/personalData/main",
+    "pages/my/index/main"
+>>>>>>> 56cde4b50574b2b4c845b642022d8c84cdbfc7e4
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -42,7 +48,7 @@
       "selectedIconPath": "static/tabs/data-active.png"
     }, {
       "text": "我的",
-      "pagePath": "pages/counter/main",
+      "pagePath": "pages/my/index/main",
       "iconPath": "static/tabs/my.png",
       "selectedIconPath": "static/tabs/my-active.png"
     }],

@@ -239,7 +239,6 @@ export default {
 }
 .popup {
   width: 275px;
-  // height: 275px;
   .popup-top {
     height: 65px;
     .popup-out {
