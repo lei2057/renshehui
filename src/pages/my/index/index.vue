@@ -1,6 +1,44 @@
 <template>
   <div>
-    <div @click="needKnow">服务免责声明>></div>
+    <div class="my-bg"><img src="../../../assets/renmaiBg.png"></div>
+    <div class="my-cont">
+      <div class="my-photo disflex">
+        <div class="icon100"><img src="../../../assets/user.png" alt=""></div>
+        <div class="flex"><div class="my-login">登录</div></div>
+      </div>
+      <div class="my-info wrapper-info disflex">
+        <div class="border_cell_right flex">
+          <div class="my-num">10</div>
+          <div>人脉名片</div>
+        </div>
+        <div class="border_cell_right flex" @click="collection">
+          <div class="my-num">10</div>
+          <div>资料收藏</div>
+        </div>
+        <div class="flex">
+          <div class="my-num">10</div>
+          <div>优肯方案</div>
+        </div>
+      </div>
+      <div class="my-list">
+        <div class="my-item border_cell disflex">
+          <div class="icon20"><img src="../../../assets/xiaoxi.png" alt=""></div>
+          <div class="my-text flex">人脉消息</div>
+          <div class="icon17"><img src="../../../assets/right.png" alt=""></div>
+        </div>
+        <div class="my-item border_cell disflex" @click="share">
+          <div class="icon20"><img src="../../../assets/tuijian.png" alt=""></div>
+          <div class="my-text flex">推荐给好友</div>
+          <div class="icon17"><img src="../../../assets/right.png" alt=""></div>
+        </div>
+        <div class="my-item disflex" @click="kefu">
+          <div class="icon20"><img src="../../../assets/kefu.png" alt=""></div>
+          <div class="my-text flex">联系客服</div>
+          <div class="icon17"><img src="../../../assets/right.png" alt=""></div>
+        </div>
+      </div>
+      <div class="my-needKnow" @click="needKnow">服务免责声明>></div>
+    </div>
     <div class="vant-css">
       <van-popup :show="show" @close="onClose" catchtouchmove="ture">
         <div class="popup">
@@ -18,21 +56,51 @@
         </div>
       </van-popup>
     </div>
+    <div class="vant-css">
+      <van-popup :show="show1" :overlay="false" @close="onClose" catchtouchmove="ture">
+        <div class="popup-kefu">
+          <Popup text="客服提示" @show="onClose"></Popup>
+          <div class="popup-text">有任何问题，请在接下来的页面留言</div>
+          <div class="popup-btn">我知道了</div>
+        </div>
+      </van-popup>
+    </div>
+    <van-popup :show="show2" @close="onClose" position="bottom">
+      <div class="share-title">推荐小程序</div>
+      <div class="disflex share-bottom">
+        <div class="flex share-btn">
+          <div class="share-icon">
+            <img src="../../../assets/pyq.png" alt="">
+          </div>保存海报</div>
+        <div class="flex share-btn">
+          <div class="share-icon">
+            <img src="../../../assets/haoyou.png" alt="">
+          </div>分享好友</div>
+      </div>
+    </van-popup>
     <van-toast id="van-toast" />
   </div>
 </template>
 
 <script>
 import Toast from '../../../../static/vant/toast/toast'
+import Popup from '../../../components/popup'
 export default {
   data () {
     return {
-      show: false // 弹框
+      show: false, // 声明弹框
+      show1: false, // 客服弹框
+      show2: false // 添加弹框
     }
   },
   methods: {
     onClose (event) {
       this.show = false
+      this.show1 = false
+      this.show2 = false
+      setTimeout(() => {
+        wx.showTabBar({})
+      }, 300)
     },
     needKnow () { // 阅读声明
       this.show = true
@@ -44,14 +112,77 @@ export default {
         wx.showTabBar({})
       }, 300)
     },
+    share () {
+      this.show1 = true
+      this.show2 = true
+      wx.hideTabBar({})
+    },
+    kefu () {
+      this.show1 = true
+    },
     cardAdd () {
       Toast('请您阅读并同意名片服务声明')
+    },
+    collection () {
+      wx.navigateTo({
+        url: '../collection/main'
+      })
     }
+  },
+  components: {
+    Popup
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.my-bg {
+  height: 173px;
+}
+.my-cont {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  .my-photo {
+    padding: 18px 20px 15px 20px;
+    .my-login {
+      width: 116px;
+      height: 34px;
+      line-height: 34px;
+      background: linear-gradient(-17deg,rgba(58,175,252,1),rgba(50,200,255,1));
+      box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.15);
+      color: #fff;
+      text-align: center;
+      border-radius: 17px;
+      margin-left: 24px;
+    }
+  }
+  .my-info {
+    margin-left: 13px;
+    margin-right: 13px;
+    padding: 12px 0;
+    text-align: center;
+    .my-num {
+      font-size: 18px;
+      margin: 5px 0 8px 0;
+    }
+  }
+  .my-list {
+    background: #fff;
+    .my-item {
+      padding: 23px 15px 23px 20px;
+      .my-text {
+        margin-left: 17px;
+      }
+    }
+  }
+  .my-needKnow {
+    text-align: center;
+    color: #646464;
+    font-size: 12px;
+    margin-top: 25px;
+  }
+}
 .popup {
   width: 340px;
   .popup-title {
@@ -104,6 +235,41 @@ export default {
     margin: 0 auto 25px;
     text-align: center;
     border-radius: 20px;
+  }
+}
+.popup-kefu {
+  width: 275px;
+  .popup-text {
+    margin: 15px auto 30px;
+    text-align: center;
+  }
+  .popup-btn {
+    width: 154px;
+    height: 39px;
+    line-height: 39px;
+    background: linear-gradient(-17deg,rgba(58,175,252,1),rgba(50,200,255,1));
+    box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.15);
+    color: #fff;
+    margin: 0 auto 25px;
+    text-align: center;
+    border-radius: 20px;
+  }
+}
+.share-title {
+  text-align: center;
+  margin: 10px 0;
+}
+.share-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  color: #727272;
+  .share-icon {
+    width: 31px;
+    height: 31px;
+    margin-bottom: 5px;
   }
 }
 </style>

@@ -11,6 +11,7 @@
 	}
 	.van-popup {
 		border-radius: 8px;
+		z-index:999 !important;//重新写一个
 	}
 }
 .vant-blue { //蓝色

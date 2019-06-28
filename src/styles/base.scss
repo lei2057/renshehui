@@ -10,14 +10,26 @@
 .pd10 {
   padding: 10px;
 }
-.icon34 {
-  width: 34px;
-  height: 34px;
-}
 .icon15 {
   width: 15px;
   height: 15px;
 }
+.icon17 {
+  width: 17px;
+  height: 17px;
+}
+.icon20 {
+  width: 20px;
+  height: 20px;
+}
+.icon34 {
+  width: 34px;
+  height: 34px;
+}
+.icon100 {
+  width: 100px;
+  height: 100px;
+} 
 .mgr10 {
   margin-right: 10px;
 }
@@ -27,9 +39,15 @@
   border-radius: 8px;
   margin-bottom: 15px;
 }
+.wrapper-info {
+  background: #fff;
+  box-shadow: 0 6px 8px 0 rgba(0, 0, 0, 0.11);
+  border-radius: 8px;
+  margin-bottom: 23px;
+}
 .wrapper-item {
   background: #fff;
-  box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 1px 2px 5px 0 rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   margin-bottom: 8px;
 }
@@ -45,6 +63,21 @@
   width: 80%;
   height: 1px;
   border-bottom: 1px solid #DEDBDB;
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+}
+.border_cell_right {
+  position: relative;
+}
+.border_cell_right:before {
+  content: " ";
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 200%;
+  border-right: 1px solid #DEDBDB;
   -webkit-transform-origin: 0 0;
   transform-origin: 0 0;
   -webkit-transform: scaleY(.5);
