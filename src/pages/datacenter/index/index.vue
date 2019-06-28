@@ -36,11 +36,13 @@
           </div>
         </div>
       </div>
+      <van-toast id="van-toast" />
   </div>
 </template>
 
 <script>
 // import Popup from '../../../components/popup'
+import Toast from '../../../../static/vant/toast/toast'
 export default {
   data () {
     // components: {Popup},
@@ -58,7 +60,13 @@ export default {
     },
     // 点击搜索按钮
     sousuomsg () {
-      console.log('点击了搜索按钮')
+      if (this.sousuo === '') {
+        Toast('输入框不能为空')
+        return
+      }
+      wx.navigateTo({
+        url: '../searchResult/main?sousuo=' + this.sousuo
+      })
     },
     // 点击个人专属
     gogerenzhuanshu () {

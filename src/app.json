@@ -10,8 +10,9 @@
     "pages/connections/addCard/main",
     "pages/connections/exchangeCard/main",
     "pages/counter/main",
+    "pages/datacenter/personalData/main",
+    "pages/datacenter/searchResult/main"
     
-    "pages/datacenter/personalData/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

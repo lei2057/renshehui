@@ -45,7 +45,7 @@
 				{
 					"id": 1,
 					"name": "demo2",
-					"pathName": "pages/datacenter/personalData/main",
+					"pathName": "pages/datacenter/searchResult/main",
 					"query": "",
 					"scene": null
 				}
