@@ -14,10 +14,8 @@
     "pages/datacenter/searchResult/main",
     "pages/datacenter/selectionResults/main",
     "pages/datacenter/dataDetails/main",
-
-
-
-    "pages/my/index/main"
+    "pages/my/index/main",
+    "pages/my/collection/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
