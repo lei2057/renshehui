@@ -30,7 +30,7 @@
        </div>
        <div class="z-tabbottom">
          <div>
-            <div class="list">
+            <div class="list" @click="godataDetails()">
               <div class="listleft">
                 <img src="../../../assets/wordicon.png" alt="">
               </div>
@@ -64,6 +64,12 @@ export default {
   },
 
   methods: {
+    // 跳转到详情
+    godataDetails (id) {
+      wx.navigateTo({
+        url: '../dataDetails/main?id=' + id
+      })
+    },
     // 点击切换左侧列表
     gotap (index) {
       this.activeindex = index

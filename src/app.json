@@ -12,6 +12,11 @@
     "pages/datacenter/index/main",
     "pages/datacenter/personalData/main",
     "pages/datacenter/searchResult/main",
+    "pages/datacenter/selectionResults/main",
+    "pages/datacenter/dataDetails/main",
+
+
+
     "pages/my/index/main"
   ],
   "window": {

@@ -27,6 +27,12 @@
         </div>
         <div class="z-tabright">
           <div class="list">
+            <div class="content" @click="goselection()">
+              <div class="contentlist">
+                <p>入离职</p>
+                <img src="../../../assets/jichurenshi.png" alt="">
+              </div>
+            </div>
             <div class="content">
               <div class="contentlist">
                 <p>入离职</p>
@@ -66,6 +72,11 @@ export default {
       }
       wx.navigateTo({
         url: '../searchResult/main?sousuo=' + this.sousuo
+      })
+    },
+    goselection (id) {
+      wx.navigateTo({
+        url: '../selectionResults/main?id=' + id
       })
     },
     // 点击个人专属
