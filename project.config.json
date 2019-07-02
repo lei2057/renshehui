@@ -33,12 +33,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 1,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "demo",
-					"pathName": "pages/my/index/main",
+					"pathName": "pages/my/collection/main",
 					"query": "",
 					"scene": null
 				},
