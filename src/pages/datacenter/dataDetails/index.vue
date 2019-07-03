@@ -36,7 +36,8 @@ export default {
   data () {
     // components: {Popup},
     return {
-      isfrist: true
+      isfrist: true,
+      id: ''
     }
   },
 
@@ -50,8 +51,8 @@ export default {
   onShow () { // mountend
 
   },
-  onload () { // created
-
+  onLoad (options) { // created
+    this.id = options.id
   }
 }
 </script>
