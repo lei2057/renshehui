@@ -43,7 +43,7 @@ export default {
   onShow () { // mountend
 
   },
-  onload () { // created
+  onLoad () { // created
 
   }
 }

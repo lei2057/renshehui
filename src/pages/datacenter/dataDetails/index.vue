@@ -2,11 +2,11 @@
   <div>
      <div class="z-top">
        <img class="bgtu" src="../../../assets/bg.png" alt="">
-       <img class="wjtu" src="../../../assets/wordicon.png" alt="">
+       <img class="wjtu" :src="data.type==0?'../../../assets/wordicon.png':data.type==1?'../../../assets/tabericon.png':data.type==2?'../../../assets/ppticon.png':data.type==3?'../../../assets/picon.png':data.type==4?'../../../assets/yasuoicon.png':'../../../assets/qitaicon.png'" alt="">
        <img class="fxtu" src="../../../assets/fenxiang.png" alt="">
-       <p class="p1">文件名称：入离职的流程</p>
-       <p class="p2">存储模式：百度云盘</p><p  class="p3">文件格式：Word</p>
-       <p class="p4">共享时间：2019-04-10</p>
+       <p class="p1">文件名称：{{data.title}}</p>
+       <p class="p2">存储模式：百度云盘</p><p  class="p3">文件格式：{{type}}</p>
+       <p class="p4">共享时间：{{data.publishTime}}</p>
        <img class="sctu" src="../../../assets/shoucang.png" alt="">
      </div>
      <div class="btnf" v-show="!isfrist">
@@ -37,7 +37,9 @@ export default {
     // components: {Popup},
     return {
       isfrist: true,
-      id: ''
+      id: '',
+      data: '',
+      type: ''
     }
   },
 
@@ -49,7 +51,27 @@ export default {
     }
   },
   onShow () { // mountend
-
+    this.$http.get({
+      url: '/api/dataSource/selectDataSourceById',
+      data: {
+        id: this.id
+      }
+    }).then(res => {
+      this.data = res.data[0]
+      if (Number(res.data[0].type) === 0) {
+        this.type = 'Word'
+      } else if (Number(res.data[0].type) === 1) {
+        this.type = 'Excel'
+      } else if (Number(res.data[0].type) === 2) {
+        this.type = 'Ppt'
+      } else if (Number(res.data[0].type) === 3) {
+        this.type = 'Pdf'
+      } else if (Number(res.data[0].type) === 4) {
+        this.type = '压缩包'
+      } else if (Number(res.data[0].type) === 5) {
+        this.type = '其他'
+      }
+    })
   },
   onLoad (options) { // created
     this.id = options.id

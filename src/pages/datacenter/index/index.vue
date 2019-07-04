@@ -11,10 +11,7 @@
         </div>
         <!-- 热门搜索 -->
         <div class="z-hotss">
-          <p class="">人资规划方案</p>
-          <p>五险一金</p>
-          <p>绩效指标设定</p>
-          <p>劳务关系</p>
+          <p v-for="(item,index) in hotarr" :key="index" @click="hotsosuo(item)">{{item}}</p>
         </div>
         <div class="z-gerenzhuanshu" @click="gogerenzhuanshu">
           <img src="../../../assets/huangg.png" alt="">
@@ -50,11 +47,16 @@ export default {
       sousuo: '',
       msgarr: [],
       activeindex: '0',
-      erjidata: []
+      erjidata: [],
+      hotarr: ['人资规划方案', '五险一金', '绩效指标设定', '劳务关系']
     }
   },
 
   methods: {
+    // 点击热门搜索
+    hotsosuo (msg) {
+      this.sousuo = msg
+    },
     // 点击切换左侧列表
     gotap (index, id) {
       this.activeindex = index
@@ -104,7 +106,7 @@ export default {
       this.geterjidata(res.data[0].id)
     })
   },
-  onload () { // created
+  onLoad () { // created
 
   }
 }

@@ -66,13 +66,12 @@
 
 <script>
 // import Popup from '../../../components/popup'
-import Toast from '../../../../static/vant/toast/toast'
+// import Toast from '../../../../static/vant/toast/toast'
 export default {
   data () {
     // components: {Popup},
     return {
       id: '',
-      sousuo: '',
       selectbol1: false,
       selectbol2: false,
       selectbol3: false,
@@ -132,16 +131,6 @@ export default {
         this.selectbol1 = false
       }
     },
-    // 点击搜索按钮
-    sousuomsg () {
-      if (this.sousuo === '') {
-        Toast('输入框不能为空')
-        return
-      }
-      wx.navigateTo({
-        url: '../searchResult/main?sousuo=' + this.sousuo
-      })
-    },
     // 获取对应数据加排序
     getdata () {
       this.$http.get({
@@ -149,10 +138,10 @@ export default {
         data: {
           categoryId: this.id,
           order: this.order,
-          type: this.geshi
+          type: this.geshi,
+          title: ''
         }
       }).then(res => {
-        console.log(res)
         this.dataarr = res.data.list
       })
     }
