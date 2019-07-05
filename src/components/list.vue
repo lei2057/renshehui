@@ -1,7 +1,6 @@
 <template>
-  <div class="list-wrapper">
-    <div  v-for="(item,index) in listinfo" :key="index">
-      {{item.title}}
+  <div>
+    <div class="list-wrapper" v-for="(item,index) in listinfo" :key="index">
       <div class="list-cont disflex" style="background-image: url('../assets/listBg.png'); background-size: 100% 100%;">
         <img class="list-left" src="../assets/listTou.png" alt="">
         <div class="flex list-right">

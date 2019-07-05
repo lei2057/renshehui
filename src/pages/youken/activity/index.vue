@@ -1,43 +1,29 @@
 <template>
-  <div :class="show?'height':''">
+  <div :class="show||show1?'height':''">
     <div style="height:190px;">
-      <img src="../../../assets/listBg.png" alt="">
+      <img :src="imgBg" alt="">
     </div>
     <div class="pd10">
       <div class="wrapper activity">
-        <div class="activity-title">活动内容标题不超过18个字，超过显示超过显示超过显示</div>
+        <div class="activity-title">{{content.title}}</div>
         <div class="activity-time">
-          <div class="time-text">2019.04.29</div>
+          <div class="time-text">{{content.publishTime}}</div>
         </div>
-        <div class="activity-cont">
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.
-Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.
-        </div>
+        <div class="activity-cont">{{content.detail}}</div>
       </div>
       <div class="enroll-wrapper disflex">
         <img src="../../../assets/img02.png" alt="">
         <div class="enroll-introduce disflex">
-          此活动已有 <div class="enroll-people">9999+</div> 人参与，赶紧报名吧！
+          此活动已有 <div class="enroll-people" v-if="content.personNum<9999">{{content.personNum}}</div><div class="enroll-people" v-else>9999+</div> 人参与，赶紧报名吧！
         </div>
       </div>
-      <div class="wrapper activity-table">
-        <img src="../../../assets/activityBg.png" alt="">
-        <div class="activity-table-cont">
-          <div class="activity-table-title">活动报名</div>
-          <div class="activity-table-input disflex">
-            <div class="input-title">报名条件一：</div>
-            <input class="flex" type="text" placeholder="表单内容">
-          </div>
-          <div class="activity-table-input disflex">
-            <div class="input-title">报名条件二：</div>
-            <input class="flex" type="text" placeholder="表单内容">
-          </div>
-          <div class="activity-table-input disflex">
-            <div class="input-title">报名条件三：</div>
-            <input class="flex" type="text" placeholder="表单内容">
-          </div>
-          <div class="activity-table-btn">提交报名</div>
+      <div class="wrapper activity-table" style="background-image: url('../../../assets/activityBg.png');background-size: 100% 100%;">
+        <div class="activity-table-title">活动报名</div>
+        <div class="activity-table-input disflex" v-for="item in enroll" :key="item">
+          <div class="input-title">{{item.codition}}：</div>
+          <input class="flex" type="text" :placeholder="item.detail">
         </div>
+        <div class="activity-table-btn" @click="subEnroll">提交报名</div>
       </div>
       <div class="service-wrapper">
         <div class="disflex service-btn" @click="message">
@@ -88,11 +74,25 @@ export default {
   data () {
     return {
       show: false, // 弹框
-      show1: false // 弹框
+      show1: false, // 弹框
+      content: [],
+      imgBg: '',
+      enroll: []
     }
   },
-  components: {
-    Popup
+  onLoad (option) {
+    this.$http.get({
+      url: 'api/activity/selectAllActivity'
+    }).then(res => {
+      res.data.forEach(el => {
+        if (option.id === el.id) {
+          this.content = el
+          this.imgBg = el.detailPhoto.split(',')[0]
+          this.enroll = JSON.parse(el.registrationConditions)
+          console.log(this.enroll)
+        }
+      })
+    })
   },
   methods: {
     message () {
@@ -105,6 +105,9 @@ export default {
       this.show = false
       this.show1 = false
     }
+  },
+  components: {
+    Popup
   }
 }
 </script>
@@ -168,47 +171,41 @@ export default {
   }
 }
 .activity-table {
-  height: 266px;
+  height: 100%;
   margin-bottom: 50px;
-  position: relative;
-  .activity-table-cont {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    .activity-table-title {
-      font-size: 17px;
-      font-weight: 600;
-      text-align: center;
-      margin-top: 15px;
+  .activity-table-title {
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    padding-top: 12px;
+  }
+  .activity-table-input {
+    margin-top: 20px;
+    .input-title {
+      font-size: 15px;
+      margin-left: 23px;
+      margin-right: 15px;
     }
-    .activity-table-input {
-      margin-top: 20px;
-      .input-title {
-        font-size: 15px;
-        margin-left: 23px;
-        margin-right: 15px;
-      }
-      input {
-        background: rgba(244,244,244,1);
-        border-radius: 14px;
-        padding-left: 20px;
-        margin-right: 24px;
-        height: 28px;
-        line-height: 28px;
-      }
+    input {
+      background: rgba(244,244,244,1);
+      border-radius: 14px;
+      padding-left: 20px;
+      margin-right: 24px;
+      height: 28px;
+      line-height: 28px;
     }
-    .activity-table-btn {
-      width: 294px;
-      height: 39px;
-      line-height: 39px;
-      background: #fff;
-      color: rgba(58, 175, 252, 1);
-      border: 1px solid rgba(58, 175, 252, 1);
-      box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.15);
-      border-radius: 20px;
-      text-align: center;
-      margin: 31px auto 0;
-    }
+  }
+  .activity-table-btn {
+    width: 294px;
+    height: 39px;
+    line-height: 39px;
+    background: #fff;
+    color: rgba(58, 175, 252, 1);
+    border: 1px solid rgba(58, 175, 252, 1);
+    box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.15);
+    border-radius: 20px;
+    text-align: center;
+    margin: 31px auto 22px;
   }
 }
 .service-wrapper {
@@ -217,6 +214,7 @@ export default {
   width: 95%;
   display: flex;
   justify-content: space-between;
+  z-index: 99;
   .service-btn {
     width: 116px;
     height: 34px;
