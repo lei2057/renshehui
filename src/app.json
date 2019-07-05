@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/datacenter/index/main",
     "pages/youken/index/main",
     "pages/youken/listDetails/main",
     "pages/youken/activity/main",
@@ -9,11 +10,14 @@
     "pages/connections/addCard/main",
     "pages/connections/exchangeCard/main",
     "pages/connections/newCard/main",
-    "pages/datacenter/index/main",
+    
     "pages/datacenter/personalData/main",
     "pages/datacenter/searchResult/main",
     "pages/datacenter/selectionResults/main",
     "pages/datacenter/dataDetails/main",
+    "pages/datacenter/getdataCourse/main",
+
+
     "pages/my/index/main",
     "pages/my/collection/main"
   ],

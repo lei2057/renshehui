@@ -11,10 +11,7 @@
         </div>
         <!-- 热门搜索 -->
         <div class="z-hotss">
-          <p class="">人资规划方案</p>
-          <p>五险一金</p>
-          <p>绩效指标设定</p>
-          <p>劳务关系</p>
+          <p v-for="(item,index) in hotarr" :key="index" @click="hotsosuo(item)">{{item}}</p>
         </div>
         <div class="z-gerenzhuanshu" @click="gogerenzhuanshu">
           <img src="../../../assets/huangg.png" alt="">
@@ -23,19 +20,13 @@
       </div>
       <div class="z-tab">
         <div class="z-tableft">
-          <p v-for="(item,index) in msgarr" :key="index" :class="activeindex==index?'active':''"  @click="gotap(index)">{{item}}</p>
+          <p v-for="(item,index) in msgarr" :key="index" :class="activeindex==index?'active':''"  @click="gotap(index,item.id)">{{item.name}}</p>
         </div>
         <div class="z-tabright">
           <div class="list">
-            <div class="content" @click="goselection()">
+            <div class="content" @click="goselection(item.id)" v-for="item in erjidata" :key="item.id">
               <div class="contentlist">
-                <p>入离职</p>
-                <img src="../../../assets/jichurenshi.png" alt="">
-              </div>
-            </div>
-            <div class="content">
-              <div class="contentlist">
-                <p>入离职</p>
+                <p>{{item.name}}</p>
                 <img src="../../../assets/jichurenshi.png" alt="">
               </div>
             </div>
@@ -54,15 +45,22 @@ export default {
     // components: {Popup},
     return {
       sousuo: '',
-      msgarr: ['基础人事', '招聘管理', '员工培训', '绩效管理', '薪酬管理', '员工关系', '人资规划', '企业文化', '行政管理'],
-      activeindex: '0'
+      msgarr: [],
+      activeindex: '0',
+      erjidata: [],
+      hotarr: ['人资规划方案', '五险一金', '绩效指标设定', '劳务关系']
     }
   },
 
   methods: {
+    // 点击热门搜索
+    hotsosuo (msg) {
+      this.sousuo = msg
+    },
     // 点击切换左侧列表
-    gotap (index) {
+    gotap (index, id) {
       this.activeindex = index
+      this.geterjidata(id)
     },
     // 点击搜索按钮
     sousuomsg () {
@@ -84,12 +82,31 @@ export default {
       wx.navigateTo({
         url: '../personalData/main'
       })
+    },
+    // 根据id请求二级数据
+    geterjidata (id) {
+      this.$http.get({
+        url: '/api/dataSource/queryChildTypesById',
+        data: {
+          parentId: id
+        }
+      }).then(res => {
+        this.erjidata = res.data.list
+      })
     }
-  },
-  onShow () { // mountend
 
   },
-  onload () { // created
+  onShow () { // mountend
+    this.$http.get({
+      url: 'api/dataSource/selectAllDataSourceType',
+      data: {
+      }
+    }).then(res => {
+      this.msgarr = res.data
+      this.geterjidata(res.data[0].id)
+    })
+  },
+  onLoad () { // created
 
   }
 }

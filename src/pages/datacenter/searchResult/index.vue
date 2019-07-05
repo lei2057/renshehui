@@ -1,74 +1,80 @@
 <template>
   <div>
+    <div v-show="result">
      <div class="z-head">
-       <!-- 输入框 -->
-        <div class="sousuo-wrapper" id="head_wrapper">
-          <div class="sousuo disflex" >
-            <div class="sousuo-icon"><img src="../../../assets/sousuo.png" alt=""></div>
-            <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="请搜索关键字" placeholder-style="font-size: 12px;text-align: center;">
-            <div class="sousuobtn" @click ="sousuomsg()">搜索</div>
-          </div>
-        </div>
-        <div class="z-select">
-          <div class="list" @click="xuanzepaixu(1)">
-            <p>发布时间</p>
-            <img src="../../../assets/updown.png" alt="">
-            <div class="xuanxiang" v-show="selectbol1">
-              <p @click="zuanzefuzhi(1,1)">从早到晚</p>
-              <p @click="zuanzefuzhi(1,2)">从晚到早</p>
-            </div>
-          </div>
-          <div class="list" @click="xuanzepaixu(2)">
-            <p>浏览量</p>
-            <img src="../../../assets/updown.png" alt="">
-            <div class="xuanxiang" v-show="selectbol2">
-              <p @click="zuanzefuzhi(2,1)">从多到少</p>
-              <p @click="zuanzefuzhi(2,2)">从少到多</p>
-            </div>
-          </div>
-          <div class="list" @click="xuanzepaixu(3)">
-            <p>收藏数</p>
-            <img src="../../../assets/updown.png" alt="">
-            <div class="xuanxiang" v-show="selectbol3">
-              <p @click="zuanzefuzhi(3,1)">从多到少</p>
-              <p @click="zuanzefuzhi(3,2)">从少到多</p>
-            </div>
-          </div>
-          <div class="list" @click="xuanzepaixu(4)">
-            <p>格式</p>
-            <img src="../../../assets/updown.png" alt="">
-            <div class="xuanxiang" v-show="selectbol4">
-              <p @click="zuanzefuzhi(4,1)">Word</p>
-              <p @click="zuanzefuzhi(4,2)">Excel</p>
-              <p @click="zuanzefuzhi(4,3)">ppt</p>
-              <p @click="zuanzefuzhi(4,4)">pdf</p>
-              <p @click="zuanzefuzhi(4,5)">压缩包</p>
-              <p @click="zuanzefuzhi(4,6)">其他</p>
-            </div>
-          </div>
-        </div>
-     </div>
-     <div class="z-tabbottom">
-         <div>
-            <div class="list" @click="godataDetails()">
-              <div class="listleft">
-                <img src="../../../assets/wordicon.png" alt="">
+          <!-- 输入框 -->
+            <div class="sousuo-wrapper" id="head_wrapper">
+              <div class="sousuo disflex" >
+                <div class="sousuo-icon"><img src="../../../assets/sousuo.png" alt=""></div>
+                <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="请搜索关键字" placeholder-style="font-size: 12px;text-align: center;">
+                <div class="sousuobtn" @click ="sousuomsg()">搜索</div>
               </div>
-              <div class="listright">
-                <div class="righttop">
-                  <p>入职离职的流程</p>
+            </div>
+            <div class="z-select">
+              <div class="list" @click="xuanzepaixu(1)">
+                <p>发布时间</p>
+                <img src="../../../assets/updown.png" alt="">
+                <div class="xuanxiang" v-show="selectbol1">
+                  <p @click="zuanzefuzhi(1,1)">从早到晚</p>
+                  <p @click="zuanzefuzhi(1,2)">从晚到早</p>
                 </div>
-                <div class="rightbottom">
-                  <p>10000人浏览</p>
-                  <p>10000人收藏</p>
-                  <p>2019/04/29</p>
+              </div>
+              <div class="list" @click="xuanzepaixu(2)">
+                <p>浏览量</p>
+                <img src="../../../assets/updown.png" alt="">
+                <div class="xuanxiang" v-show="selectbol2">
+                  <p @click="zuanzefuzhi(2,1)">从多到少</p>
+                  <p @click="zuanzefuzhi(2,2)">从少到多</p>
+                </div>
+              </div>
+              <div class="list" @click="xuanzepaixu(3)">
+                <p>收藏数</p>
+                <img src="../../../assets/updown.png" alt="">
+                <div class="xuanxiang" v-show="selectbol3">
+                  <p @click="zuanzefuzhi(3,1)">从多到少</p>
+                  <p @click="zuanzefuzhi(3,2)">从少到多</p>
+                </div>
+              </div>
+              <div class="list" @click="xuanzepaixu(4)">
+                <p>格式</p>
+                <img src="../../../assets/updown.png" alt="">
+                <div class="xuanxiang" v-show="selectbol4">
+                  <p @click="zuanzefuzhi(4,0)">Word</p>
+                  <p @click="zuanzefuzhi(4,1)">Excel</p>
+                  <p @click="zuanzefuzhi(4,2)">ppt</p>
+                  <p @click="zuanzefuzhi(4,3)">pdf</p>
+                  <p @click="zuanzefuzhi(4,4)">压缩包</p>
+                  <p @click="zuanzefuzhi(4,5)">其他</p>
                 </div>
               </div>
             </div>
-            <div class="line"></div>
-         </div>
-       </div>
-     <van-toast id="van-toast" />
+        </div>
+        <div class="z-tabbottom">
+            <div v-for="item in dataarr" :key="item.id">
+                <div class="list" @click="godataDetails(item.id)">
+                  <div class="listleft">
+                    <img :src="item.type==0?'../../../assets/wordicon.png':item.type==1?'../../../assets/tabericon.png':item.type==2?'../../../assets/ppticon.png':item.type==3?'../../../assets/picon.png':item.type==4?'../../../assets/yasuoicon.png':'../../../assets/qitaicon.png'" alt="">
+                  </div>
+                  <div class="listright">
+                    <div class="righttop">
+                      <p>{{item.title}}</p>
+                    </div>
+                    <div class="rightbottom">
+                      <p>{{item.readCount}}人浏览</p>
+                      <p>{{item.likeCount}}人收藏</p>
+                      <p>{{item.publishTime}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="line"></div>
+            </div>
+          </div>
+        <van-toast id="van-toast" />
+      </div>
+      <div v-show="!result">
+        <div class="nullCont-img"><img src="../../../assets/null.png" alt=""></div>
+        <div class="nullCont-text">额...换个关键词试试</div>
+    </div>
   </div>
 </template>
 
@@ -84,10 +90,10 @@ export default {
       selectbol2: false,
       selectbol3: false,
       selectbol4: false,
-      timepx: 0,
-      liulangl: 0,
-      shoucangs: 0,
-      geshi: 0
+      order: '',
+      geshi: '',
+      dataarr: [],
+      result: true
     }
   },
 
@@ -101,15 +107,20 @@ export default {
     // 排序赋值
     zuanzefuzhi (indexf, indexz) {
       if (indexf === 1) {
-        this.timepx = indexz
+        this.order = 'p' + indexz
+        this.geshi = ''
       } else if (indexf === 2) {
-        this.liulangl = indexz
+        this.order = 'l' + indexz
+        this.geshi = ''
       } else if (indexf === 3) {
-        this.shoucangs = indexz
+        this.order = 's' + indexz
+        this.geshi = ''
       } else if (indexf === 4) {
+        this.order = ''
         this.geshi = indexz
       }
-      console.log(this.timepx, this.liulangl, this.shoucangs, this.geshi)
+      this.getdata()
+      // console.log(this.order, this.geshi)
     },
     // 选择排序规则
     xuanzepaixu (index) {
@@ -144,17 +155,32 @@ export default {
       wx.navigateTo({
         url: '../searchResult/main?sousuo=' + this.sousuo
       })
+    },
+    // 获取对应数据加排序
+    getdata () {
+      this.$http.get({
+        url: '/api/dataSource/selectAllByCategoryId',
+        data: {
+          categoryId: '',
+          order: this.order,
+          type: this.geshi,
+          title: this.sousuo
+        }
+      }).then(res => {
+        this.dataarr = res.data.list
+        if (res.data.list.length === 0) {
+          this.result = false
+        } else {
+          this.result = true
+        }
+      })
     }
   },
   onShow () { // mountend
-
+    this.getdata()
   },
-  onload (options) { // created
-    // console.log(options)
-    // var sousuo = options.sousuo
-    // console.log(sousuo)
-    // this.sousuo = this.$root.$mp.query.sousuo
-    // console.log(this.sousuo)
+  onLoad (options) { // created
+    this.sousuo = options.sousuo
   }
 }
 </script>
@@ -312,6 +338,15 @@ export default {
     }
   }
 
-
+.nullCont-img {
+  width: 178px;
+  height: 149px;
+  margin: 65px auto 10px;
+}
+.nullCont-text {
+  width: 130px;
+  margin: auto;
+  color: #727272;
+}
 
 </style>

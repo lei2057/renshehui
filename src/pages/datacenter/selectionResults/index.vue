@@ -30,30 +30,30 @@
             <p>格式</p>
             <img src="../../../assets/updown.png" alt="">
             <div class="xuanxiang" v-show="selectbol4">
-              <p @click="zuanzefuzhi(4,1)">Word</p>
-              <p @click="zuanzefuzhi(4,2)">Excel</p>
-              <p @click="zuanzefuzhi(4,3)">ppt</p>
-              <p @click="zuanzefuzhi(4,4)">pdf</p>
-              <p @click="zuanzefuzhi(4,5)">压缩包</p>
-              <p @click="zuanzefuzhi(4,6)">其他</p>
+              <p @click="zuanzefuzhi(4,0)">Word</p>
+              <p @click="zuanzefuzhi(4,1)">Excel</p>
+              <p @click="zuanzefuzhi(4,2)">ppt</p>
+              <p @click="zuanzefuzhi(4,3)">pdf</p>
+              <p @click="zuanzefuzhi(4,4)">压缩包</p>
+              <p @click="zuanzefuzhi(4,5)">其他</p>
             </div>
           </div>
         </div>
      </div>
      <div class="z-tabbottom">
-         <div>
-            <div class="list" @click="godataDetails()">
+         <div v-for="item in dataarr" :key="item.id">
+            <div class="list" @click="godataDetails(item.id)">
               <div class="listleft">
-                <img src="../../../assets/wordicon.png" alt="">
+                <img :src="item.type==0?'../../../assets/wordicon.png':item.type==1?'../../../assets/tabericon.png':item.type==2?'../../../assets/ppticon.png':item.type==3?'../../../assets/picon.png':item.type==4?'../../../assets/yasuoicon.png':'../../../assets/qitaicon.png'" alt="">
               </div>
               <div class="listright">
                 <div class="righttop">
-                  <p>入职离职的流程</p>
+                  <p>{{item.title}}</p>
                 </div>
                 <div class="rightbottom">
-                  <p>10000人浏览</p>
-                  <p>10000人收藏</p>
-                  <p>2019/04/29</p>
+                  <p>{{item.readCount}}人浏览</p>
+                  <p>{{item.likeCount}}人收藏</p>
+                  <p>{{item.publishTime}}</p>
                 </div>
               </div>
             </div>
@@ -66,20 +66,19 @@
 
 <script>
 // import Popup from '../../../components/popup'
-import Toast from '../../../../static/vant/toast/toast'
+// import Toast from '../../../../static/vant/toast/toast'
 export default {
   data () {
     // components: {Popup},
     return {
-      sousuo: '',
+      id: '',
       selectbol1: false,
       selectbol2: false,
       selectbol3: false,
       selectbol4: false,
-      timepx: 0,
-      liulangl: 0,
-      shoucangs: 0,
-      geshi: 0
+      order: '',
+      geshi: '',
+      dataarr: []
     }
   },
 
@@ -93,15 +92,20 @@ export default {
     // 排序赋值
     zuanzefuzhi (indexf, indexz) {
       if (indexf === 1) {
-        this.timepx = indexz
+        this.order = 'p' + indexz
+        this.geshi = ''
       } else if (indexf === 2) {
-        this.liulangl = indexz
+        this.order = 'l' + indexz
+        this.geshi = ''
       } else if (indexf === 3) {
-        this.shoucangs = indexz
+        this.order = 's' + indexz
+        this.geshi = ''
       } else if (indexf === 4) {
+        this.order = ''
         this.geshi = indexz
       }
-      console.log(this.timepx, this.liulangl, this.shoucangs, this.geshi)
+      this.getdata()
+      // console.log(this.order, this.geshi)
     },
     // 选择排序规则
     xuanzepaixu (index) {
@@ -127,22 +131,26 @@ export default {
         this.selectbol1 = false
       }
     },
-    // 点击搜索按钮
-    sousuomsg () {
-      if (this.sousuo === '') {
-        Toast('输入框不能为空')
-        return
-      }
-      wx.navigateTo({
-        url: '../searchResult/main?sousuo=' + this.sousuo
+    // 获取对应数据加排序
+    getdata () {
+      this.$http.get({
+        url: '/api/dataSource/selectAllByCategoryId',
+        data: {
+          categoryId: this.id,
+          order: this.order,
+          type: this.geshi,
+          title: ''
+        }
+      }).then(res => {
+        this.dataarr = res.data.list
       })
     }
   },
   onShow () { // mountend
-
+    this.getdata()
   },
-  onload () { // created
-
+  onLoad (options) { // created
+    this.id = options.id
   }
 }
 </script>
