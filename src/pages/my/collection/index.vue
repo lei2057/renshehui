@@ -7,7 +7,7 @@
         <div>1.打开优肯，选择你感兴趣的供应链服务</div>
         <div>2.点击右上角的收藏即可添加收藏到这了</div>
       </div>
-      <div class="collection-btn">马上去收藏</div>
+      <div class="collection-btn" @click="collectGo">马上去收藏</div>
     </div>
     <div class="pd10" v-if="listinfo">
       <Lists :listinfo="listinfo"></Lists>
@@ -21,29 +21,30 @@
 <script>
 import Lists from '../../../components/list'
 export default {
-  components: {Lists},
   data () {
     return {
-      listinfo: [],
-      userid: '1'
+      listinfo: []
     }
   },
-
   methods: {
+    collectGo () {
+
+    }
+  },
+  components: {Lists},
+  onShow () { // mountend
 
   },
-  onShow () { // mountend
+  onLoad (option) {
     this.$http.get({
-      url: 'api/appUser/selectMyfavoriteChains',
+      url: 'api/appUser/selectMyfavoriteDataSources',
       data: {
-        id: this.userid
+        id: option.id
       }
     }).then(res => {
       console.log(res)
       this.listinfo = res.data.list
     })
-  },
-  onLoad () {
     const ctx = wx.createCanvasContext('myCanvas')
     ctx.setFillStyle('red')
     ctx.fillRect(10, 10, 150, 75)

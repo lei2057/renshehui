@@ -2,21 +2,25 @@
   <div>
     <div class="my-bg"><img src="../../../assets/renmaiBg.png"></div>
     <div class="my-cont">
-      <div class="my-photo disflex">
+      <div class="my-photo disflex" v-if="!userInfo">
         <div class="icon100"><img src="../../../assets/user.png" alt=""></div>
-        <div class="flex"><div class="my-login" @click="login">登录</div></div>
+        <div class="flex"><button class="my-login" open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">登录</button></div>
+      </div>
+      <div class="my-photo disflex" v-else>
+        <div class="photo-wrapper"><img :src="userInfo.avatarUrl" alt=""></div>
+        <div class="flex"><div class="my-name">{{userInfo.nickName}}</div></div>
       </div>
       <div class="my-info wrapper-info disflex">
         <div class="border_cell_right flex">
-          <div class="my-num">{{data.totalMyCard}}</div>
+          <div class="my-num">{{totalMyCard}}</div>
           <div>人脉名片</div>
         </div>
         <div class="border_cell_right flex" @click="collection">
-          <div class="my-num">{{data.totalDataSource}}</div>
+          <div class="my-num">{{totalDataSource}}</div>
           <div>资料收藏</div>
         </div>
         <div class="flex">
-          <div class="my-num">{{data.totalChain}}</div>
+          <div class="my-num">{{totalChain}}</div>
           <div>优肯方案</div>
         </div>
       </div>
@@ -57,11 +61,11 @@
       </van-popup>
     </div>
     <div class="vant-css">
-      <van-popup :show="show1" :overlay="false" @close="onClose" catchtouchmove="ture">
+      <van-popup :show="show1" @close="onClose" catchtouchmove="ture">
         <div class="popup-kefu">
           <Popup text="客服提示" @show="onClose"></Popup>
           <div class="popup-text">有任何问题，请在接下来的页面留言</div>
-          <div class="popup-btn">我知道了</div>
+          <div class="popup-btn" @click="onClose">我知道了</div>
         </div>
       </van-popup>
     </div>
@@ -78,12 +82,19 @@
           </div>分享好友</div>
       </div>
     </van-popup>
+    <div class="vant-css">
+      <van-popup :show="show3" :overlay="false" @close="onClose" catchtouchmove="ture">
+        <div class="popup-kefu">
+          <Popup text="客服提示" @show="onClose"></Popup>
+          <div class="popup-text">海报</div>
+        </div>
+      </van-popup>
+    </div>
     <van-toast id="van-toast" />
   </div>
 </template>
 
 <script>
-import Toast from '../../../../static/vant/toast/toast'
 import Popup from '../../../components/popup'
 export default {
   components: {
@@ -94,25 +105,19 @@ export default {
       show: false, // 声明弹框
       show1: false, // 客服弹框
       show2: false, // 添加弹框
-      userid: '1',
-      data: {}
+      show3: false, // 海报弹框
+      totalMyCard: 0, // 人脉名片总计
+      totalDataSource: 0, // 资料收藏总计
+      totalChain: 0, // 优肯方案总计
+      userInfo: {}// 用户信息
     }
   },
-  onLoad () {
-    wx.checkSession({
-      success: (res) => {
-        console.log(res)
-      },
-      fail: () => {
-        this.login()
-      }
-    })
-  },
   methods: {
-    onClose (event) {
+    onClose () {
       this.show = false
       this.show1 = false
       this.show2 = false
+      this.show3 = false
       setTimeout(() => {
         wx.showTabBar({})
       }, 300)
@@ -127,65 +132,92 @@ export default {
         wx.showTabBar({})
       }, 300)
     },
-    share () {
-      this.show1 = true
+    share () { // 推荐好友
       this.show2 = true
+      this.show3 = true
       wx.hideTabBar({})
     },
-    kefu () {
+    kefu () { // 客服
       this.show1 = true
     },
-    cardAdd () {
-      Toast('请您阅读并同意名片服务声明')
+    collection () { // 资料查看Go
+      let userId = wx.getStorageSync('userId')
+      if (userId) {
+        wx.navigateTo({
+          url: '../collection/main?id=' + userId
+        })
+      } else {
+        wx.navigateTo({
+          url: '../collection/main'
+        })
+      }
     },
-    collection () {
-      wx.navigateTo({
-        url: '../collection/main'
-      })
-    },
-    login () {
-      var _this = this
-      wx.login({
-        success (res) {
-          console.log(res)
-          wx.getUserInfo({
-            withCredentials: 'false',
-            lang: 'zh_CN',
-            timeout: 10000,
-            success: (result) => {
-              console.log(result)
-            },
-            fail: () => {}
-          })
-          if (res.code) {
-            // 发起网络请求
-            _this.$http.get({
-              url: 'api/appUserLoginApi/Login',
-              data: {
-                code: res.code
-              }
-            }).then(res => {
-              console.log(res)
-            })
-          } else {
-            console.log('登录失败！' + res.errMsg)
+    onGotUserInfo (e) { // 登录授权
+      let that = this
+      if (e.mp.detail.userInfo) {
+        wx.setStorage({
+          key: 'userInfo',
+          data: e.mp.detail.userInfo
+        })
+        that.userInfo = e.mp.detail.userInfo
+        wx.login({
+          success (res) {
+            if (res.code) {
+              // 发起网络请求
+              that.$http.get({
+                url: 'api/appUserLoginApi/userAuthorizedOk',
+                data: {
+                  code: res.code,
+                  headPhoto: e.mp.detail.userInfo.avatarUrl,
+                  name: e.mp.detail.userInfo.nickName,
+                  sex: e.mp.detail.userInfo.gender
+                }
+              }).then(res => {
+                wx.setStorageSync('userId', res.data.userId)
+                that.onLoad()
+              })
+            } else {
+              console.log('登录失败！' + res.errMsg)
+            }
+          },
+          fail: (res) => {
+            console.log(res)
           }
-        }
-      })
+        })
+      } else {
+        console.log('拒绝授权')
+      }
     }
   },
   onShow () { // mountend
-    this.$http.get({
-      url: 'api/appUser/selectUserByUserId',
-      data: {
-        id: this.userid
-      }
-    }).then(res => {
-      this.data = res.data.list[0]
-    })
+    let userId = wx.getStorageSync('userId')
+    if (userId) {
+      this.$http.get({
+        url: 'api/appUser/selectUserByUserId',
+        data: {
+          id: userId
+        }
+      }).then(res => {
+        this.totalMyCard = res.data.list[0].totalMyCard
+        this.totalDataSource = res.data.list[0].totalDataSource
+        this.totalChain = res.data.list[0].totalChain
+      })
+    }
   },
-  onload () { // created
-
+  onLoad () { // created
+    if (!wx.getStorageSync('userInfo')) {
+      this.userInfo = ''
+    } else {
+      this.userInfo = wx.getStorageSync('userInfo')
+    }
+    // wx.checkSession({
+    //   success: (res) => {
+    //     console.log(res, '存在')
+    //   },
+    //   fail: (res) => {
+    //     console.log(res, '不存在')
+    //   }
+    // })
   }
 
 }
@@ -201,6 +233,13 @@ export default {
   top: 0;
   .my-photo {
     padding: 18px 20px 15px 20px;
+    .photo-wrapper {
+      width: 90px;
+      height: 90px;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      overflow: hidden;
+    }
     .my-login {
       width: 116px;
       height: 34px;
@@ -211,6 +250,11 @@ export default {
       text-align: center;
       border-radius: 17px;
       margin-left: 24px;
+    }
+    .my-name {
+      color: #fff;
+      font-size: 20px;
+      margin-left: 12px;
     }
   }
   .my-info {

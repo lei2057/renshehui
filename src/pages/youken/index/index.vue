@@ -43,6 +43,21 @@
     <!-- 内容区  -->
     <scroll-view :scroll-y="setFixed" v-if="contIndex === 0" class="content">
       <ul class="item-wrapper">
+        <li class="list-wrapper" v-for="(item,index) in newListUp" :key="index" @click="next(item.id)">
+          <div class="list-cont disflex" style="background-image: url('../../../assets/listBg.png'); background-size: 100% 100%;">
+            <img class="list-left" :src="item.mainImg" alt="">
+            <div class="flex list-right">
+              <div class="right-title"><div class="title-text">{{item.category}}</div></div>
+              <div class="right-cont">{{item.title}}</div>
+              <span class="right-time">{{item.publishTime}}</span>
+            </div>
+            <div class="tag">置顶</div>
+          </div>
+          <div class="disflex pd10">
+            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg" alt=""></div>
+            <div class="flex">{{item.serviceCompany}}</div>
+          </div>
+        </li>
         <li class="list-wrapper" v-for="(item,index) in newList" :key="index" @click="next(item.id)">
           <div class="list-cont disflex" style="background-image: url('../../../assets/listBg.png'); background-size: 100% 100%;">
             <img class="list-left" :src="item.mainImg" alt="">
@@ -51,7 +66,6 @@
               <div class="right-cont">{{item.title}}</div>
               <span class="right-time">{{item.publishTime}}</span>
             </div>
-            <div class="tag" v-if="index === 0">置顶</div>
           </div>
           <div class="disflex pd10">
             <div class="list-bottom-icon"><img :src="item.serviceCompanyImg" alt=""></div>
@@ -93,6 +107,7 @@ export default {
       navList: [], // 导航栏
       imgUrls: [], // 轮播图
       newList: [], // 最新活动内容
+      newListUp: [], // 最新活动内容置顶
       contList: [], // 其他导航栏内容
       show: false// 授权弹框
     }
@@ -103,6 +118,11 @@ export default {
     }).then(res => {
       this.navList = res.data
     })
+  },
+  onShow () {
+    this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
+      this.getOffsetHeight()
+    })
     this.$http.get({
       url: 'api/activity/selectAllActivity'
     }).then(res => {
@@ -111,12 +131,13 @@ export default {
     this.$http.get({
       url: 'api/SupplyChain/selectAllSupplyChain'
     }).then(res => {
-      this.newList = res.data.list
-    })
-  },
-  onShow () {
-    this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
-      this.getOffsetHeight()
+      res.data.list.forEach(el => {
+        if (el.isUp === '0') {
+          this.newListUp.push(el)
+        } else {
+          this.newList.push(el)
+        }
+      })
     })
   },
   onPageScroll (e) {
@@ -159,7 +180,13 @@ export default {
           url: 'api/SupplyChain/selectAllSupplyChain'
         }).then(res => {
           this.contIndex = event.mp.detail.index
-          this.newList = res.data.list
+          res.data.list.forEach(el => {
+            if (el.isUp === '0') {
+              this.newListUp.push(el)
+            } else {
+              this.newList.push(el)
+            }
+          })
           wx.hideLoading()
         })
       } else {

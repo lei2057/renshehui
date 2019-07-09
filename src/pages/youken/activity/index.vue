@@ -108,6 +108,7 @@ export default {
       this.show1 = false
     },
     subEnroll () {
+      let userId = wx.getStorageSync('userId')
       this.enroll.forEach(el => {
         if (el.codition === '电话') {
           let indx = this.enroll.indexOf(el)
@@ -133,11 +134,17 @@ export default {
               url: 'api/activity/insertSignList',
               data: {
                 activityId: this.activityId,
-                userId: '1',
+                userId: userId,
                 remarks: JSON.stringify(this.data)
               }
             }).then(res => {
-              console.log(res)
+              wx.showToast({
+                title: '报名成功',
+                icon: 'success'
+              })
+              setTimeout(() => {
+                wx.hideLoading()
+              }, 2000)
               this.data = []
             })
           }
