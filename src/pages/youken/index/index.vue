@@ -25,7 +25,7 @@
       <swiper :indicator-dots="indicatorDots" circular="true" style="height:100%" previous-margin="20px" next-margin="20px">
         <block v-for="item in imgUrls" :key="item">
           <swiper-item>
-            <img :src="item" class="slide-image" width="100%" height="100%"/>
+            <img :src="item.headPhoto" class="slide-image" width="100%" height="100%" @click="activity(item.id)"/>
           </swiper-item>
         </block>
       </swiper>
@@ -33,30 +33,46 @@
     <!-- 导航 -->
     <div class="menu-wrapper">
       <div class="menu" :class="{'fixed':setFixed}">
-        <van-tabs @change="onChange">
+        <van-tabs @change="onChange" >
           <van-tab title="最新发布"></van-tab>
-          <van-tab title="企业招聘"></van-tab>
-          <van-tab title="企业培训"></van-tab>
-          <van-tab title="代办业务"></van-tab>
-          <van-tab title="敬请期待" disabled></van-tab>
+          <van-tab v-for="item in navList" :key="item" :title="item.name"></van-tab>
+          <!-- <van-tab title="敬请期待" disabled></van-tab> -->
         </van-tabs>
       </div>
     </div>
     <!-- 内容区  -->
-    <scroll-view :scroll-y="setFixed" v-if="cont == 0" class="content">
+    <scroll-view :scroll-y="setFixed" v-if="contIndex === 0" class="content">
       <ul class="item-wrapper">
-        <li class="list-wrapper" v-for="(item,index) in count" :key="index" @click="next(index)">
+        <li class="list-wrapper" v-for="(item,index) in newList" :key="index" @click="next(item.id)">
           <div class="list-cont disflex" style="background-image: url('../../../assets/listBg.png'); background-size: 100% 100%;">
-            <img class="list-left" src="../../../assets/listTou.png" alt="">
+            <img class="list-left" :src="item.mainImg" alt="">
             <div class="flex list-right">
-              <div class="right-title"><div class="title-text">{{item.title}}</div></div>
-              <div class="right-cont">{{item.cont}}</div>
-              <span class="right-time">{{item.time}}</span>
+              <div class="right-title"><div class="title-text">{{item.category}}</div></div>
+              <div class="right-cont">{{item.title}}</div>
+              <span class="right-time">{{item.publishTime}}</span>
             </div>
           </div>
           <div class="disflex pd10">
-            <div class="list-bottom-icon"><img src="../../../assets/youkenf.png" alt=""></div>
-            <div class="flex">优科达商业管理有限责任公司</div>
+            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg" alt=""></div>
+            <div class="flex">{{item.serviceCompany}}</div>
+          </div>
+        </li>
+      </ul>
+    </scroll-view>
+    <scroll-view :scroll-y="setFixed" v-else class="content">
+      <ul class="item-wrapper">
+        <li class="list-wrapper" v-for="(item,index) in contList" :key="index" @click="next(item.id)">
+          <div class="list-cont disflex" style="background-image: url('../../../assets/listBg.png'); background-size: 100% 100%;">
+            <img class="list-left" :src="item.mainImg" alt="">
+            <div class="flex list-right">
+              <div class="right-title"><div class="title-text">{{item.category}}</div></div>
+              <div class="right-cont">{{item.title}}</div>
+              <span class="right-time">{{item.publishTime}}</span>
+            </div>
+          </div>
+          <div class="disflex pd10">
+            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg" alt=""></div>
+            <div class="flex">{{item.serviceCompany}}</div>
           </div>
         </li>
       </ul>
@@ -71,38 +87,32 @@ export default {
       setFixed: false, // menu吸顶
       scrollY: false,
       headHeight: '', // 距离顶部的高度
-      // active: 0,
-      cont: 0,
-      indicatorDots: true,
-      imgUrls: [
-        'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
-        'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
-        'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640'
-      ],
-      count: [
-        {
-          title: '申领类代办',
-          cont: '税薪-工资代发服务咨询标题超过两行显示工资代发服务咨询标题超过两行显示',
-          time: '2019.04.29'
-        },
-        {
-          title: '申领类代办2',
-          cont: '税薪-工资代发服务咨询标题超过两行显示工资代发服务咨询标题超过两行显示',
-          time: '2019.04.29'
-        },
-        {
-          title: '申领类代办3',
-          cont: '税薪-工资代发服务咨询标题超过两行显示工资代发服务咨询标题超过两行显示',
-          time: '2019.04.29'
-        },
-        {
-          title: '申领类代办4',
-          cont: '税薪-工资代发服务咨询标题超过两行显示工资代发服务咨询标题超过两行显示',
-          time: '2019.04.29'
-        }
-      ],
-      show: true// 授权弹框
+      indicatorDots: true, // 是否显示面板指示点
+      contIndex: 0, // 最新活动内容区展示
+      navList: [], // 导航栏
+      imgUrls: [], // 轮播图
+      newList: [], // 最新活动内容
+      contList: [], // 其他导航栏内容
+      show: false// 授权弹框
     }
+  },
+  onLoad () {
+    this.$http.get({
+      url: 'api/SupplyChain/selectAllChainType'
+    }).then(res => {
+      this.navList = res.data
+    })
+    this.$http.get({
+      url: 'api/activity/selectAllActivity'
+    }).then(res => {
+      console.log(res.data)
+      this.imgUrls = res.data.slice(0, 5)
+    })
+    this.$http.get({
+      url: 'api/SupplyChain/selectAllSupplyChain'
+    }).then(res => {
+      this.newList = res.data.list
+    })
   },
   onShow () {
     this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
@@ -140,11 +150,40 @@ export default {
         .exec()
     },
     onChange (event) {
-      wx.showToast({
-        title: `切换到标签 ${event.mp.detail.index + 1}`,
-        icon: 'none'
+      let index = event.mp.detail.index
+      if (index === 0) {
+        wx.showLoading({
+          title: '加载中'
+        })
+        this.$http.get({
+          url: 'api/SupplyChain/selectAllSupplyChain'
+        }).then(res => {
+          this.contIndex = event.mp.detail.index
+          this.newList = res.data.list
+          wx.hideLoading()
+        })
+      } else {
+        let id = this.navList[event.mp.detail.index - 1].id
+        wx.showLoading({
+          title: '加载中'
+        })
+        this.$http.get({
+          url: 'api/SupplyChain/queryChildTypesById',
+          data: {
+            parentId: id
+          }
+        }).then(res => {
+          this.contIndex = event.mp.detail.index
+          this.contList = res.data.list
+          wx.hideLoading()
+        })
+      }
+    },
+    activity (id) {
+      console.log(id)
+      wx.navigateTo({
+        url: '../activity/main?id=' + id
       })
-      this.cont = event.mp.detail.index
     },
     next (index) {
       console.log(index)

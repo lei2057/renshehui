@@ -12,6 +12,9 @@
     <div class="pd10" v-if="listinfo">
       <Lists :listinfo="listinfo"></Lists>
     </div>
+    <div>
+      <canvas canvas-id="myCanvas" style="border: 1px solid;"/>
+    </div>
   </div>
 </template>
 
@@ -25,6 +28,7 @@ export default {
       userid: '1'
     }
   },
+
   methods: {
 
   },
@@ -39,8 +43,11 @@ export default {
       this.listinfo = res.data.list
     })
   },
-  onLoad () { // created
-
+  onLoad () {
+    const ctx = wx.createCanvasContext('myCanvas')
+    ctx.setFillStyle('red')
+    ctx.fillRect(10, 10, 150, 75)
+    ctx.draw()
   }
 
 }
