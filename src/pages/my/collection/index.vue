@@ -18,28 +18,31 @@
 <script>
 import Lists from '../../../components/list'
 export default {
+  components: {Lists},
   data () {
     return {
-      listinfo: [
-        {
-          title: '申领类代办',
-          cont: '税薪-工资代发服务咨询标题超过两行显示工资代发服务咨询标题超过两行显示',
-          time: '2019.04.29'
-        },
-        {
-          title: '申领类代办2',
-          cont: '税薪-工资代发服务咨询标题超过两行显示工资代发服务咨询标题超过两行显示',
-          time: '2019.04.29'
-        }
-      ]
+      listinfo: [],
+      userid: '1'
     }
   },
   methods: {
 
   },
-  components: {
-    Lists
+  onShow () { // mountend
+    this.$http.get({
+      url: 'api/appUser/selectMyfavoriteChains',
+      data: {
+        id: this.userid
+      }
+    }).then(res => {
+      console.log(res)
+      this.listinfo = res.data.list
+    })
+  },
+  onLoad () { // created
+
   }
+
 }
 </script>
 

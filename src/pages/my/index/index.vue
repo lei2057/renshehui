@@ -8,15 +8,15 @@
       </div>
       <div class="my-info wrapper-info disflex">
         <div class="border_cell_right flex">
-          <div class="my-num">10</div>
+          <div class="my-num">{{data.totalMyCard}}</div>
           <div>人脉名片</div>
         </div>
         <div class="border_cell_right flex" @click="collection">
-          <div class="my-num">10</div>
+          <div class="my-num">{{data.totalDataSource}}</div>
           <div>资料收藏</div>
         </div>
         <div class="flex">
-          <div class="my-num">10</div>
+          <div class="my-num">{{data.totalChain}}</div>
           <div>优肯方案</div>
         </div>
       </div>
@@ -86,11 +86,16 @@
 import Toast from '../../../../static/vant/toast/toast'
 import Popup from '../../../components/popup'
 export default {
+  components: {
+    Popup
+  },
   data () {
     return {
       show: false, // 声明弹框
       show1: false, // 客服弹框
-      show2: false // 添加弹框
+      show2: false, // 添加弹框
+      userid: '1',
+      data: {}
     }
   },
   methods: {
@@ -129,9 +134,20 @@ export default {
       })
     }
   },
-  components: {
-    Popup
+  onShow () { // mountend
+    this.$http.get({
+      url: 'api/appUser/selectUserByUserId',
+      data: {
+        id: this.userid
+      }
+    }).then(res => {
+      this.data = res.data.list[0]
+    })
+  },
+  onload () { // created
+
   }
+
 }
 </script>
 

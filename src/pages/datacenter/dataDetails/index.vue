@@ -7,14 +7,14 @@
        <p class="p1">文件名称：{{data.title}}</p>
        <p class="p2">存储模式：百度云盘</p><p  class="p3">文件格式：{{type}}</p>
        <p class="p4">共享时间：{{data.publishTime}}</p>
-       <img class="sctu" src="../../../assets/shoucang.png" alt="">
+       <img class="sctu" :src="islike==1?'../../../assets/shoucang.png':'../../../assets/shoucang2.png'" alt="" @click="shoucang">
      </div>
      <div class="btnf" v-show="!isfrist">
-       <div class="btn1">获取文件</div>
-       <div class="btn2">上报网盘文件失效</div>
+       <div class="btn1" @click="huoquwenjian()">获取文件</div>
+       <div class="btn2" @click="shangchuanshixiao">上报网盘文件失效</div>
      </div>
      <div class="btnf" v-show="isfrist">
-       <div class="btn2">获取文件</div>
+       <div class="btn2" @click="huoquwenjian()">获取文件</div>
      </div>
      <div class="tishiyu">
        <p class="msg">*获取文件方法</p>
@@ -27,11 +27,13 @@
        <p>看不懂？点击右边问号查看图文教程</p>
        <img @click="gogetdataCourse" src="../../../assets/wenhao.png" alt="">
      </div>
+     <van-toast id="van-toast" />
   </div>
 </template>
 
 <script>
 // import Popup from '../../../components/popup'
+import Toast from '../../../../static/vant/toast/toast'
 export default {
   data () {
     // components: {Popup},
@@ -39,11 +41,60 @@ export default {
       isfrist: true,
       id: '',
       data: '',
-      type: ''
+      type: '',
+      userid: '1',
+      islike: ''
     }
   },
 
   methods: {
+    // 上传网盘文件失效
+    shangchuanshixiao () {
+      this.$http.get({
+        url: 'api/dataSource/ApplyDatasource',
+        data: {
+          userId: this.userid,
+          dataSourceId: this.id
+        }
+      }).then(res => {
+        Toast('感谢您的反馈，正在处理')
+      })
+    },
+    // 获取文件
+    huoquwenjian () {
+      wx.previewImage({
+        current: this.data.cloudInformation, // 当前显示图片的http链接
+        urls: [this.data.cloudInformation] // 需要预览的图片http链接列表
+      })
+      this.isfrist = false
+    },
+    // 收藏或取消
+    shoucang () {
+      if (this.islike === '0') {
+        // 说明已经收藏。这时候是取消收藏
+        this.$http.get({
+          url: 'api/dataSource/delMyfavoritesDataSource',
+          data: {
+            userId: this.userid,
+            categoryId: this.id
+          }
+        }).then(res => {
+          this.islike = '1' // 1是没有收藏0是收藏
+        })
+      } else {
+        // 说明没有收藏。这时候是收藏
+        this.$http.get({
+          url: 'api/dataSource/insertMyfavorites',
+          data: {
+            userId: this.userid,
+            categoryId: this.id
+          }
+        }).then(res => {
+          this.islike = '0' // 1是没有收藏0是收藏
+        })
+      }
+    },
+    // 跳转教程
     gogetdataCourse () {
       wx.navigateTo({
         url: '../getdataCourse/main'
@@ -71,6 +122,15 @@ export default {
       } else if (Number(res.data[0].type) === 5) {
         this.type = '其他'
       }
+    })
+    this.$http.get({
+      url: 'api/dataSource/showMyfavoritesState',
+      data: {
+        userId: this.userid,
+        categoryId: this.id
+      }
+    }).then(res => {
+      this.islike = res.data.res // 1是没有收藏0是收藏
     })
   },
   onLoad (options) { // created

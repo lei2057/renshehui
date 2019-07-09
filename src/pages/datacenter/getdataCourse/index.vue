@@ -23,7 +23,7 @@
        <img src="../../../assets/jiaochengtu4.png" alt="">
      </div>
      <div class="msg2">按住手机屏幕，点击识别图中小程序码</div>
-     <div class="btn">看懂了，马上去试试</div>
+     <div class="btn" @click="fanhui">看懂了，马上去试试</div>
   </div>
 </template>
 
@@ -38,7 +38,11 @@ export default {
   },
 
   methods: {
-
+    fanhui () {
+      wx.navigateBack({
+        delta: 1
+      })
+    }
   },
   onShow () { // mountend
 

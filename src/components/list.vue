@@ -1,18 +1,17 @@
 <template>
   <div class="list-wrapper">
     <div  v-for="(item,index) in listinfo" :key="index">
-      {{item.title}}
       <div class="list-cont disflex" style="background-image: url('../assets/listBg.png'); background-size: 100% 100%;">
-        <img class="list-left" src="../assets/listTou.png" alt="">
+        <img class="list-left" :src="item.mainImg" alt="">
         <div class="flex list-right">
-          <div class="right-title"><div class="title-text">{{item.title}}</div></div>
-          <div class="right-cont">{{item.cont}}</div>
-          <span class="right-time">{{item.time}}</span>
+          <div class="right-title"><div class="title-text">{{item.category}}</div></div>
+          <div class="right-cont">{{item.title}}</div>
+          <span class="right-time">{{item.publishTime}}</span>
         </div>
       </div>
       <div class="disflex pd10">
-        <div class="list-bottom-icon"><img src="../assets/youken.png" alt=""></div>
-        <div class="flex">优科达商业管理有限责任公司</div>
+        <div class="list-bottom-icon"><img :src="item.serviceCompanyImg" alt=""></div>
+        <div class="flex">{{item.serviceCompany}}</div>
       </div>
     </div>
   </div>
@@ -24,12 +23,11 @@ export default {
     listinfo: Object
   },
   onLoad () {
-    console.log('qweqweqwe')
-    console.log(this.listinfo)
+    // console.log(this.listinfo)
   },
   watch: {
     listinfo (val) {
-      console.log(val)
+      // console.log(val)
     }
   }
 }
