@@ -39,12 +39,12 @@
       </div>
       <div v-if="cont === 0">
         <scroll-view :scroll-y="setFixed">
-          <div class="wrapper-list disflex">
-            <div class="list-photo"><img src="../../../assets/user.png" alt=""></div>
+          <div class="wrapper-list disflex" v-for="item in dataquan" :key="item.id">
+            <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
             <div class="list-cont flex">
-              <div class="list-name">用户姓名</div>
-              <div class="list-text">用户公司</div>
-              <div class="list-text">用户职位</div>
+              <div class="list-name">{{item.name}}</div>
+              <div class="list-text">{{item.company}}</div>
+              <div class="list-text">{{item.userWork}}</div>
             </div>
             <div class="list-icon">
               <div class="jiaohuan-icon"><img src="../../../assets/jiaohuan.png" alt=""></div>
@@ -54,18 +54,20 @@
         </scroll-view>
       </div>
       <div v-if="cont === 1">
-        <!-- <div class="wrapper-list disflex" @click="myCard">
-          <div class="list-photo"><img src="../../../assets/user.png" alt=""></div>
-          <div class="list-cont flex">
-            <div class="list-name">用户姓名</div>
-            <div class="list-text">用户公司</div>
-            <div class="list-text">用户职位</div>
+        <div v-if="datamingpian">
+          <div class="wrapper-list disflex" @click="myCard" v-for="item in datamingpian" :key="item.id" >
+            <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
+            <div class="list-cont flex">
+              <div class="list-name">{{item.name}}</div>
+              <div class="list-text">{{item.company}}</div>
+              <div class="list-text">{{item.userWork}}</div>
+            </div>
+            <div class="list-icon">
+              <div class="phone-icon"><img src="../../../assets/phoneMp.png" alt=""></div>
+            </div>
           </div>
-          <div class="list-icon">
-            <div class="phone-icon"><img src="../../../assets/phoneMp.png" alt=""></div>
-          </div>
-        </div> -->
-        <null text="你还没有收到名片哦赶紧去人脉圈交换吧" img="../../../assets/null.png"></null>
+        </div>
+        <null v-if="datamingpian.length===0" text="你还没有收到名片哦赶紧去人脉圈交换吧" img="../../../assets/null.png"></null>
       </div>
     </div>
     <!-- <popup text="仅需两步获取海量人脉信息"></popup> -->
@@ -76,6 +78,10 @@
 import Popup from '../../../components/popup'
 import Null from '../../../components/nullCont'
 export default {
+  components: {
+    Popup,
+    Null
+  },
   data () {
     return {
       cont: 0, // 内容切换
@@ -83,13 +89,11 @@ export default {
       sousuo: '', // 搜索内容
       setFixed: false,
       headHeight: '', // 获取搜索框高度
-      souShow: false
+      souShow: false,
+      dataquan: {}, // 人脉圈的数据
+      datamingpian: {}, // 名片夹的数据
+      userid: '1'
     }
-  },
-  onShow () {
-    this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
-      this.getOffsetHeight()
-    })
   },
   onPageScroll (e) { // 根据滚动的距离执行状态
     var height = Math.floor(this.headHeight) // 高度向下取整
@@ -129,10 +133,33 @@ export default {
       })
     }
   },
-  components: {
-    Popup,
-    Null
+  onShow () { // mountend
+    this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
+      this.getOffsetHeight()
+    })
+    // 请求人脉圈的数据
+    this.$http.get({
+      url: 'api/appUser/selectUserById',
+      data: {
+
+      }
+    }).then(res => {
+      this.dataquan = res.data
+    })
+    // 请求名片夹的数据
+    this.$http.get({
+      url: 'api/appUser/selectMyCard',
+      data: {
+        id: this.userid
+      }
+    }).then(res => {
+      this.datamingpian = res.data.list
+    })
+  },
+  onLoad () { // created
+
   }
+
 }
 </script>
 

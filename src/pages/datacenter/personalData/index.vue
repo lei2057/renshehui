@@ -1,55 +1,61 @@
 <template>
-  <div>
-     <div class="z-head">
-       <div class="z-msg">
-          <img src="../../../assets/gongjuicon.png" alt="">
-          <span>免费工具</span>
-       </div>
-       <div class="z-mokuai">
-         <div class="gongnneg">
-           <img src="../../../assets/chashebao.png" alt="">
-           <p>查阅社保</p>
-         </div>
-         <div class="gongnneg">
-           <img src="../../../assets/wuxianyijin.png" alt="">
-           <p>五险一金</p>
-         </div>
-         <div class="gongnneg">
-           <img src="../../../assets/social.png" alt="">
-           <p>社保计算</p>
-         </div>
-         <div class="gongnneg">
-           <img src="../../../assets/gengduo.png" alt="">
-           <p>敬请期待</p>
-         </div>
-       </div>
-     </div>
-     <div class="z-tab">
-       <div class="z-tabtop">
-         <p v-for="(item,index) in msgarr" :key="index" :class="activeindex==index?'active':''"  @click="gotap(index)">{{item}}</p>
-       </div>
-       <div class="z-tabbottom">
-         <div>
-            <div class="list" @click="godataDetails()">
-              <div class="listleft">
-                <img src="../../../assets/wordicon.png" alt="">
-              </div>
-              <div class="listright">
-                <div class="righttop">
-                  <p>入职离职的流程</p>
+    <div>
+      <div class="z-head">
+        <div class="z-msg">
+            <img src="../../../assets/gongjuicon.png" alt="">
+            <span>免费工具</span>
+        </div>
+        <div class="z-mokuai">
+          <div class="gongnneg">
+            <img src="../../../assets/chashebao.png" alt="">
+            <p>查阅社保</p>
+          </div>
+          <div class="gongnneg">
+            <img src="../../../assets/wuxianyijin.png" alt="">
+            <p>五险一金</p>
+          </div>
+          <div class="gongnneg">
+            <img src="../../../assets/social.png" alt="">
+            <p>社保计算</p>
+          </div>
+          <div class="gongnneg">
+            <img src="../../../assets/gengduo.png" alt="">
+            <p>敬请期待</p>
+          </div>
+        </div>
+      </div>
+      <div class="z-tab">
+        <div class="z-tabtop">
+          <p v-for="(item,index) in msgarr" :key="index" :class="activeindex==index?'active':''"  @click="gotap(index)">{{item}}</p>
+        </div>
+        <div class="z-tabbottom" >
+          <div v-show="result">
+              <div v-for="item in dataarr" :key="item.id">
+                <div class="list" @click="godataDetails(item.id)">
+                  <div class="listleft">
+                    <img :src="item.type==0?'../../../assets/wordicon.png':item.type==1?'../../../assets/tabericon.png':item.type==2?'../../../assets/ppticon.png':item.type==3?'../../../assets/picon.png':item.type==4?'../../../assets/yasuoicon.png':'../../../assets/qitaicon.png'" alt="">
+                  </div>
+                  <div class="listright">
+                    <div class="righttop">
+                      <p>{{item.title}}</p>
+                    </div>
+                    <div class="rightbottom">
+                      <p>{{item.readCount}}人浏览</p>
+                      <p>{{item.likeCount}}人收藏</p>
+                      <p>{{item.publishTime}}</p>
+                    </div>
+                  </div>
                 </div>
-                <div class="rightbottom">
-                  <p>10000人浏览</p>
-                  <p>10000人收藏</p>
-                  <p>2019/04/29</p>
-                </div>
-              </div>
+                <div class="line"></div>
             </div>
-            <div class="line"></div>
-         </div>
-       </div>
-     </div>
-  </div>
+          </div>
+          <div v-show="!result">
+            <div class="nullCont-img"><img src="../../../assets/null.png" alt=""></div>
+            <div class="nullCont-text">还没有资料哦，赶紧去海量资料查找</div>
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script>
@@ -59,7 +65,10 @@ export default {
     // components: {Popup},
     return {
       msgarr: ['已获取', '已收藏'],
-      activeindex: '0'
+      activeindex: '0',
+      userid: '1',
+      dataarr: [],
+      result: true
     }
   },
 
@@ -73,10 +82,38 @@ export default {
     // 点击切换左侧列表
     gotap (index) {
       this.activeindex = index
+      this.getdata(index)
+    },
+    // 获取已获取的数据和收藏的数据
+    getdata (index) {
+      if (index === 0) {
+        this.$http.get({
+          url: '/api/appUser/selectGetDataSources',
+          data: {
+            id: this.userid
+          }
+        }).then(res => {
+          this.dataarr = res.data.list
+          if (res.data.list.length === 0) {
+            this.result = false
+          } else {
+            this.result = true
+          }
+        })
+      } else {
+        this.$http.get({
+          url: '/api/appUser/selectMyfavoriteDataSources',
+          data: {
+            id: this.userid
+          }
+        }).then(res => {
+          this.dataarr = res.data.list
+        })
+      }
     }
   },
   onShow () { // mountend
-
+    this.getdata(0)
   },
   onload () { // created
 
@@ -167,6 +204,16 @@ export default {
     height: 380px;
     margin: 0 auto;
     background-color: rgb(250, 250, 250);
+    .nullCont-img {
+      width: 178px;
+      height: 149px;
+      margin: 0 auto ;
+    }
+    .nullCont-text {
+      width: 130px;
+      margin: auto;
+      color: #727272;
+    }
     .list{
       display: flex;
       .listleft{

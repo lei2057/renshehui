@@ -48,7 +48,8 @@ export default {
       msgarr: [],
       activeindex: '0',
       erjidata: [],
-      hotarr: ['人资规划方案', '五险一金', '绩效指标设定', '劳务关系']
+      hotarr: ['人资规划方案', '五险一金', '绩效指标设定', '劳务关系'],
+      userid: '1'
     }
   },
 
@@ -104,6 +105,7 @@ export default {
     }).then(res => {
       this.msgarr = res.data
       this.geterjidata(res.data[0].id)
+      this.activeindex = 0
     })
   },
   onLoad () { // created
