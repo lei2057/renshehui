@@ -3,33 +3,25 @@
     <div class="details-wrapper" style="background-image: url('../../../assets/detailsBg.png'); background-size: 100% 100%;">
       <div class="details-cont">
         <div class="disflex">
-          <div class="title-text">税薪-工资代发服务咨询文字超过显示字超过显示字超过显示</div>
+          <div class="title-text flex">{{contList.title}}</div>
           <div class="title-icon" @click="collect" v-if="!xin"><img src="../../../assets/kxin.png" alt=""></div>
           <div class="title-icon" @click="collect" v-if="xin"><img src="../../../assets/xin.png" alt=""></div>
         </div>
-        <div class="details-item">服务费用<span class="item-cont">咨询议价</span></div>
-        <div class="details-item">服务类型<span class="item-cont">代办业务 — 申领类代办</span></div>
-        <div class="details-item">服务城市<span class="item-cont">杭州</span></div>
-        <div class="details-item">联系电话<span class="item-cont">17756238319</span></div>
+        <div class="details-item">服务费用<span class="item-cont">{{contList.price}}</span></div>
+        <div class="details-item">服务类型<span class="item-cont">{{contList.typeName1}} — {{contList.typeName2}}</span></div>
+        <div class="details-item">服务城市<span class="item-cont">{{contList.city}}</span></div>
+        <div class="details-item">联系电话<span class="item-cont">{{contList.phone}}</span></div>
       </div>
     </div>
     <div class="wrapper pd10 disflex">
-      <div class="icon34" style="margin: 0 9px 0 7px;"><img src="../../../assets/youkenf.png" alt=""></div>
-      <div class="flex">优科达商业管理有限责任公司</div>
+      <div class="icon34" style="margin: 0 9px 0 7px;"><img :src="contList.serviceCompanyImg" alt=""></div>
+      <div class="flex">{{contList.serviceCompany}}</div>
       <div style="width: 17px;height: 17px;"><img src="../../../assets/right.png"></div>
     </div>
     <div class="wrapper pd10">
-      <div class="service">
-        <div class="service-title">服务内容</div>
-        <div class="service-cont">定制化薪酬咨询、时间管理、薪酬计算、薪酬发放及个税全国服务等</div>
-      </div>
-      <div class="service">
-        <div class="service-title">服务内容</div>
-        <div class="service-cont">定制化薪酬咨询、时间管理、薪酬计算、薪酬发放及个税全国服务等</div>
-      </div>
-      <div class="service">
-        <div class="service-title">服务内容</div>
-        <div class="service-cont">定制化薪酬咨询、时间管理、薪酬计算、薪酬发放及个税全国服务等</div>
+      <div class="service" v-for="item in serviceList" :key="item">
+        <div class="service-title">{{item.titles}}</div>
+        <div class="service-cont">{{item.details}}</div>
       </div>
     </div>
     <div class="service-wrapper">
@@ -49,12 +41,78 @@
 export default {
   data () {
     return {
-      xin: false
+      xin: false,
+      categoryId: '', // ID
+      contList: [], // 详情内容
+      serviceList: []// 内容列表
     }
+  },
+  onLoad (option) {
+    this.categoryId = option.id
+    this.$http.get({
+      url: 'api/SupplyChain/selectById',
+      data: {
+        id: option.id
+      }
+    }).then(res => {
+      this.contList = res.data[0]
+      this.serviceList = JSON.parse(res.data[0].keyNotes.replace(/\n/g, '\\n').replace(/\r/g, '\\r'))
+    })
+    this.$http.get({
+      url: 'api/SupplyChain/showMyfavoritesState',
+      data: {
+        userId: '1',
+        categoryId: option.id
+      }
+    }).then(res => {
+      console.log(res)
+      // 1是未收藏
+      if (res.data.res === '1') {
+        this.xin = false
+      } else {
+        this.xin = true
+      }
+    })
   },
   methods: {
     collect () {
-      this.xin = !this.xin
+      if (!this.xin) {
+        this.$http.get({
+          url: 'api/SupplyChain/insertMyfavorites',
+          data: {
+            userId: '1',
+            categoryId: this.categoryId
+          }
+        }).then(res => {
+          console.log(res)
+          this.xin = true
+          wx.showToast({
+            title: '已收藏',
+            icon: 'none'
+          })
+          setTimeout(() => {
+            wx.hideLoading()
+          }, 2000)
+        })
+      } else {
+        this.$http.get({
+          url: 'api/SupplyChain/delMyfavoritesChain',
+          data: {
+            userId: '1',
+            categoryId: this.categoryId
+          }
+        }).then(res => {
+          console.log(res)
+          this.xin = false
+          wx.showToast({
+            title: '取消收藏',
+            icon: 'none'
+          })
+          setTimeout(() => {
+            wx.hideLoading()
+          }, 2000)
+        })
+      }
     }
   }
 }
@@ -71,7 +129,6 @@ export default {
     margin-left: 18px;
     padding-top: 12px;
     .title-text {
-      width: 311px;
       font-size: 18px;
       font-weight: 600;
       white-space: nowrap;
@@ -81,6 +138,7 @@ export default {
     .title-icon {
       width: 20px;
       height: 19px;
+      margin-right: 5px;
     }
     .details-item {
       margin-top: 28px;

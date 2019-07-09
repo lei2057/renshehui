@@ -19,9 +19,9 @@
       </div>
       <div class="wrapper activity-table" style="background-image: url('../../../assets/activityBg.png');background-size: 100% 100%;">
         <div class="activity-table-title">活动报名</div>
-        <div class="activity-table-input disflex" v-for="item in enroll" :key="item">
+        <div class="activity-table-input disflex" v-for="(item,index) in enroll" :key="index">
           <div class="input-title">{{item.codition}}：</div>
-          <input class="flex" type="text" :placeholder="item.detail">
+          <input class="flex" type="text" :placeholder="item.detail" v-model="data[index]">
         </div>
         <div class="activity-table-btn" @click="subEnroll">提交报名</div>
       </div>
@@ -75,12 +75,15 @@ export default {
     return {
       show: false, // 弹框
       show1: false, // 弹框
-      content: [],
-      imgBg: '',
-      enroll: []
+      content: [], // 活动信息
+      imgBg: '', // 活动背景图
+      enroll: [], // 报名列表
+      data: [], // 报名信息
+      activityId: '' // 活动ID
     }
   },
   onLoad (option) {
+    this.activityId = option.id
     this.$http.get({
       url: 'api/activity/selectAllActivity'
     }).then(res => {
@@ -89,7 +92,6 @@ export default {
           this.content = el
           this.imgBg = el.detailPhoto.split(',')[0]
           this.enroll = JSON.parse(el.registrationConditions)
-          console.log(this.enroll)
         }
       })
     })
@@ -104,6 +106,43 @@ export default {
     onClose () {
       this.show = false
       this.show1 = false
+    },
+    subEnroll () {
+      this.enroll.forEach(el => {
+        if (el.codition === '电话') {
+          let indx = this.enroll.indexOf(el)
+          let phoneReg = /^1[3456789]\d{9}$/
+          if (this.data.length !== this.enroll.length) {
+            wx.showToast({
+              title: '请完善报名信息',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              wx.hideLoading()
+            }, 2000)
+          } else if (!phoneReg.test(this.data[indx])) {
+            wx.showToast({
+              title: '请输入正确的手机号',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              wx.hideLoading()
+            }, 2000)
+          } else {
+            this.$http.get({
+              url: 'api/activity/insertSignList',
+              data: {
+                activityId: this.activityId,
+                userId: '1',
+                remarks: JSON.stringify(this.data)
+              }
+            }).then(res => {
+              console.log(res)
+              this.data = []
+            })
+          }
+        }
+      })
     }
   },
   components: {
@@ -144,7 +183,7 @@ export default {
       border-top-left-radius: 20px;
       border-bottom-left-radius: 20px;
     }
-  } 
+  }
   .activity-cont {
     padding: 5px 10px 10px 10px;
     text-indent: 2em;

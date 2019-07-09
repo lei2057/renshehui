@@ -4,7 +4,7 @@
     <div class="my-cont">
       <div class="my-photo disflex">
         <div class="icon100"><img src="../../../assets/user.png" alt=""></div>
-        <div class="flex"><div class="my-login">登录</div></div>
+        <div class="flex"><div class="my-login" @click="login">登录</div></div>
       </div>
       <div class="my-info wrapper-info disflex">
         <div class="border_cell_right flex">
@@ -93,6 +93,16 @@ export default {
       show2: false // 添加弹框
     }
   },
+  onLoad () {
+    wx.checkSession({
+      success: (res) => {
+        console.log(res)
+      },
+      fail: () => {
+        this.login()
+      }
+    })
+  },
   methods: {
     onClose (event) {
       this.show = false
@@ -126,6 +136,36 @@ export default {
     collection () {
       wx.navigateTo({
         url: '../collection/main'
+      })
+    },
+    login () {
+      var _this = this
+      wx.login({
+        success (res) {
+          console.log(res)
+          wx.getUserInfo({
+            withCredentials: 'false',
+            lang: 'zh_CN',
+            timeout: 10000,
+            success: (result) => {
+              console.log(result)
+            },
+            fail: () => {}
+          })
+          if (res.code) {
+            // 发起网络请求
+            _this.$http.get({
+              url: 'api/appUserLoginApi/Login',
+              data: {
+                code: res.code
+              }
+            }).then(res => {
+              console.log(res)
+            })
+          } else {
+            console.log('登录失败！' + res.errMsg)
+          }
+        }
       })
     }
   },

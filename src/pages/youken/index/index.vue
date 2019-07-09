@@ -51,6 +51,7 @@
               <div class="right-cont">{{item.title}}</div>
               <span class="right-time">{{item.publishTime}}</span>
             </div>
+            <div class="tag" v-if="index === 0">置顶</div>
           </div>
           <div class="disflex pd10">
             <div class="list-bottom-icon"><img :src="item.serviceCompanyImg" alt=""></div>
@@ -105,7 +106,6 @@ export default {
     this.$http.get({
       url: 'api/activity/selectAllActivity'
     }).then(res => {
-      console.log(res.data)
       this.imgUrls = res.data.slice(0, 5)
     })
     this.$http.get({
@@ -179,16 +179,16 @@ export default {
         })
       }
     },
-    activity (id) {
+    activity (id) { // 活动页面详情跳转
       console.log(id)
       wx.navigateTo({
         url: '../activity/main?id=' + id
       })
     },
-    next (index) {
-      console.log(index)
+    next (id) { // 列表页面详情跳转
+      console.log(id)
       wx.navigateTo({
-        url: '../listDetails/main'
+        url: '../listDetails/main?id=' + id
       })
     }
   }
@@ -224,12 +224,14 @@ export default {
       background: #fff;
       border-radius: 8px;
       margin-bottom: 5px; 
+      overflow: hidden;
       .list-bg {
         width: 100%;
         height: 110px;
       }
       .list-cont {
-        
+        position: relative;
+        overflow: hidden;
         .list-left {
           width: 175px;
           height: 110px;
@@ -256,6 +258,7 @@ export default {
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 2;
             overflow: hidden;
+            margin-right: 10px;
           }
           .right-time {
             display: flex;
@@ -264,6 +267,21 @@ export default {
             margin-top: 20px;
             margin-right: 13px;
           }
+        }
+        .tag {
+          width: 60px;
+          height: 60px;
+          background: #3AAEFB;
+          color: #fff;
+          display: flex;
+          justify-content: center;
+          align-items: flex-end;
+          transform: rotate(-45deg);
+          position: absolute;
+          top: -33px;
+          left: -33px;
+          font-size: 12px;
+          padding: 3px;
         }
       }
       .list-bottom-icon {
