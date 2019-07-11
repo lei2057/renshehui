@@ -22,10 +22,10 @@
     </div>
     <div class="pd10 connections">
       <div class="disflex card-item">
-        <div class="item-photo"><img src="../../../assets/user.png" alt=""></div>
+        <div class="item-photo" :class="userInfo.length === 0?'item-photo':'photo-icon'"><img :src="userInfo.avatarUrl||'../../../assets/user.png'" alt=""></div>
         <div class="item-cont flex">
-          <div class="cont-name">用户姓名</div>
-          <div class="cont-text">查看我的名片</div>
+          <div class="cont-name" v-text="userInfo.nickName||'用户姓名'"></div>
+          <div class="cont-text" @click="myCard">查看我的名片</div>
         </div>
         <div class="item-qrcode" v-if="!qrcode"><img src="../../../assets/qrcode.png" alt=""></div>
         <div class="item-num" v-else>99</div>
@@ -39,7 +39,7 @@
       </div>
       <div v-if="cont === 0">
         <scroll-view :scroll-y="setFixed">
-          <div class="wrapper-list disflex" v-for="item in dataquan" :key="item.id">
+          <div class="wrapper-list disflex" v-for="item in dataquan" :key="item.id" @click="myQuan">
             <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
             <div class="list-cont flex">
               <div class="list-name">{{item.name}}</div>
@@ -55,7 +55,7 @@
       </div>
       <div v-if="cont === 1">
         <div v-if="datamingpian">
-          <div class="wrapper-list disflex" @click="myCard" v-for="item in datamingpian" :key="item.id" >
+          <div class="wrapper-list disflex" v-for="item in datamingpian" :key="item.id" @click="myMingpian">
             <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
             <div class="list-cont flex">
               <div class="list-name">{{item.name}}</div>
@@ -67,19 +67,43 @@
             </div>
           </div>
         </div>
-        <null v-if="datamingpian.length===0" text="你还没有收到名片哦赶紧去人脉圈交换吧" img="../../../assets/null.png"></null>
+        <null v-if="datamingpian.length === 0" text="你还没有收到名片哦赶紧去人脉圈交换吧" img="../../../assets/null.png"></null>
       </div>
     </div>
-    <!-- <popup text="仅需两步获取海量人脉信息"></popup> -->
+    <!-- 弹出层  -->
+    <div class="vant-css">
+      <van-popup :show="show" @close="onClose" catchtouchmove="ture">
+        <div class="popup">
+          <div class="popup-top" style="background-image: url('../../../assets/empowerBg.png'); background-size: 100% 100%;">
+            <div class="popup-out">
+              <div class="popup-icon" @click="onClose"><img src="../../../assets/out.png" alt=""></div>
+            </div>
+            <div class="popup-title">仅需两步获取海量人脉信息</div>
+          </div>
+          <div class="popup-cont">
+            <div class="disflex">
+              <div class="popup-dian" v-if="dian1"></div>
+              <div class="popup-text">第一步：授权使用微信登录</div>
+            </div>
+            <button class="popup-btn" open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo" v-if="empower">点击授权</button>
+            <div class="popup-btn bg2" v-if="pass">已通过</div>
+            <div class="disflex">
+              <div class="popup-dian" v-if="dian2"></div>
+              <div class="popup-text">第二步：验证号码完善信息</div>
+            </div>
+            <div class="popup-btn bg1" v-if="one">请先完成第一步</div>
+            <button class="popup-btn" open-type='getPhoneNumber' @getphonenumber="getPhoneNumber" v-if="two">验证并完善</button>
+          </div>
+        </div>
+      </van-popup>
+    </div>
   </div>
 </template>
 
 <script>
-import Popup from '../../../components/popup'
 import Null from '../../../components/nullCont'
 export default {
   components: {
-    Popup,
     Null
   },
   data () {
@@ -90,9 +114,17 @@ export default {
       setFixed: false,
       headHeight: '', // 获取搜索框高度
       souShow: false,
-      dataquan: {}, // 人脉圈的数据
-      datamingpian: {}, // 名片夹的数据
-      userid: '1'
+      dataquan: [], // 人脉圈的数据
+      datamingpian: [], // 名片夹的数据
+      userInfo: [],
+      sessionkey: '',
+      show: false,
+      dian1: true,
+      dian2: false,
+      empower: true,
+      pass: false,
+      one: true,
+      two: false
     }
   },
   onPageScroll (e) { // 根据滚动的距离执行状态
@@ -105,7 +137,53 @@ export default {
       this.souShow = false
     }
   },
+  onLoad () { // created
+    // 请求名片夹的数据
+    let userId = wx.getStorageSync('userId')
+    this.userInfo = wx.getStorageSync('userInfo')
+    this.$http.get({
+      url: 'api/appUser/selectMyCard',
+      data: {
+        userId: userId
+      }
+    }).then(res => {
+      this.datamingpian = res.data.list
+    })
+    wx.checkSession({
+      success: (res) => {
+        console.log(res)
+      },
+      fail: () => {
+        this.show = true
+      }
+    })
+  },
+  onShow () { // mountend
+    this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
+      this.getOffsetHeight()
+    })
+    // 请求人脉圈的数据
+    this.$http.get({
+      url: 'api/appUser/selectUserById'
+    }).then(res => {
+      this.dataquan = res.data
+    })
+    // 请求名片夹的数据
+    let userId = wx.getStorageSync('userId')
+    this.$http.get({
+      url: 'api/appUser/selectMyCard',
+      data: {
+        userId: userId
+      }
+    }).then(res => {
+      this.datamingpian = res.data.list
+    })
+  },
+
   methods: {
+    onClose () {
+      this.show = false
+    },
     getOffsetHeight () { // 获取指定DOM高度
       this.query = wx.createSelectorQuery()
       this.query
@@ -131,35 +209,80 @@ export default {
       wx.navigateTo({
         url: '../myCard/main'
       })
+    },
+    myQuan (id) {
+      wx.navigateTo({
+        url: '../friendCard/main?id=' + id
+      })
+    },
+    myMingpian (id) {
+      wx.navigateTo({
+        url: '../myCard/main?id=' + id
+      })
+    },
+    onGotUserInfo (e) { // 登录授权
+      let that = this
+      if (e.mp.detail.userInfo) {
+        that.pass = true
+        that.empower = false
+        that.one = false
+        that.two = true
+        that.dian1 = false
+        that.dian2 = true
+        wx.setStorage({
+          key: 'userInfo',
+          data: e.mp.detail.userInfo
+        })
+        wx.login({
+          success (res) {
+            if (res.code) {
+              // 发起网络请求
+              that.$http.get({
+                url: 'api/appUserLoginApi/userAuthorizedOk',
+                data: {
+                  code: res.code,
+                  headPhoto: e.mp.detail.userInfo.avatarUrl,
+                  name: e.mp.detail.userInfo.nickName,
+                  sex: e.mp.detail.userInfo.gender
+                }
+              }).then(res => {
+                let userId = wx.getStorageSync('userId')
+                that.sessionkey = res.data.sessionkey
+                if (userId === '') {
+                  wx.setStorageSync('userId', res.data.userId)
+                }
+              })
+            } else {
+              console.log('登录失败！' + res.errMsg)
+            }
+          },
+          fail: (res) => {
+            console.log(res)
+          }
+        })
+      } else {
+        console.log('拒绝授权')
+      }
+    },
+    getPhoneNumber (e) {
+      let encryptedData = e.mp.detail.encryptedData
+      let iv = e.mp.detail.iv
+      this.$http.get({
+        url: 'api/appUserLoginApi/getPhone',
+        data: {
+          sessionkey: this.sessionkey,
+          encryptedData: encryptedData,
+          iv: iv
+        }
+      }).then(res => {
+        wx.setStorageSync('phone', res.purePhoneNumber)
+        wx.navigateTo({
+          url: '../newCard/main'
+        })
+        this.show = false
+      })
     }
-  },
-  onShow () { // mountend
-    this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
-      this.getOffsetHeight()
-    })
-    // 请求人脉圈的数据
-    this.$http.get({
-      url: 'api/appUser/selectUserById',
-      data: {
-
-      }
-    }).then(res => {
-      this.dataquan = res.data
-    })
-    // 请求名片夹的数据
-    this.$http.get({
-      url: 'api/appUser/selectMyCard',
-      data: {
-        id: this.userid
-      }
-    }).then(res => {
-      this.datamingpian = res.data.list
-    })
-  },
-  onLoad () { // created
-
   }
-
 }
 </script>
 
@@ -232,9 +355,16 @@ export default {
   .card-item {
     margin-bottom: 5px;
     .item-photo {
-      width: 91px;
-      height: 91px;
+      width: 90px;
+      height: 90px;
       margin-left: 10px;
+    }
+    .photo-icon {
+      width: 90px;
+      height: 90px;
+      border: 3px solid #fff;
+      border-radius: 50%;
+      overflow: hidden;
     }
     .item-cont {
       color: #fff;
@@ -300,6 +430,60 @@ export default {
         width: 21px;
         height: 21px;
       }
+    }
+  }
+}
+.popup {
+  width: 275px;
+  .popup-top {
+    height: 65px;
+    .popup-out {
+      height: 25px;
+      display: flex;
+      justify-content: flex-end;
+      .popup-icon {
+        width: 13px;
+        height: 13px;
+        margin-top: 10px;
+        margin-right: 10px;
+      }
+    }
+    .popup-title {
+      font-size: 16px;
+      text-align: center;
+      color: #fff;
+      text-shadow:1px 2px 5px rgba(166,27,27,0.15);
+    }
+  }
+  .popup-cont {
+    margin-top: 15px;
+    .popup-dian {
+      width: 7px;
+      height: 7px;
+      background: #3AAFFC;
+      border-radius: 50%;
+    }
+    .popup-text {
+      margin-left: 10px;
+      font-size: 15px;
+    }
+    .popup-btn {
+      margin: 13px auto;
+      width: 160px;
+      height: 39px;
+      line-height: 39px;
+      background:linear-gradient(-17deg,rgba(58,175,252,1),rgba(50,200,255,1));
+      color: #fff;
+      box-shadow:1px 2px 5px 0px rgba(0, 0, 0, 0.15);
+      border-radius:20px;
+      text-align: center;
+      font-size: 14px;
+    }
+    .bg1 {
+      background: #A9A9A9;
+    }
+    .bg2 {
+      background: #86E06A;
     }
   }
 }

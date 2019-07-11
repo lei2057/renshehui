@@ -35,17 +35,19 @@
           </span>
         </van-swipe-cell>
       </div>
-      <van-popup
+      <div class="vant-popup">
+        <van-popup
         :show="show"
         position="bottom"
         @close="onClose"
-      >
-        <div class="more-list">
-          <div class="more-item border_cell" @click="share">分享名片</div>
-          <div class="more-item" @click="del">删除记录</div>
-        </div>
-        <div class="more-off" @click="onClose">取消</div>
-      </van-popup>
+        >
+          <div class="more-list">
+            <div class="more-item border_cell" @click="share">分享名片</div>
+            <div class="more-item" @click="del">删除记录</div>
+          </div>
+          <div class="more-off" @click="onClose">取消</div>
+        </van-popup>
+      </div>
     </div>
     <van-dialog id="van-dialog" />
   </div>
