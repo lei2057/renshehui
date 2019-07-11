@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 0 10px;">
     <card :userinfo="userinfo"></card>
-    <div class="mycardinfo-btn" @click="exchange">名片交换信息<div class="mycardinfo-num">99</div></div>
+    <div class="mycardinfo-btn" @click="exchange">名片交换信息<div class="mycardinfo-num">{{cardNum}}</div></div>
     <div class="disflex">
       <div class="mycard-btn" @click="aa">保存名片</div>
       <div class="mycard-btn">分享名片</div>
@@ -29,10 +29,12 @@ export default {
   data () {
     return {
       show: false, // 弹框
-      userinfo: []
+      userinfo: [],
+      cardNum: 0
     }
   },
-  onLoad () {
+  onLoad (option) {
+    this.cardNum = option.num
     let userId = wx.getStorageSync('userId')
     this.$http.get({
       url: 'api/appUser/selectUserById',

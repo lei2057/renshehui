@@ -1,13 +1,14 @@
 <template>
   <div style="padding: 0 10px;">
-    <card :synopsis="synopsis" :userinfo="userinfo" ></card>
-    <!-- <div>
+    <card :userinfo="userinfo" :pageType="pageType"></card>
+    <div v-if="pageType === '1'">
+      <div class="mycardinfo-btn w300 disflex" @click="exchangeCard" v-if="btnShow"><div class="icon19-13 mgr10"><img src="../../../assets/cardjiaohuan.png" alt=""></div>交换名片</div>
+      <div class="mycardinfo-btn w300 bg1 disflex" v-else>名片已交换</div>
+      <div class="mycardinfo-btn w300 mgt ptr disflex" @click="myCard"><div class="icon15-18 mgr10"><img src="../../../assets/userIcon.png" alt=""></div>我的名片<div class="mycardinfo-num">{{cardNum}}</div></div>
+    </div>
+    <div v-else>
       <div class="mycardinfo-btn disflex" @click="call"><div class="icon15 mgr10"><img src="../../../assets/phone.png" alt=""></div>拨打电话</div>
       <div class="mycard-btn disflex" @click="share"><div class="icon15 mgr10"><img src="../../../assets/topMp.png" alt=""></div>分享名片</div>
-    </div> -->
-    <div>
-      <div class="mycardinfo-btn w300 disflex"><div class="icon19-13 mgr10"><img src="../../../assets/cardjiaohuan.png" alt=""></div>交换名片</div>
-      <div class="mycardinfo-btn w300 mgt ptr disflex" @click="myCard"><div class="icon15-18 mgr10"><img src="../../../assets/userIcon.png" alt=""></div>我的名片<div class="mycardinfo-num">99</div></div>
     </div>
     <div class="vant-popup">
       <van-popup
@@ -16,7 +17,7 @@
         @close="onClose"
       >
         <div class="more-list">
-          <div class="more-item" @click="phone">呼叫 13166882057</div>
+          <div class="more-item" @click="phone">呼叫 {{userinfo.phone}}</div>
         </div>
         <div class="more-off" @click="onClose">取消</div>
       </van-popup>
@@ -45,16 +46,28 @@ export default {
     return {
       show: false, // 弹框
       show1: false,
-      synopsis: '您是否可见的官方纪录时刻的各类考试，最多输入37个字。',
-      userinfo: {
-        name: '我的姓名',
-        job: '职位',
-        phone: '1008610086',
-        company: '杭州优科达商业管理有限公司',
-        email: '1207453420@qq.com',
-        address: '浙江省杭州市'
-      }
+      userinfo: {},
+      friendId: '', // 交换好友ID
+      pageType: '', // 访问页面类型
+      cardNum: 0,
+      btnShow: true
     }
+  },
+  onLoad (option) {
+    this.friendId = option.id
+    this.pageType = option.key
+    this.cardNum = option.num
+    this.$http.get({
+      url: 'api/appUser/selectUserById',
+      data: {
+        id: option.id
+      }
+    }).then(res => {
+      this.userinfo = res.data.list[0]
+    })
+  },
+  onShow () {
+
   },
   methods: {
     onClose (event) {
@@ -62,17 +75,43 @@ export default {
       this.show1 = false
     },
     call () {
-      console.log('拨打电话')
       this.show = true
+    },
+    phone () {
+      console.log('拨打电话')
     },
     share () {
       console.log('分享名片')
     },
+    exchangeCard () {
+      let userId = wx.getStorageSync('userId')
+      this.$http.get({
+        url: 'api/appUser/applyUserAttention',
+        data: {
+          userId: userId,
+          attentionId: this.friendId
+        }
+      }).then(res => {
+        console.log(res.data.res)
+        if (res.data.res) {
+          this.btnShow = false
+        }
+      })
+    },
     myCard () {
-      this.show1 = true
+      let userInfo = wx.getStorageSync('userInfo')
+      if (userInfo) {
+        wx.navigateTo({
+          url: '../myCard/main?num=' + this.cardNum
+        })
+      } else {
+        this.show1 = true
+      }
     },
     cardGo () {
-      console.log('即刻创建')
+      wx.navigateTo({
+        url: '../newCard/main'
+      })
     }
   },
   components: {
@@ -187,5 +226,9 @@ export default {
 }
 .ptr {
   position: relative;
+}
+.bg1 {
+  background: #BEBEBE;
+  color: #000;
 }
 </style>
