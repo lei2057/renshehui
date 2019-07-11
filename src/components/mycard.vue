@@ -8,23 +8,23 @@
         </div>
         <div class="mycard-info">
           <div class="info-top disflex">
-            <div class="info-photo"><img src="../assets/user.png" alt=""></div>
+            <div class="info-photo"><img :src="userinfo.headPhoto" alt=""></div>
             <div class="info-text flex">
               <div class="text-name">{{userinfo.name}}</div>
-              <div class="text-job">{{userinfo.job}}</div>
+              <div class="text-job">{{userinfo.userWork}}</div>
             </div>
-            <div class="info-update"><img src="../assets/bianji.png" alt=""></div>
+            <div class="info-update" @click="bianji"><img src="../assets/bianji.png" alt=""></div>
           </div>
           <div class="info-bottom">
             <div class="info-item disflex"><div class="info-icon"><img src="../assets/dianhua.png" alt=""></div><span class="flex">电话：{{userinfo.phone}}</span></div>
             <div class="info-item disflex"><div class="info-icon"><img src="../assets/company.png" alt=""></div><span class="flex">公司：{{userinfo.company}}</span></div>
             <div class="info-item disflex"><div class="info-icon"><img src="../assets/email.png" alt=""></div><span class="flex">邮箱：{{userinfo.email}}</span></div>
-            <div class="info-item disflex"><div class="info-icon"><img src="../assets/address.png" alt=""></div><span class="flex">城市：{{userinfo.address}}</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../assets/address.png" alt=""></div><span class="flex">城市：{{userinfo.cityName}}</span></div>
           </div>
         </div>
       </div>
       <div class="synopsis">
-        <div class="synopsis-cont">{{synopsis}}</div>
+        <div class="synopsis-cont">{{userinfo.briefIntroduction}}</div>
         <div class="tag">简介</div>
       </div>
     </div>
@@ -34,8 +34,14 @@
 <script>
 export default {
   props: {
-    synopsis: String,
     userinfo: Array
+  },
+  methods: {
+    bianji () {
+      wx.navigateTo({
+        url: '../newCard/main?id=' + 1
+      })
+    }
   }
 }
 </script>
@@ -80,6 +86,9 @@ export default {
           width: 91px;
           height: 91px;
           margin-top: 4px;
+          border: 3px solid #fff;
+          border-radius: 50%;
+          overflow: hidden;
         }
         .info-text {
           margin-left: 10px;

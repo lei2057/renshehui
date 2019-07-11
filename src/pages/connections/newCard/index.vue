@@ -1,35 +1,35 @@
 <template>
   <div>
     <div class="newCard-title disflex" style="background-image: url('../../../assets/cardBg.png');background-size: 100% 100%;">
-      <div class="newCard-photo"><img src="../../../assets/user.png" alt=""></div>
+      <div class="newCard-photo"><img :src="userInfo.avatarUrl" alt=""></div>
       <div class="newCard-text flex">
-        <div style="margin-bottom: 8px;">昵称：@冰可乐</div>
-        <div>号码：17756231579</div>
+        <div style="margin-bottom: 8px;">昵称：{{userInfo.nickName}}</div>
+        <div>号码：{{phone}}</div>
       </div>
     </div>
     <div class="newCard-info">
       <div class="newCard-item disflex">
         <div class="newCard-icon">*</div>
-        <input class="newCard-input flex" type="text" placeholder="请填写您的姓名">
+        <input class="newCard-input flex" type="text" placeholder="请填写您的姓名" v-model="name">
       </div>
       <div class="newCard-item disflex">
         <div class="newCard-icon">*</div>
-        <input class="newCard-input flex" type="text" placeholder="请填写您的公司">
+        <input class="newCard-input flex" type="text" placeholder="请填写您的公司" v-model="company">
       </div>
       <div class="newCard-item disflex">
         <div class="newCard-icon">*</div>
-        <input class="newCard-input flex" type="text" placeholder="请填写您的职位">
+        <input class="newCard-input flex" type="text" placeholder="请填写您的职位" v-model="job">
       </div>
       <div class="newCard-item disflex">
         <div class="newCard-icon">*</div>
-        <input class="newCard-input flex" type="text" placeholder="请填写您的邮箱">
+        <input class="newCard-input flex" type="text" placeholder="请填写您的邮箱" v-model="email">
       </div>
       <div class="newCard-item disflex">
         <div class="newCard-icon">*</div>
-        <input class="newCard-input flex" type="text" placeholder="请填写您的城市">
+        <input class="newCard-input flex" type="text" placeholder="请填写您的城市" v-model="city">
       </div>
       <div class="newCard-textarea">
-        <textarea type="text" maxlength="45" placeholder="来一段简单的介绍，让其他人更好的了解你。本文段最多输入45个文字。"></textarea>
+        <textarea type="text" maxlength="45" placeholder="来一段简单的介绍，让其他人更好的了解你。本文段最多输入45个文字。" v-model="remarks"></textarea>
       </div>
     </div>
     <div class="newCard-needKnow">
@@ -40,7 +40,7 @@
       </checkbox-group>
       <div style="display: inline-block;" @click="needKnow">我已阅读并同意名片服务声明 >></div>
     </div>
-    <div class="newCard-btn" @click="cardAdd">创建名片</div>
+    <div class="newCard-btn" @click="cardAdd" v-text="btnText===0?'创建名片':'保存名片'"></div>
     <div class="vant-css">
       <van-popup :show="show" @close="onClose" catchtouchmove="ture">
         <div class="popup">
@@ -67,7 +67,38 @@ export default {
   data () {
     return {
       show: false, // 弹框
-      checkbox: false
+      checkbox: false,
+      btnText: 0,
+      userInfo: [], // 用户头部名称
+      phone: '',
+      name: '',
+      company: '',
+      job: '',
+      email: '',
+      city: '',
+      remarks: ''
+    }
+  },
+  onLoad (option) {
+    this.userInfo = wx.getStorageSync('userInfo')
+    this.phone = wx.getStorageSync('phone')
+    let userId = wx.getStorageSync('userId')
+    if (option.id === '1') {
+      this.edit()
+      this.btnText = 1
+      this.$http.get({
+        url: 'api/appUser/selectUserById',
+        data: {
+          id: userId
+        }
+      }).then(res => {
+        this.name = res.data.list[0].name
+        this.company = res.data.list[0].company
+        this.job = res.data.list[0].userWork
+        this.email = res.data.list[0].email
+        this.city = res.data.list[0].cityName
+        this.remarks = res.data.list[0].briefIntroduction
+      })
     }
   },
   methods: {
@@ -90,10 +121,38 @@ export default {
       }
     },
     cardAdd () {
+      let userId = wx.getStorageSync('userId')
       if (this.checkbox) {
-        console.log('创建名片')
+        let emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
+        let data = {
+          name: this.name,
+          company: this.company,
+          job: this.job,
+          email: this.email,
+          city: this.city,
+          remarks: this.remarks,
+          phone: this.phone
+        }
+        if (this.name === '' || this.company === '' || this.job === '' || this.email === '' || this.city === '') {
+          Toast('请您完善个人信息！')
+        } else if (!emailReg.test(this.email)) {
+          Toast('请您填写正确的邮箱！')
+        } else {
+          this.$http.get({
+            url: 'api/appUser/updateAppuser',
+            data: {
+              id: userId,
+              data: JSON.stringify(data)
+            }
+          }).then(res => {
+            console.log(res)
+            wx.navigateBack({
+              delta: 1
+            })
+          })
+        }
       } else {
-        Toast('请您阅读并同意名片服务声明')
+        Toast('请您阅读并同意名片服务声明！')
       }
     },
     edit () {
@@ -138,9 +197,12 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
   border-top-right-radius: 8px;
   margin: 0 13px;
   .newCard-photo {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     margin: 0 20px 0 18px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    overflow: hidden;
   }
   .newCard-text {
     font-size: 18px;
