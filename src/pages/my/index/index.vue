@@ -12,15 +12,15 @@
       </div>
       <div class="my-info wrapper-info disflex">
         <div class="border_cell_right flex">
-          <div class="my-num">{{totalMyCard}}</div>
+          <div class="my-num">{{totalMyCard||0}}</div>
           <div>人脉名片</div>
         </div>
         <div class="border_cell_right flex" @click="collection">
-          <div class="my-num">{{totalDataSource}}</div>
+          <div class="my-num">{{totalDataSource||0}}</div>
           <div>资料收藏</div>
         </div>
         <div class="flex">
-          <div class="my-num">{{totalChain}}</div>
+          <div class="my-num">{{totalChain||0}}</div>
           <div>优肯方案</div>
         </div>
       </div>
@@ -173,7 +173,9 @@ export default {
                   sex: e.mp.detail.userInfo.gender
                 }
               }).then(res => {
-                wx.setStorageSync('userId', res.data.userId)
+                if (wx.getStorageSync('userId') === '' || wx.getStorageSync('userId') === undefined || wx.getStorageSync('userId') === null) {
+                  wx.setStorageSync('userId', res.data.userId)
+                }
                 that.onLoad()
               })
             } else {
@@ -205,19 +207,30 @@ export default {
     }
   },
   onLoad () { // created
-    if (!wx.getStorageSync('userInfo')) {
-      this.userInfo = ''
-    } else {
-      this.userInfo = wx.getStorageSync('userInfo')
-    }
-    // wx.checkSession({
-    //   success: (res) => {
-    //     console.log(res, '存在')
-    //   },
-    //   fail: (res) => {
-    //     console.log(res, '不存在')
-    //   }
-    // })
+    wx.checkSession({
+      success: (res) => {
+        console.log(res, '存在')
+        if (!wx.getStorageSync('userInfo')) {
+          this.userInfo = ''
+        } else {
+          this.userInfo = wx.getStorageSync('userInfo')
+        }
+      },
+      fail: (res) => {
+        console.log(res, '不存在')
+        wx.removeStorageSync('userInfo')
+        if (!wx.getStorageSync('userInfo')) {
+          this.userInfo = ''
+        } else {
+          this.userInfo = wx.getStorageSync('userInfo')
+        }
+      }
+    })
+    // if (!wx.getStorageSync('userInfo')) {
+    //   this.userInfo = ''
+    // } else {
+    //   this.userInfo = wx.getStorageSync('userInfo')
+    // }
   }
 
 }
