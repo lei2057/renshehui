@@ -3,7 +3,7 @@
     <card :userinfo="userinfo"></card>
     <div class="mycardinfo-btn" @click="exchange">名片交换信息<div class="mycardinfo-num">{{cardNum}}</div></div>
     <div class="disflex">
-      <div class="mycard-btn" @click="aa">保存名片</div>
+      <div class="mycard-btn" @click="addCard">保存名片</div>
       <div class="mycard-btn">分享名片</div>
     </div>
     <div class="vant-css">
@@ -15,8 +15,8 @@
           <div class="popup-qrcode">
             <img src="../../../assets/user.png" alt="">
           </div>
-          <div class="popup-btn">扫一扫添加</div>
-          <div class="popup-text">好友扫描上方二维码即可添加名片</div>
+          <div class="popup-btn">我的二维码</div>
+          <div class="popup-text">扫描好友屏幕上的二维码即可添加名片</div>
         </div>
       </van-popup>
     </div>
@@ -54,7 +54,7 @@ export default {
     onClose () {
       this.show = false
     },
-    aa () {
+    addCard () {
       this.show = true
     }
   },

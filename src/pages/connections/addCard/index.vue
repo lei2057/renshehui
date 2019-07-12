@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 0 10px;">
-    <card :synopsis="synopsis" :userinfo="userinfo" ></card>
+    <card :userinfo="userinfo"></card>
     <div class="mycardinfo-btn" @click="addCard">添加到名片夹</div>
   </div>
 </template>
@@ -10,16 +10,12 @@ import Card from '../../../components/card'
 export default {
   data () {
     return {
-      synopsis: '您是否可见的官方纪录时刻的各类考试，最多输入37个字。',
-      userinfo: {
-        name: '我的姓名',
-        job: '职位',
-        phone: '1008610086',
-        company: '杭州优科达商业管理有限公司',
-        email: '1207453420@qq.com',
-        address: '浙江省杭州市'
-      }
+      userinfo: {}
     }
+  },
+  onLoad (option) {
+    console.log(option)
+    this.userinfo = ''
   },
   methods: {
     addCard () {
@@ -43,5 +39,6 @@ export default {
   border-radius: 22px;
   font-size: 15px;
   margin: 60px auto 27px;
+  text-align: center;
 }
 </style>
