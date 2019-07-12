@@ -28,7 +28,7 @@
           <div class="cont-text" @click="myCard">查看我的名片</div>
         </div>
         <div class="item-qrcode" v-if="!qrcode"><img src="../../../assets/qrcode.png" alt=""></div>
-        <div class="item-num" v-else>99</div>
+        <div class="item-num" v-else>{{cardNum}}</div>
         <div class="item-icon"><img src="../../../assets/right.png" alt=""></div>
       </div>
       <div class="wrapper-item pd10 vant-blue">
@@ -39,7 +39,7 @@
       </div>
       <div v-if="cont === 0">
         <scroll-view :scroll-y="setFixed">
-          <div class="wrapper-list disflex" v-for="item in dataquan" :key="item.id" @click="myQuan">
+          <div class="wrapper-list disflex" v-for="item in dataquan" :key="item.id" @click="myQuan(item.id)">
             <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
             <div class="list-cont flex">
               <div class="list-name">{{item.name}}</div>
@@ -55,7 +55,7 @@
       </div>
       <div v-if="cont === 1">
         <div v-if="datamingpian">
-          <div class="wrapper-list disflex" v-for="item in datamingpian" :key="item.id" @click="myMingpian">
+          <div class="wrapper-list disflex" v-for="item in datamingpian" :key="item.id" @click="myMingpian(item.id)">
             <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
             <div class="list-cont flex">
               <div class="list-name">{{item.name}}</div>
@@ -117,6 +117,7 @@ export default {
       dataquan: [], // 人脉圈的数据
       datamingpian: [], // 名片夹的数据
       userInfo: [],
+      cardNum: 0, // 名片数量
       sessionkey: '',
       show: false,
       dian1: true,
@@ -138,23 +139,15 @@ export default {
     }
   },
   onLoad () { // created
-    // 请求名片夹的数据
-    let userId = wx.getStorageSync('userId')
     this.userInfo = wx.getStorageSync('userInfo')
-    this.$http.get({
-      url: 'api/appUser/selectMyCard',
-      data: {
-        userId: userId
-      }
-    }).then(res => {
-      this.datamingpian = res.data.list
-    })
     wx.checkSession({
       success: (res) => {
         console.log(res)
       },
       fail: () => {
         this.show = true
+        wx.removeStorageSync('userInfo')
+        wx.removeStorageSync('userId')
       }
     })
   },
@@ -181,9 +174,9 @@ export default {
       }
     }).then(res => {
       this.datamingpian = res.data.list
+      this.cardNum = res.data.total
     })
   },
-
   methods: {
     onClose () {
       this.show = false
@@ -193,7 +186,11 @@ export default {
       this.query
         .select('#head_wrapper')
         .boundingClientRect(res => {
-          this.headHeight = res.height
+          if (res) {
+            this.headHeight = res.height
+          } else {
+            this.headHeight = 0
+          }
         })
         .exec()
     },
@@ -211,12 +208,12 @@ export default {
     },
     myCard () {
       wx.navigateTo({
-        url: '../myCard/main'
+        url: '../myCard/main?num=' + this.cardNum
       })
     },
-    myQuan (id) {
+    myQuan (id) { // 1:表示不是好友状态
       wx.navigateTo({
-        url: '../friendCard/main?id=' + id
+        url: '../friendCard/main?id=' + id + '&key=1&num=' + this.cardNum
       })
     },
     myMingpian (id) {

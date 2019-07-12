@@ -1,7 +1,11 @@
 <template>
   <div style="padding: 0 10px;">
     <card :userinfo="userinfo"></card>
+<<<<<<< HEAD
     <div class="mycardinfo-btn" @click="exchange">名片交换信息<div class="mycardinfo-num" v-show="userinfo.hasMessage!==0">{{userinfo.hasMessage}}</div></div>
+=======
+    <div class="mycardinfo-btn" @click="exchange">名片交换信息<div class="mycardinfo-num">{{cardNum}}</div></div>
+>>>>>>> b5c0f9e325a28b03034bc09e27fb9ff78481a15b
     <div class="disflex">
       <div class="mycard-btn" @click="aa">保存名片</div>
       <div class="mycard-btn">分享名片</div>
@@ -32,7 +36,8 @@ export default {
   data () {
     return {
       show: false, // 弹框
-      userinfo: []
+      userinfo: [],
+      cardNum: 0
     }
   },
   methods: {

@@ -5,22 +5,28 @@
         <img src="../assets/img03.png" alt="">
         <div class="mycard-info">
           <div class="info-top disflex">
-            <div class="info-photo"><img src="../assets/user.png" alt=""></div>
+            <div class="info-photo"><img :src="userinfo.headPhoto" alt=""></div>
             <div class="info-text flex">
               <div class="text-name">{{userinfo.name}}</div>
-              <div class="text-job">{{userinfo.job}}</div>
+              <div class="text-job">{{userinfo.userWork}}</div>
             </div>
           </div>
-          <div class="info-bottom">
+          <div class="info-bottom" v-if="pageType === '1'">
+            <div class="info-item disflex"><div class="info-icon"><img src="../assets/dianhua.png" alt=""></div><span class="flex">电话：{{phone}}</span><span>(交换后可查看)</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../assets/company.png" alt=""></div><span class="flex">公司：{{userinfo.company}}</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../assets/email.png" alt=""></div><span class="flex">邮箱：{{email}}</span><span>(交换后可查看)</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../assets/address.png" alt=""></div><span class="flex">城市：{{userinfo.cityName}}</span></div>
+          </div>
+          <div class="info-bottom" v-else>
             <div class="info-item disflex"><div class="info-icon"><img src="../assets/dianhua.png" alt=""></div><span class="flex">电话：{{userinfo.phone}}</span></div>
             <div class="info-item disflex"><div class="info-icon"><img src="../assets/company.png" alt=""></div><span class="flex">公司：{{userinfo.company}}</span></div>
             <div class="info-item disflex"><div class="info-icon"><img src="../assets/email.png" alt=""></div><span class="flex">邮箱：{{userinfo.email}}</span></div>
-            <div class="info-item disflex"><div class="info-icon"><img src="../assets/address.png" alt=""></div><span class="flex">城市：{{userinfo.address}}</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../assets/address.png" alt=""></div><span class="flex">城市：{{userinfo.cityName}}</span></div>
           </div>
         </div>
       </div>
       <div class="synopsis">
-        <div class="synopsis-cont">{{synopsis}}</div>
+        <div class="synopsis-cont">{{userinfo.briefIntroduction}}</div>
         <div class="tag">简介</div>
       </div>
     </div>
@@ -30,8 +36,23 @@
 <script>
 export default {
   props: {
-    synopsis: String,
-    userinfo: Array
+    userinfo: Array,
+    pageType: String
+  },
+  data () {
+    return {
+      phone: '',
+      email: ''
+    }
+  },
+  watch: {
+    'userinfo' (res) { // 密码遮挡
+      console.log(res)
+      let phx = res.phone.substring(3, 6)
+      let emx = res.email.substring(3, 6)
+      this.phone = res.phone.replace(phx, '****')
+      this.email = res.email.replace(emx, '****')
+    }
   }
 }
 </script>
@@ -57,6 +78,9 @@ export default {
           width: 91px;
           height: 91px;
           margin-top: 4px;
+          border: 3px solid #fff;
+          border-radius: 50%;
+          overflow: hidden;
         }
         .info-text {
           margin-left: 10px;
@@ -72,6 +96,7 @@ export default {
       .info-bottom {
         padding-left: 19px;
         font-weight: 300;
+        margin-right: 10px;
         .info-item {
           margin-bottom: 5px;
           .info-icon {
