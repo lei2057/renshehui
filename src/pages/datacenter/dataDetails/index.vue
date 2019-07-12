@@ -9,11 +9,11 @@
        <p class="p4">共享时间：{{data.publishTime}}</p>
        <img class="sctu" :src="islike==1?'../../../assets/shoucang.png':'../../../assets/shoucang2.png'" alt="" @click="shoucang">
      </div>
-     <div class="btnf" v-show="!isfrist">
+     <div class="btnf" v-show="isfrist==='0'">
        <div class="btn1" @click="huoquwenjian()">获取文件</div>
        <div class="btn2" @click="shangchuanshixiao">上报网盘文件失效</div>
      </div>
-     <div class="btnf" v-show="isfrist">
+     <div class="btnf" v-show="isfrist==='1'">
        <div class="btn2" @click="huoquwenjian()">获取文件</div>
      </div>
      <div class="tishiyu">
@@ -75,7 +75,7 @@ export default {
   data () {
     // components: {Popup},
     return {
-      isfrist: true,
+      isfrist: '1',
       id: '',
       data: '',
       type: '',
@@ -115,12 +115,10 @@ export default {
           categoryId: this.id
         }
       }).then(res => {
-        console.log(res.data.res)
-        console.log(this.isfenxiang)
         if (res.data.res === '0') {
           // 0是可以获取文件
           if (this.isfenxiang === '0') {
-            this.isfrist = false
+            // this.isfrist = false
             wx.previewImage({
               current: this.data.cloudInformation, // 当前显示图片的http链接
               urls: [this.data.cloudInformation] // 需要预览的图片http链接列表
@@ -201,10 +199,20 @@ export default {
     }).then(res => {
       this.islike = res.data.res // 1是没有收藏0是收藏
     })
+    this.$http.get({
+      url: 'api/getDataSource/isGetDataSource',
+      data: {
+        userId: this.userid,
+        categoryId: this.id
+      }
+    }).then(res => {
+      this.isfrist = res.data.res // 1是没有收藏0是收藏
+    })
   },
   onLoad (options) { // created
-    this.isfrist = true
+    // this.isfrist = true
     this.id = options.id
+    this.userid = wx.getStorageSync('userId')
   }
 }
 </script>

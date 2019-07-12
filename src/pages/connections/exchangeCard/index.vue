@@ -6,25 +6,26 @@
         <van-tab title="发出的申请"></van-tab>
       </van-tabs>
     </div>
-    <div class="vant-cell">
+    <div v-if="dataarr">
+    <div class="vant-cell"  v-for="item in dataarr" :key="item.id">
       <div class="cell-item border_cell">
         <van-swipe-cell id="swipe-cell" :right-width="80" :left-width="1" async-close @close="more">
           <div class="cell-cont disflex">
-            <div class="cell-photo"><img src="../../../assets/user.png" alt=""></div>
+            <div class="cell-photo"><img :src="item.headPhoto" alt=""></div>
             <div class="cell-info flex">
-              <div class="cell-name">用户名字</div>
-              <div class="cell-text">用户公司</div>
-              <div class="cell-text">用户职位</div>
+              <div class="cell-name">{{item.name}}</div>
+              <div class="cell-text">{{item.company}}</div>
+              <div class="cell-text">{{item.userWork}}</div>
             </div>
-            <div class="cell-state">
+            <div class="cell-state" v-show="item.notificationState==='1'">
               <div class="cell-icon"><img src="../../../assets/duihao.png" alt=""></div>
               <div>同意交换</div>
             </div>
-            <div class="cell-state">
+            <div class="cell-state" v-show="item.notificationState==='0'">
               <div class="cell-icon"><img src="../../../assets/yuanjiaohuan.png" alt=""></div>
               <div>已交换</div>
             </div>
-            <div class="cell-state" v-if="show1">
+            <div class="cell-state" v-if="show1" v-show="item.notificationState==='2'">
               <div class="cell-icon"><img src="../../../assets/tixing.png" alt=""></div>
               <div>提醒对方</div>
             </div>
@@ -43,11 +44,12 @@
         >
           <div class="more-list">
             <div class="more-item border_cell" @click="share">分享名片</div>
-            <div class="more-item" @click="del">删除记录</div>
+            <div class="more-item" @click="del(item.notificationId)">删除记录</div>
           </div>
           <div class="more-off" @click="onClose">取消</div>
         </van-popup>
       </div>
+    </div>
     </div>
     <van-dialog id="van-dialog" />
   </div>
@@ -60,12 +62,15 @@ export default {
     return {
       show: false, // 弹框
       type: '',
-      show1: true
+      show1: true,
+      userId: '',
+      dataarr: []
     }
   },
   methods: {
     onChange (event) {
-      console.log(event.mp.detail)
+      // 0是收到   1是发出
+      this.getdata(event.mp.detail.index)
     },
     more (event) {
       this.show = true
@@ -76,14 +81,52 @@ export default {
     onClose (event) {
       this.show = false
     },
-    del () {
+    del (id) {
       this.show = false
       Dialog.confirm({
         message: '确定删除吗？'
       }).then(() => {
-        console.log('ss')
+        console.log(id) // 次id不是列表的id
+        this.$http.get({
+          url: 'api/notification/delNotification',
+          data: {
+            id: id
+          }
+        }).then(res => {
+          console.log('删除成功')
+        })
       })
+    },
+    getdata (index) {
+      if (index === 0) {
+        // 说明是收到
+        this.$http.get({
+          url: 'api/notification/notificationAcceptList', // 收到列表
+          data: {
+            userId: this.userId
+          }
+        }).then(res => {
+          console.log(res)
+          this.dataarr = res.data.list
+        })
+      } else {
+        // 说明是发出
+        this.$http.get({
+          url: 'api/notification/notificationApplyList', // 发出列表
+          data: {
+            userId: this.userId
+          }
+        }).then(res => {
+          this.dataarr = res.data.list
+        })
+      }
     }
+  },
+  onShow () {
+    this.getdata(0)
+  },
+  onLoad () {
+    this.userId = wx.getStorageSync('userId')
   }
 }
 </script>

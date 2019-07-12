@@ -159,17 +159,21 @@ export default {
     })
   },
   onShow () { // mountend
+    let userId = wx.getStorageSync('userId')
     this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
       this.getOffsetHeight()
     })
     // 请求人脉圈的数据
     this.$http.get({
-      url: 'api/appUser/selectUserById'
+      url: 'api/appUser/selectAllUsers',
+      data: {
+        data: userId
+      }
     }).then(res => {
-      this.dataquan = res.data
+      console.log(res, '人脉圈')
+      this.dataquan = res.data.list
     })
     // 请求名片夹的数据
-    let userId = wx.getStorageSync('userId')
     this.$http.get({
       url: 'api/appUser/selectMyCard',
       data: {
