@@ -163,7 +163,6 @@ export default {
         data: userId
       }
     }).then(res => {
-      console.log(res, '人脉圈')
       this.dataquan = res.data.list
     })
     // 请求名片夹的数据

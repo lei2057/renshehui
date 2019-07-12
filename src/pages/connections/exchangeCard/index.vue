@@ -86,14 +86,14 @@ export default {
       Dialog.confirm({
         message: '确定删除吗？'
       }).then(() => {
-        console.log(id) // 次id不是列表的id
         this.$http.get({
           url: 'api/notification/delNotification',
           data: {
             id: id
           }
         }).then(res => {
-          console.log('删除成功')
+          this.getdata(0)
+          this.getdata(1)
         })
       })
     },
