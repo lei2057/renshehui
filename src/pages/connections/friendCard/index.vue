@@ -36,12 +36,17 @@
         </div>
       </van-popup>
     </div>
+    <van-toast id="van-toast" />
   </div>
 </template>
 
 <script>
+import Toast from '../../../../static/vant/toast/toast'
 import Card from '../../../components/card'
 export default {
+  components: {
+    Card
+  },
   data () {
     return {
       show: false, // 弹框
@@ -92,8 +97,13 @@ export default {
           attentionId: this.friendId
         }
       }).then(res => {
-        console.log(res.data.res)
-        if (res.data.res) {
+        console.log(res)
+        if (res.code === '0000000') {
+          if (res.data.res) {
+            this.btnShow = false
+          }
+        } else if (res.code === '121') {
+          Toast('已经发送交换申请')
           this.btnShow = false
         }
       })
@@ -113,10 +123,8 @@ export default {
         url: '../newCard/main'
       })
     }
-  },
-  components: {
-    Card
   }
+
 }
 </script>
 

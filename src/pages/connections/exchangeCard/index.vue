@@ -17,9 +17,13 @@
               <div class="cell-text">{{item.company}}</div>
               <div class="cell-text">{{item.userWork}}</div>
             </div>
-            <div class="cell-state" v-show="item.notificationState==='1'">
+            <div class="cell-state" v-show="item.notificationType==='0'&&item.notificationState==='1'">
               <div class="cell-icon"><img src="../../../assets/duihao.png" alt=""></div>
               <div>同意交换</div>
+            </div>
+            <div class="cell-state" v-show="item.notificationType==='1'&&item.notificationState==='1'">
+              <div class="cell-icon"><img src="../../../assets/duihao.png" alt=""></div>
+              <div>等待中</div>
             </div>
             <div class="cell-state" v-show="item.notificationState==='0'">
               <div class="cell-icon"><img src="../../../assets/yuanjiaohuan.png" alt=""></div>
@@ -117,6 +121,7 @@ export default {
             userId: this.userId
           }
         }).then(res => {
+          console.log(res)
           this.dataarr = res.data.list
         })
       }
