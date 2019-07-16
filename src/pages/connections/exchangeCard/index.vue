@@ -17,7 +17,7 @@
               <div class="cell-text">{{item.company}}</div>
               <div class="cell-text">{{item.userWork}}</div>
             </div>
-            <div class="cell-state" v-show="item.notificationType==='0'&&item.notificationState==='1'">
+            <div class="cell-state" v-show="item.notificationType==='0'&&item.notificationState==='1'" @click="tongyi(item.id)">
               <div class="cell-icon"><img src="../../../assets/duihao.png" alt=""></div>
               <div>同意交换</div>
             </div>
@@ -29,7 +29,7 @@
               <div class="cell-icon"><img src="../../../assets/yuanjiaohuan.png" alt=""></div>
               <div>已交换</div>
             </div>
-            <div class="cell-state" v-if="show1" v-show="item.notificationState==='2'">
+            <div class="cell-state" v-if="show1" v-show="item.notificationState==='2'" @click="tixing(item.id)">
               <div class="cell-icon"><img src="../../../assets/tixing.png" alt=""></div>
               <div>提醒对方</div>
             </div>
@@ -72,6 +72,30 @@ export default {
     }
   },
   methods: {
+    // 提醒对方
+    tixing (attentionId) {
+      // this.$http.get({
+      //   url: 'api/appUser/acceptUserAttention',
+      //   data: {
+      //     userId: this.userId, // 接受人id
+      //     attentionId: attentionId// 发送人id
+      //   }
+      // }).then(res => {
+
+      // })
+    },
+    // 同意交换名片
+    tongyi (attentionId) {
+      this.$http.get({
+        url: 'api/appUser/acceptUserAttention',
+        data: {
+          userId: this.userId, // 接受人id
+          attentionId: attentionId// 发送人id
+        }
+      }).then(res => {
+
+      })
+    },
     onChange (event) {
       // 0是收到   1是发出
       this.getdata(event.mp.detail.index)
