@@ -24,17 +24,12 @@
         <div class="service-cont">{{item.details}}</div>
       </div>
     </div>
-    <div style="height: 30px;"><img :src="qrCode" alt=""></div>
     <div class="service-wrapper">
       <button class="disflex service-btn" @click="share" open-type="share">
         <div class="service-icon"><img src="../../../assets/top.png" alt=""></div>
         分享好友
       </button>
-      <!-- <div class="disflex service-btn" @click="phoneCall">
-        <div class="service-icon"><img src="../../../assets/phone.png" alt=""></div>
-        马上咨询
-      </div> -->
-      <div class="disflex service-btn" @click="aaa">
+      <div class="disflex service-btn" @click="phoneCall">
         <div class="service-icon"><img src="../../../assets/phone.png" alt=""></div>
         马上咨询
       </div>
@@ -50,8 +45,7 @@ export default {
       categoryId: '', // 资料ID
       userId: '', // 用户ID
       contList: [], // 详情内容
-      serviceList: [], // 内容列表
-      qrCode: ''
+      serviceList: [] // 内容列表
     }
   },
   onLoad (option) {
@@ -127,33 +121,10 @@ export default {
     },
     share () { // 分享好友
       this.onShareAppMessage()
-    },
-    aaa () {
-      this.$http.get({
-        url: 'api/qrcode/getAccessToken'
-      }).then(res => {
-        console.log(res)
-        this.request({
-          url: 'https://api.weixin.qq.com/wxa/getwxacode?access_token=' + res.data.accessToken,
-          data: { path: 'pages/youken/listDetails/main' },
-          method: 'POST',
-          header: {
-            'content-type': 'application/json'
-          }, // 设置请求的 header
-          success: function (res) {
-            console.log(res)
-          },
-          fail: function () {
-            console.log('index.js wx.request CheckCallUser fail')
-          }
-        })
-      })
     }
   },
-  onShareAppMessage (res) {
-    if (res.from === 'button') {
-    }
-    return {
+  onShareAppMessage () {
+    var shareObj = {
       title: '转发',
       path: '/pages/youken/listDetails/main?id=' + this.categoryId,
       imageUrl: 'https://wmqhouse.top/static/system/image/null.png',
@@ -161,6 +132,7 @@ export default {
         console.log('成功', res)
       }
     }
+    return shareObj
   }
 }
 </script>

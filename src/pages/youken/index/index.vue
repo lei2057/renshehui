@@ -34,7 +34,7 @@
     <div class="menu-wrapper">
       <div class="menu" :class="{'fixed':setFixed}">
         <van-tabs @change="onChange" >
-          <van-tab title="最新发布"></van-tab>
+          <!-- <van-tab title="最新发布"></van-tab> -->
           <van-tab v-for="item in navList" :key="item" :title="item.name"></van-tab>
           <!-- <van-tab title="敬请期待" disabled></van-tab> -->
         </van-tabs>
@@ -45,7 +45,7 @@
       <ul class="item-wrapper">
         <li class="list-wrapper" v-for="item in newListUp" :key="item" @click="next(item.id)">
           <div class="list-cont disflex">
-            <img class="list-left" :src="item.mainImg">
+            <img class="list-left" :src="item.serviceCompanyImg">
             <div class="flex list-right">
               <div class="right-title"><div class="title-text">{{item.category}}</div></div>
               <div class="right-cont">{{item.title}}</div>
@@ -54,13 +54,13 @@
             <div class="tag">置顶</div>
           </div>
           <div class="disflex pd10">
-            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg"></div>
+            <div class="list-bottom-icon"><img :src="item.mainImg"></div>
             <div class="flex">{{item.serviceCompany}}</div>
           </div>
         </li>
         <li class="list-wrapper" v-for="item in newList" :key="item" @click="next(item.id)">
           <div class="list-cont disflex">
-            <img class="list-left" :src="item.mainImg">
+            <img class="list-left" :src="item.serviceCompanyImg">
             <div class="flex list-right">
               <div class="right-title"><div class="title-text">{{item.category}}</div></div>
               <div class="right-cont">{{item.title}}</div>
@@ -68,7 +68,7 @@
             </div>
           </div>
           <div class="disflex pd10">
-            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg"></div>
+            <div class="list-bottom-icon"><img :src="item.mainImg"></div>
             <div class="flex">{{item.serviceCompany}}</div>
           </div>
         </li>
@@ -78,7 +78,7 @@
       <ul class="item-wrapper">
         <li class="list-wrapper" v-for="item in contList" :key="item" @click="next(item.id)">
           <div class="list-cont disflex">
-            <img class="list-left" :src="item.mainImg">
+            <img class="list-left" :src="item.serviceCompanyImg">
             <div class="flex list-right">
               <div class="right-title"><div class="title-text">{{item.category}}</div></div>
               <div class="right-cont">{{item.title}}</div>
@@ -86,7 +86,7 @@
             </div>
           </div>
           <div class="disflex pd10">
-            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg"></div>
+            <div class="list-bottom-icon"><img :src="item.mainImg"></div>
             <div class="flex">{{item.serviceCompany}}</div>
           </div>
         </li>
@@ -113,6 +113,17 @@ export default {
     }
   },
   onLoad () {
+    // this.userInfo = wx.getStorageSync('userInfo')
+    // wx.checkSession({
+    //   success: (res) => {
+    //     console.log(res)
+    //   },
+    //   fail: () => {
+    //     this.show = true
+    //     wx.removeStorageSync('userInfo')
+    //     wx.removeStorageSync('userId')
+    //   }
+    // })
     this.$http.get({
       url: 'api/SupplyChain/selectAllChainType'
     }).then(res => {

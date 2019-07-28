@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="my-list">
-        <div class="my-item border_cell disflex">
+        <div class="my-item border_cell disflex" @click="renmai">
           <div class="icon20"><img src="../../../assets/xiaoxi.png" alt=""></div>
           <div class="my-text flex">人脉消息</div>
           <div class="icon17"><img src="../../../assets/right.png" alt=""></div>
@@ -100,7 +100,7 @@
         </div> -->
         <button openType="share" class="flex share-btn">
           <view  class="share-icon">
-            <cover-image  mode="widthFix" src="../../../assets/pyq.png"></cover-image>
+            <cover-image  mode="widthFix" src="../../../assets/haoyou.png"></cover-image>
           </view>
           <view>分享好友</view>
         </button>
@@ -138,7 +138,8 @@ export default {
         name: '微信名字',
         msg1: '向你推荐了人社会',
         msg2: '打开微信扫一扫，即可试用'
-      }
+      },
+      qrCodeImg: ''
     }
   },
   onShareAppMessage (res) {
@@ -154,7 +155,7 @@ export default {
       })
       var that = this
       wx.downloadFile({
-        url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1558270923349&di=a86ad669e4fcad40a312f51da3544880&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F20%2F20151020193932_uBAmZ.jpeg', // 二维码路径
+        url: that.qrCodeImg, // 二维码路径
         success: function (res) {
           wx.hideLoading()
           if (res.statusCode === 200) {
@@ -332,6 +333,11 @@ export default {
     kefu () { // 客服
       this.show1 = true
     },
+    renmai () {
+      wx.navigateTo({
+        url: '../../connections/exchangeCard/main'
+      })
+    },
     collection () { // 资料查看Go
       let userId = wx.getStorageSync('userId')
       if (userId) {
@@ -420,11 +426,12 @@ export default {
         }
       }
     })
-    // if (!wx.getStorageSync('userInfo')) {
-    //   this.userInfo = ''
-    // } else {
-    //   this.userInfo = wx.getStorageSync('userInfo')
-    // }
+    this.$http.get({
+      url: '/api/qrcode/getProgramQrcode'
+    }).then(res => {
+      console.log(res)
+      this.qrCodeImg = res.data.url
+    })
   }
 
 }
@@ -573,6 +580,8 @@ export default {
   align-items: center;
   margin-bottom: 20px;
   color: #727272;
+  background-color: #fff;
+  line-height: 1;
   .share-icon {
     width: 31px;
     height: 31px;

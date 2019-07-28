@@ -40,6 +40,7 @@
       </checkbox-group>
       <div style="display: inline-block;" @click="needKnow">我已阅读并同意名片服务声明 >></div>
     </div>
+    <div style="height: 64px;"></div>
     <div class="newCard-btn" @click="cardAdd" v-text="btnText===0?'创建名片':'保存名片'"></div>
     <div class="vant-css">
       <van-popup :show="show" @close="onClose" catchtouchmove="ture">
@@ -252,7 +253,7 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
   font-size: 12px;
   color: #737373;
   text-align: center;
-  margin: 25px auto 80px;
+  margin: 25px auto;
 }
 .newCard-btn {
   width: 100%;

@@ -13,7 +13,7 @@
             <div class="popup-icon" @click="onClose"><img src="../../../assets/outMp.png" alt=""></div>
           </div>
           <div class="popup-qrcode">
-            <img src="../../../assets/user.png" alt="">
+            <img :src="qrCodeImg" alt="">
           </div>
           <div class="popup-btn">我的二维码</div>
           <div class="popup-text">扫描好友屏幕上的二维码即可添加名片</div>
@@ -33,7 +33,9 @@ export default {
     return {
       show: false, // 弹框
       userinfo: [],
-      cardNum: 0
+      cardNum: 0,
+      userId: '',
+      qrCodeImg: ''
     }
   },
   methods: {
@@ -47,14 +49,24 @@ export default {
     },
     addCard () {
       this.show = true
+      this.$http.get({
+        url: '/api/qrcode/getUserQrcode',
+        data: {
+          url: '/pages/connections/addCard/main',
+          userId: this.userId
+        }
+      }).then(res => {
+        console.log(res)
+        this.qrCodeImg = res.data.url
+      })
     }
   },
   onShow () {
-    let userId = wx.getStorageSync('userId')
+    this.userId = wx.getStorageSync('userId')
     this.$http.get({
       url: 'api/appUser/selectUserById',
       data: {
-        id: userId
+        id: this.userId
       }
     }).then(res => {
       console.log(res)
