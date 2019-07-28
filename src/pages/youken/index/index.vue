@@ -127,7 +127,7 @@ export default {
     this.$http.get({
       url: 'api/SupplyChain/selectAllChainType'
     }).then(res => {
-      this.navList = res.data
+      this.navList = res.data.list
     })
     this.$http.get({
       url: 'api/SupplyChain/selectAllSupplyChain'
@@ -164,9 +164,9 @@ export default {
   },
   onReachBottom: function () {
     console.log('页面上拉触底事件的处理函数')
-    wx.setBackgroundColor({
-      backgroundColorBottom: '#00FA9A' // 底部窗口的背景色为绿
-    })
+    // wx.setBackgroundColor({
+    //   backgroundColorBottom: '#00FA9A' // 底部窗口的背景色为绿
+    // })
   },
   methods: {
     onClose () {

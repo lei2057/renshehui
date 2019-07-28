@@ -56,7 +56,7 @@
       </div>
       <div v-if="cont === 1">
         <div v-if="datamingpian">
-          <div class="wrapper-list disflex" v-for="item in datamingpian" :key="item.id" @click="myMingpian(item.id)">
+          <div class="wrapper-list disflex" v-for="item in datamingpian" :key="item" @click="myMingpian(item.id)">
             <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
             <div class="list-cont flex">
               <div class="list-name">{{item.name}}</div>
@@ -68,7 +68,7 @@
             </div>
           </div>
         </div>
-        <null v-if="datamingpian.length === 0" text="你还没有收到名片哦赶紧去人脉圈交换吧" img="https://wmqhouse.top/static/system/image/null.png"></null>
+        <null v-else text="你还没有收到名片哦赶紧去人脉圈交换吧" img="https://wmqhouse.top/static/system/image/null.png"></null>
       </div>
     </div>
     <!-- 弹出层  -->
@@ -202,6 +202,10 @@ export default {
         userId: userId
       }
     }).then(res => {
+      if (res.code === '0000011') {
+        this.datamingpian = []
+        this.cardNum = 0
+      }
       this.datamingpian = res.data.list
       this.cardNum = res.data.total
     })

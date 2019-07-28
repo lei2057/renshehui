@@ -30,16 +30,16 @@
           <div class="my-text flex">人脉消息</div>
           <div class="icon17"><img src="../../../assets/right.png" alt=""></div>
         </div>
-        <!-- <div class="my-item border_cell disflex" @click="share">
+        <div class="my-item border_cell disflex" @click="share">
           <div class="icon20"><img src="../../../assets/tuijian.png" alt=""></div>
           <div class="my-text flex">推荐给好友</div>
-          <div class="icon17"><img src="../../../assets/right.png" alt=""></div> -->
-        <cover-view @click="share" class="my-item border_cell disflex">
+          <div class="icon17"><img src="../../../assets/right.png" alt=""></div>
+        </div>
+        <!-- <cover-view @click="share" class="my-item border_cell disflex">
           <cover-image class="icon20" mode="widthFix" src="../../../assets/tuijian.png"></cover-image>
           <cover-view  class="my-text flex">推荐给好友</cover-view>
           <cover-image  class="icon17" mode="widthFix" src="../../../assets/right.png"></cover-image>
-        </cover-view>
-        <!-- </div> -->
+        </cover-view> -->
         
         <div class="my-item disflex" @click="kefu">
           <div class="icon20"><img src="../../../assets/kefu.png" alt=""></div>
@@ -325,13 +325,24 @@ export default {
       }, 300)
     },
     share () { // 推荐好友
-      this.show2 = true
-      this.show3 = true
-      wx.hideTabBar({})
-      this.getAvaterInfo()
+      let userInfo = wx.getStorageSync('userInfo')
+      if (userInfo) {
+        this.show2 = true
+        this.show3 = true
+        wx.hideTabBar({})
+        this.getAvaterInfo()
+      } else {
+        wx.showToast({
+          title: '请您先登录！',
+          icon: 'none'
+        })
+      }
     },
     kefu () { // 客服
-      this.show1 = true
+      // this.show1 = true
+      wx.makePhoneCall({
+        phoneNumber: '0571-85378987'
+      })
     },
     renmai () {
       wx.navigateTo({
