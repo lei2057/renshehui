@@ -1,9 +1,41 @@
 <template>
   <div style="padding: 0 10px;">
-    <card :userinfo="userinfo" :pageType="pageType"></card>
+    <div class="mycard-wrapper">
+      <div class="mycard-cont">
+        <img src="https://wmqhouse.top/static/system/image/img03.png" alt="">
+        <div class="mycard-info">
+          <div class="info-top disflex">
+            <div class="info-photo"><img :src="userinfo.headPhoto" alt=""></div>
+            <div class="info-text flex">
+              <div class="text-name">{{userinfo.name}}</div>
+              <div class="text-job">{{userinfo.userWork}}</div>
+            </div>
+          </div>
+          <div class="info-bottom" v-if="pageType === '1'||pageType === '2'">
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/dianhua.png" alt=""></div><span class="flex">电话：{{phone}}</span><span>(交换后可查看)</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/company.png" alt=""></div><span class="flex">公司：{{userinfo.company}}</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/email.png" alt=""></div><span class="flex">邮箱：{{email}}</span><span>(交换后可查看)</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/address.png" alt=""></div><span class="flex">城市：{{userinfo.cityName}}</span></div>
+          </div>
+          <div class="info-bottom" v-else>
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/dianhua.png" alt=""></div><span class="flex">电话：{{userinfo.phone}}</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/company.png" alt=""></div><span class="flex">公司：{{userinfo.company}}</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/email.png" alt=""></div><span class="flex">邮箱：{{userinfo.email}}</span></div>
+            <div class="info-item disflex"><div class="info-icon"><img src="../../../assets/address.png" alt=""></div><span class="flex">城市：{{userinfo.cityName}}</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="synopsis">
+        <div class="synopsis-cont">{{userinfo.briefIntroduction}}</div>
+        <div class="tag">简介</div>
+      </div>
+    </div>
     <div v-if="pageType === '1'">
-      <div class="mycardinfo-btn w300 disflex" @click="exchangeCard" v-if="btnShow"><div class="icon19-13 mgr10"><img src="../../../assets/cardjiaohuan.png" alt=""></div>交换名片</div>
-      <div class="mycardinfo-btn w300 bg1 disflex" v-else>名片已交换</div>
+      <div class="mycardinfo-btn w300 disflex" @click="exchangeCard"><div class="icon19-13 mgr10"><img src="../../../assets/cardjiaohuan.png" alt=""></div>交换名片</div>
+      <div class="mycardinfo-btn w300 mgt ptr disflex" @click="myCard"><div class="icon15-18 mgr10"><img src="../../../assets/userIcon.png" alt=""></div>我的名片<div class="mycardinfo-num">{{cardNum}}</div></div>
+    </div>
+    <div v-else-if="pageType === '2'">
+      <div class="mycardinfo-btn w300 bg1 disflex">名片已发送交换申请</div>
       <div class="mycardinfo-btn w300 mgt ptr disflex" @click="myCard"><div class="icon15-18 mgr10"><img src="../../../assets/userIcon.png" alt=""></div>我的名片<div class="mycardinfo-num">{{cardNum}}</div></div>
     </div>
     <div v-else>
@@ -51,14 +83,17 @@ export default {
     return {
       show: false, // 弹框
       show1: false,
-      userinfo: {},
+      userinfo: [],
       friendId: '', // 交换好友ID
       pageType: '', // 访问页面类型
       cardNum: 0,
-      btnShow: true
+      btnShow: true,
+      phone: '',
+      email: ''
     }
   },
   onLoad (option) {
+    console.log(option.key)
     this.friendId = option.id
     this.pageType = option.key
     this.cardNum = option.num
@@ -83,7 +118,9 @@ export default {
       this.show = true
     },
     phone () {
-      console.log('拨打电话')
+      wx.makePhoneCall({
+        phoneNumber: this.userinfo.phone
+      })
     },
     share () {
       console.log('分享名片')
@@ -97,14 +134,9 @@ export default {
           attentionId: this.friendId
         }
       }).then(res => {
-        console.log(res)
         if (res.code === '0000000') {
-          if (res.data.res) {
-            this.btnShow = false
-          }
-        } else if (res.code === '121') {
           Toast('已经发送交换申请')
-          this.btnShow = false
+          this.pageType = '2'
         }
       })
     },
@@ -123,8 +155,15 @@ export default {
         url: '../newCard/main'
       })
     }
+  },
+  watch: {
+    'userinfo' (res) { // 密码遮挡
+      let phx = res.phone.substring(3, 6)
+      let emx = res.email.substring(3, 6)
+      this.phone = res.phone.replace(phx, '****')
+      this.email = res.email.replace(emx, '****')
+    }
   }
-
 }
 </script>
 
@@ -179,6 +218,79 @@ export default {
   text-align: center;
   padding: 15px 0 25px 0;
   margin-top: 10px;
+}
+.mycard-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  .mycard-cont {
+    height: 224px;
+    position: relative;
+    overflow: hidden;
+    .mycard-info {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #fff;
+      .info-top {
+        padding: 10px 10px 12px 20px;
+        .info-photo {
+          width: 91px;
+          height: 91px;
+          margin-top: 4px;
+          border: 3px solid #fff;
+          border-radius: 50%;
+          overflow: hidden;
+        }
+        .info-text {
+          margin-left: 10px;
+          .text-name {
+            font-size: 21px;
+            margin-bottom: 10px;
+          }
+          .text-job {
+            font-size: 15px;
+          }
+        }
+      }
+      .info-bottom {
+        padding-left: 19px;
+        font-weight: 300;
+        margin-right: 10px;
+        .info-item {
+          margin-bottom: 5px;
+          .info-icon {
+            width: 15px;
+            height: 15px;
+            margin-right: 9px;
+          }
+        }
+      }
+    }
+  }
+  .synopsis {
+    padding: 20px;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+    .synopsis-cont {
+      text-indent: 2em;
+    }
+    .tag {
+      width: 60px;
+      height: 60px;
+      background: #3AAEFB;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      transform: rotate(-45deg);
+      position: absolute;
+      top: -30px;
+      left: -30px;
+    }
+  }
 }
 .popup {
   width: 275px;

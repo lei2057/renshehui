@@ -38,14 +38,7 @@
 				{
 					"id": 0,
 					"name": "demo",
-					"pathName": "pages/connections/index/main",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 1,
-					"name": "demo2",
-					"pathName": "pages/datacenter/getdataCourse/main",
+					"pathName": "pages/connections/exchangeCard/main",
 					"query": "",
 					"scene": null
 				}

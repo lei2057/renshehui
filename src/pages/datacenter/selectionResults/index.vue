@@ -1,7 +1,7 @@
 <template>
   <div>
      <div class="z-head">
-        <div class="z-select">
+        <div class="z-select disflex">
           <div class="list" @click="xuanzepaixu(1)">
             <p>发布时间</p>
             <img src="../../../assets/updown.png" alt="">
@@ -44,7 +44,7 @@
          <div v-for="item in dataarr" :key="item.id">
             <div class="list" @click="godataDetails(item.id)">
               <div class="listleft">
-                <img :src="item.type==0?'../../../assets/wordicon.png':item.type==1?'../../../assets/tabericon.png':item.type==2?'../../../assets/ppticon.png':item.type==3?'../../../assets/picon.png':item.type==4?'../../../assets/yasuoicon.png':'../../../assets/qitaicon.png'" alt="">
+                <img :src="item.type==0?'https://wmqhouse.top/static/system/image/wordicon.png':item.type==1?'https://wmqhouse.top/static/system/image/tabericon.png':item.type==2?'../../../assets/ppticon.png':item.type==3?'../../../assets/picon.png':item.type==4?'https://wmqhouse.top/static/system/image/yasuoicon.png':'https://wmqhouse.top/static/system/image/qitaicon.png'" alt="">
               </div>
               <div class="listright">
                 <div class="righttop">
@@ -162,13 +162,13 @@ export default {
   background-color: #3AAFFC;
   border: 1px solid #3AAFFC;
   .z-select{
-    width: 343px;
+    // width: 343px;
     height: 44px;
     margin: 0 auto;
     display: flex;
     .list{
       display: flex;
-      width:68px;
+      // width:68px;
       height:44px;
       margin-right: 30px;
       position: relative;

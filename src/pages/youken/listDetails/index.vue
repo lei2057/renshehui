@@ -16,7 +16,7 @@
     <div class="wrapper pd10 disflex">
       <div class="icon34" style="margin: 0 9px 0 7px;"><img :src="contList.serviceCompanyImg" alt=""></div>
       <div class="flex">{{contList.serviceCompany}}</div>
-      <div style="width: 17px;height: 17px;"><img src="../../../assets/right.png"></div>
+      <!-- <div style="width: 17px;height: 17px;"><img src="../../../assets/right.png"></div> -->
     </div>
     <div class="wrapper pd10">
       <div class="service" v-for="item in serviceList" :key="item">
@@ -24,12 +24,17 @@
         <div class="service-cont">{{item.details}}</div>
       </div>
     </div>
+    <div style="height: 30px;"><img :src="qrCode" alt=""></div>
     <div class="service-wrapper">
       <button class="disflex service-btn" @click="share" open-type="share">
         <div class="service-icon"><img src="../../../assets/top.png" alt=""></div>
         分享好友
       </button>
-      <div class="disflex service-btn" @click="phoneCall">
+      <!-- <div class="disflex service-btn" @click="phoneCall">
+        <div class="service-icon"><img src="../../../assets/phone.png" alt=""></div>
+        马上咨询
+      </div> -->
+      <div class="disflex service-btn" @click="aaa">
         <div class="service-icon"><img src="../../../assets/phone.png" alt=""></div>
         马上咨询
       </div>
@@ -45,7 +50,8 @@ export default {
       categoryId: '', // 资料ID
       userId: '', // 用户ID
       contList: [], // 详情内容
-      serviceList: []// 内容列表
+      serviceList: [], // 内容列表
+      qrCode: ''
     }
   },
   onLoad (option) {
@@ -57,6 +63,7 @@ export default {
         id: option.id
       }
     }).then(res => {
+      console.log(res)
       this.contList = res.data.list
       this.serviceList = JSON.parse(res.data.list.keyNotes.replace(/\n/g, '\\n').replace(/\r/g, '\\r'))
     })
@@ -120,6 +127,27 @@ export default {
     },
     share () { // 分享好友
       this.onShareAppMessage()
+    },
+    aaa () {
+      this.$http.get({
+        url: 'api/qrcode/getAccessToken'
+      }).then(res => {
+        console.log(res)
+        this.request({
+          url: 'https://api.weixin.qq.com/wxa/getwxacode?access_token=' + res.data.accessToken,
+          data: { path: 'pages/youken/listDetails/main' },
+          method: 'POST',
+          header: {
+            'content-type': 'application/json'
+          }, // 设置请求的 header
+          success: function (res) {
+            console.log(res)
+          },
+          fail: function () {
+            console.log('index.js wx.request CheckCallUser fail')
+          }
+        })
+      })
     }
   },
   onShareAppMessage (res) {
@@ -127,7 +155,8 @@ export default {
     }
     return {
       title: '转发',
-      path: '/pages/youkun/listDetails/main?id=' + this.categoryId,
+      path: '/pages/youken/listDetails/main?id=' + this.categoryId,
+      imageUrl: 'https://wmqhouse.top/static/system/image/null.png',
       success: function (res) {
         console.log('成功', res)
       }

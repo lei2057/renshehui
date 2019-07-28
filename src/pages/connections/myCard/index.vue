@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 0 10px;">
     <card :userinfo="userinfo"></card>
-    <div class="mycardinfo-btn" @click="exchange">名片交换信息<div class="mycardinfo-num" v-show="userinfo.hasMessage!==0">{{userinfo.hasMessage}}</div></div>
+    <div class="mycardinfo-btn" @click="exchange">名片交换信息<div class="mycardinfo-num">{{cardNum}}</div></div>
     <div class="disflex">
       <div class="mycard-btn" @click="addCard">保存名片</div>
       <div class="mycard-btn">分享名片</div>
@@ -61,8 +61,8 @@ export default {
       this.userinfo = res.data.list[0]
     })
   },
-  onLoad () {
-
+  onLoad (option) {
+    this.cardNum = option.num
   }
 
 }

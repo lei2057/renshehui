@@ -4,15 +4,15 @@
       <img src="https://wmqhouse.top/static/system/image/renmaiBg.png" alt="">
     </div>
     <div class="sousuo-wrapper" id="head_wrapper" v-if="!souShow">
-      <div class="sousuo disflex" >
-        <div class="sousuo-icon"><img src="../../../assets/sousuo.png" alt=""></div>
+      <div class="sousuo disflex">
+        <div class="sousuo-icon" @click="cha"><img src="../../../assets/sousuo.png" alt=""></div>
         <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
         <div class="del-icon" v-if="sousuo" @click="del"><img src="../../../assets/del.png" alt=""></div>
       </div>
     </div>
     <div class="scrollTop-wrapper" :class="{'fixed':setFixed}" v-if="souShow">
       <div class="sousuo disflex">
-        <div class="sousuo-icon"><img src="../../../assets/sousuo.png" alt=""></div>
+        <div class="sousuo-icon" @click="cha"><img src="../../../assets/sousuo.png" alt=""></div>
         <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
         <div class="del-icon" v-if="sousuo" @click="del"><img src="../../../assets/del.png" alt=""></div>
       </div>
@@ -27,8 +27,8 @@
           <div class="cont-name" v-text="userInfo.nickName||'用户姓名'"></div>
           <div class="cont-text" @click="myCard">查看我的名片</div>
         </div>
-        <div class="item-qrcode" v-if="!qrcode"><img src="../../../assets/qrcode.png" alt=""></div>
-        <div class="item-num" v-else>{{cardNum}}</div>
+        <div class="item-qrcode" v-if="!qrcode" @click="qrCodeInfo"><img src="../../../assets/qrcode.png" alt=""></div>
+        <div class="item-num" v-else @click="cardInfo">{{cardNum}}</div>
         <div class="item-icon"><img src="../../../assets/right.png" alt=""></div>
       </div>
       <div class="wrapper-item pd10 vant-blue">
@@ -39,17 +39,18 @@
       </div>
       <div v-if="cont === 0">
         <scroll-view :scroll-y="setFixed">
-          <div class="wrapper-list disflex" v-for="item in dataquan" :key="item.id" @click="myQuan(item.id)">
-            <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
+          <div class="wrapper-list disflex" v-for="item in dataquan" :key="item.id" @click="myQuan(item.id,item.state)">
+            <div class="list-photo"><img :src="item.headPhoto"></div>
             <div class="list-cont flex">
               <div class="list-name">{{item.name}}</div>
               <div class="list-text">{{item.company}}</div>
               <div class="list-text">{{item.userWork}}</div>
             </div>
-            <div class="list-icon">
+            <div class="list-icon" v-if="item.state === '1'||item.state === '2'">
               <div class="jiaohuan-icon"><img src="../../../assets/jiaohuan.png" alt=""></div>
               <div>互换名片</div>
             </div>
+            <div class="list-icon" v-else>已交换名片</div>
           </div>
         </scroll-view>
       </div>
@@ -97,6 +98,21 @@
         </div>
       </van-popup>
     </div>
+    <!-- 我的二维码 -->
+    <div class="vant-css">
+      <van-popup :show="show1" @close="onClose" catchtouchmove="ture">
+        <div class="popup">
+          <div class="popup-out">
+            <div class="popup-icon" @click="onClose"><img src="../../../assets/outMp.png" alt=""></div>
+          </div>
+          <div class="popup-qrcode">
+            <img src="../../../assets/user.png" alt="">
+          </div>
+          <div class="popup-btn">我的二维码</div>
+          <div class="popup-zi">扫描好友屏幕上的二维码即可添加名片</div>
+        </div>
+      </van-popup>
+    </div>
   </div>
 </template>
 
@@ -109,7 +125,7 @@ export default {
   data () {
     return {
       cont: 0, // 内容切换
-      qrcode: false, // 二维码切换
+      qrcode: 0, // 二维码切换
       sousuo: '', // 搜索内容
       setFixed: false,
       headHeight: '', // 获取搜索框高度
@@ -125,7 +141,8 @@ export default {
       empower: true,
       pass: false,
       one: true,
-      two: false
+      two: false,
+      show1: false
     }
   },
   onPageScroll (e) { // 根据滚动的距离执行状态
@@ -180,6 +197,7 @@ export default {
   methods: {
     onClose () {
       this.show = false
+      this.show1 = false
     },
     getOffsetHeight () { // 获取指定DOM高度
       this.query = wx.createSelectorQuery()
@@ -200,25 +218,51 @@ export default {
       })
     },
     onChange (event) {
+      console.log(event.mp.detail)
       this.cont = event.mp.detail.index
       this.qrcode = event.mp.detail.index
+    },
+    qrCodeInfo () {
+      this.show1 = true
+    },
+    cardInfo () { // 信息小红点跳转
+      wx.navigateTo({
+        url: '../exchangeCard/main'
+      })
     },
     del () { // 搜索框删除内容
       this.sousuo = ''
     },
-    myCard () {
-      wx.navigateTo({
-        url: '../myCard/main?num=' + this.cardNum
+    cha () { // 搜索模糊查询
+      let userId = wx.getStorageSync('userId')
+      this.$http.get({
+        url: 'api/appUser/selectAllUsers',
+        data: {
+          data: userId,
+          name: this.sousuo
+        }
+      }).then(res => {
+        this.dataquan = res.data.list
+        console.log(res)
       })
     },
-    myQuan (id) { // 1:表示不是好友状态
+    myCard () {
+      if (!this.userInfo) {
+        this.show = true
+      } else {
+        wx.navigateTo({
+          url: '../myCard/main?num=' + this.cardNum
+        })
+      }
+    },
+    myQuan (id, state) { // 1:表示不是好友状态
       wx.navigateTo({
-        url: '../friendCard/main?id=' + id + '&key=1&num=' + this.cardNum
+        url: '../friendCard/main?id=' + id + '&key=' + state + '&num=' + this.cardNum
       })
     },
     myMingpian (id) {
       wx.navigateTo({
-        url: '../myCard/main?id=' + id
+        url: '../friendCard/main?id=' + id
       })
     },
     onGotUserInfo (e) { // 登录授权
@@ -457,6 +501,28 @@ export default {
       color: #fff;
       text-shadow:1px 2px 5px rgba(166,27,27,0.15);
     }
+  }
+  .popup-qrcode {
+    width: 155px;
+    height: 155px;
+    margin: 20px auto 30px;
+  }
+  .popup-btn {
+    width: 174px;
+    height: 39px;
+    line-height: 39px;
+    background: linear-gradient(-17deg,rgba(58,175,252,1),rgba(50,200,255,1));
+    box-shadow: 1px 2px 5px 0px rgba(0, 0, 0, 0.15);
+    color: #fff;
+    margin: auto;
+    text-align: center;
+    border-radius: 20px;
+  }
+  .popup-zi {
+    font-size: 12px;
+    color: #727272;
+    text-align: center;
+    margin: 20px 0 22px 0;
   }
   .popup-cont {
     margin-top: 15px;

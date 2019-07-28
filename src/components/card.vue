@@ -47,7 +47,7 @@ export default {
   },
   watch: {
     'userinfo' (res) { // 密码遮挡
-      console.log(res)
+      console.log(res, 'friend')
       let phx = res.phone.substring(3, 6)
       let emx = res.email.substring(3, 6)
       this.phone = res.phone.replace(phx, '****')

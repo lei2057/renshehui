@@ -122,6 +122,7 @@ export default {
     },
     cardAdd () {
       let userId = wx.getStorageSync('userId')
+      console.log(userId)
       if (this.checkbox) {
         let emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/
         let data = {

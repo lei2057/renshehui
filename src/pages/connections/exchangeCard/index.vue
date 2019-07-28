@@ -7,53 +7,53 @@
       </van-tabs>
     </div>
     <div v-if="dataarr">
-    <div class="vant-cell"  v-for="item in dataarr" :key="item.id">
-      <div class="cell-item border_cell">
-        <van-swipe-cell id="swipe-cell" :right-width="80" :left-width="1" async-close @close="more">
-          <div class="cell-cont disflex">
-            <div class="cell-photo"><img :src="item.headPhoto" alt=""></div>
-            <div class="cell-info flex">
-              <div class="cell-name">{{item.name}}</div>
-              <div class="cell-text">{{item.company}}</div>
-              <div class="cell-text">{{item.userWork}}</div>
+      <div class="vant-cell">
+        <div class="cell-item border_cell" v-for="item in dataarr" :key="item.id">
+          <van-swipe-cell id="swipe-cell" :right-width="80" :left-width="1" async-close @close="more">
+            <div class="cell-cont disflex">
+              <div class="cell-photo"><img :src="item.headPhoto" alt=""></div>
+              <div class="cell-info flex">
+                <div class="cell-name">{{item.name}}</div>
+                <div class="cell-text">{{item.company}}</div>
+                <div class="cell-text">{{item.userWork}}</div>
+              </div>
+              <div class="cell-state" v-show="item.notificationType==='0'&&item.notificationState==='1'" @click="tongyi(item.id)">
+                <div class="cell-icon"><img src="../../../assets/duihao.png" alt=""></div>
+                <div>同意交换</div>
+              </div>
+              <div class="cell-state" v-show="item.notificationType==='1'&&item.notificationState==='1'">
+                <div class="cell-icon"><img src="../../../assets/duihao.png" alt=""></div>
+                <div>等待中</div>
+              </div>
+              <div class="cell-state" v-show="item.notificationState==='0'">
+                <div class="cell-icon"><img src="../../../assets/yuanjiaohuan.png" alt=""></div>
+                <div>已交换</div>
+              </div>
+              <div class="cell-state" v-if="show1" v-show="item.notificationState==='2'" @click="tixing(item.id)">
+                <div class="cell-icon"><img src="../../../assets/tixing.png" alt=""></div>
+                <div>提醒对方</div>
+              </div>
             </div>
-            <div class="cell-state" v-show="item.notificationType==='0'&&item.notificationState==='1'" @click="tongyi(item.id)">
-              <div class="cell-icon"><img src="../../../assets/duihao.png" alt=""></div>
-              <div>同意交换</div>
+            <span slot="right">
+              <div class="cell-right"><img src="../../../assets/more.png" alt=""></div>
+              <div>更多操作</div>
+            </span>
+          </van-swipe-cell>
+        </div>
+        <div class="vant-popup">
+          <van-popup
+          :show="show"
+          position="bottom"
+          @close="onClose"
+          >
+            <div class="more-list">
+              <div class="more-item border_cell" @click="share">分享名片</div>
+              <div class="more-item" @click="del(item.notificationId)">删除记录</div>
             </div>
-            <div class="cell-state" v-show="item.notificationType==='1'&&item.notificationState==='1'">
-              <div class="cell-icon"><img src="../../../assets/duihao.png" alt=""></div>
-              <div>等待中</div>
-            </div>
-            <div class="cell-state" v-show="item.notificationState==='0'">
-              <div class="cell-icon"><img src="../../../assets/yuanjiaohuan.png" alt=""></div>
-              <div>已交换</div>
-            </div>
-            <div class="cell-state" v-if="show1" v-show="item.notificationState==='2'" @click="tixing(item.id)">
-              <div class="cell-icon"><img src="../../../assets/tixing.png" alt=""></div>
-              <div>提醒对方</div>
-            </div>
-          </div>
-          <span slot="right">
-            <div class="cell-right"><img src="../../../assets/more.png" alt=""></div>
-            <div>更多操作</div>
-          </span>
-        </van-swipe-cell>
+            <div class="more-off" @click="onClose">取消</div>
+          </van-popup>
+        </div>
       </div>
-      <div class="vant-popup">
-        <van-popup
-        :show="show"
-        position="bottom"
-        @close="onClose"
-        >
-          <div class="more-list">
-            <div class="more-item border_cell" @click="share">分享名片</div>
-            <div class="more-item" @click="del(item.notificationId)">删除记录</div>
-          </div>
-          <div class="more-off" @click="onClose">取消</div>
-        </van-popup>
-      </div>
-    </div>
     </div>
     <van-dialog id="van-dialog" />
   </div>
@@ -93,11 +93,12 @@ export default {
           attentionId: attentionId// 发送人id
         }
       }).then(res => {
-
+        console.log(res)
       })
     },
     onChange (event) {
       // 0是收到   1是发出
+      console.log(event.mp.detail)
       this.getdata(event.mp.detail.index)
     },
     more (event) {
@@ -134,7 +135,7 @@ export default {
             userId: this.userId
           }
         }).then(res => {
-          console.log(res)
+          console.log(res, '0')
           this.dataarr = res.data.list
         })
       } else {
@@ -145,7 +146,7 @@ export default {
             userId: this.userId
           }
         }).then(res => {
-          console.log(res)
+          console.log(res, '1')
           this.dataarr = res.data.list
         })
       }
@@ -168,6 +169,8 @@ export default {
     .cell-photo {
       width: 70px;
       height: 70px;
+      border-radius: 50%;
+      overflow: hidden;
     }
     .cell-info {
       margin-left: 10px;

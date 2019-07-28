@@ -43,7 +43,7 @@
     <!-- 内容区  -->
     <scroll-view :scroll-y="setFixed" v-if="contIndex === 0" class="content">
       <ul class="item-wrapper">
-        <li class="list-wrapper" v-for="(item,index) in newListUp" :key="index" @click="next(item.id)">
+        <li class="list-wrapper" v-for="item in newListUp" :key="item" @click="next(item.id)">
           <div class="list-cont disflex">
             <img class="list-left" :src="item.mainImg">
             <div class="flex list-right">
@@ -58,7 +58,7 @@
             <div class="flex">{{item.serviceCompany}}</div>
           </div>
         </li>
-        <li class="list-wrapper" v-for="(item,index) in newList" :key="index" @click="next(item.id)">
+        <li class="list-wrapper" v-for="item in newList" :key="item" @click="next(item.id)">
           <div class="list-cont disflex">
             <img class="list-left" :src="item.mainImg">
             <div class="flex list-right">
@@ -76,7 +76,7 @@
     </scroll-view>
     <scroll-view :scroll-y="setFixed" v-else class="content">
       <ul class="item-wrapper">
-        <li class="list-wrapper" v-for="(item,index) in contList" :key="index" @click="next(item.id)">
+        <li class="list-wrapper" v-for="item in contList" :key="item" @click="next(item.id)">
           <div class="list-cont disflex">
             <img class="list-left" :src="item.mainImg">
             <div class="flex list-right">
@@ -180,6 +180,8 @@ export default {
           url: 'api/SupplyChain/selectAllSupplyChain'
         }).then(res => {
           this.contIndex = event.mp.detail.index
+          this.newListUp = []
+          this.newList = []
           res.data.list.forEach(el => {
             if (el.isUp === '0') {
               this.newListUp.push(el)
