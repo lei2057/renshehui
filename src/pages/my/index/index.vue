@@ -30,11 +30,17 @@
           <div class="my-text flex">人脉消息</div>
           <div class="icon17"><img src="../../../assets/right.png" alt=""></div>
         </div>
-        <div class="my-item border_cell disflex" @click="share">
+        <!-- <div class="my-item border_cell disflex" @click="share">
           <div class="icon20"><img src="../../../assets/tuijian.png" alt=""></div>
           <div class="my-text flex">推荐给好友</div>
-          <div class="icon17"><img src="../../../assets/right.png" alt=""></div>
-        </div>
+          <div class="icon17"><img src="../../../assets/right.png" alt=""></div> -->
+        <cover-view @click="share" class="my-item border_cell disflex">
+          <cover-image class="icon20" mode="widthFix" src="../../../assets/tuijian.png"></cover-image>
+          <cover-view  class="my-text flex">推荐给好友</cover-view>
+          <cover-image  class="icon17" mode="widthFix" src="../../../assets/right.png"></cover-image>
+        </cover-view>
+        <!-- </div> -->
+        
         <div class="my-item disflex" @click="kefu">
           <div class="icon20"><img src="../../../assets/kefu.png" alt=""></div>
           <div class="my-text flex">联系客服</div>
@@ -70,23 +76,41 @@
       </van-popup>
     </div>
     <van-popup :show="show2" @close="onClose" position="bottom">
-      <div class="share-title">推荐小程序</div>
+      <view class='poste_box' id='canvas-container'>
+        <canvas canvas-id="myCanvas" style="width:100%;height:850rpx;" />
+      </view>
       <div class="disflex share-bottom">
-        <div class="flex share-btn">
+        <!-- <div class="flex share-btn">
           <div class="share-icon">
             <img src="../../../assets/pyq.png" alt="">
-          </div>保存海报</div>
-        <div class="flex share-btn">
+          </div>
+          保存海报
+        </div> -->
+        <button @click="saveShareImg" class="flex share-btn">
+          <view  class="share-icon">
+            <cover-image  mode="widthFix" src="../../../assets/pyq.png"></cover-image>
+          </view>
+          <view>保存海报</view>
+        </button>
+        <!-- <div class="flex share-btn">
           <div class="share-icon">
             <img src="../../../assets/haoyou.png" alt="">
-          </div>分享好友</div>
+          </div>
+          分享好友
+        </div> -->
+        <button openType="share" class="flex share-btn">
+          <view  class="share-icon">
+            <cover-image  mode="widthFix" src="../../../assets/pyq.png"></cover-image>
+          </view>
+          <view>分享好友</view>
+        </button>
       </div>
     </van-popup>
     <div class="vant-css">
       <van-popup :show="show3" :overlay="false" @close="onClose" catchtouchmove="ture">
         <div class="popup-kefu">
-          <Popup text="客服提示" @show="onClose"></Popup>
-          <div class="popup-text">海报</div>
+          <!-- <Popup text="客服提示" @show="onClose"></Popup> -->
+          <!-- <div class="popup-text">海报</div> -->
         </div>
       </van-popup>
     </div>
@@ -109,10 +133,177 @@ export default {
       totalMyCard: 0, // 人脉名片总计
       totalDataSource: 0, // 资料收藏总计
       totalChain: 0, // 优肯方案总计
-      userInfo: {}// 用户信息
+      userInfo: {}, // 用户信息
+      cardInfo: {
+        name: '微信名字',
+        msg1: '向你推荐了人社会',
+        msg2: '打开微信扫一扫，即可试用'
+      }
     }
   },
+  onShareAppMessage (res) {
+
+  },
+
   methods: {
+  //  头像
+    getQrCode: function (avaterSrc) {
+      wx.showLoading({
+        title: '生成中...',
+        mask: true
+      })
+      var that = this
+      wx.downloadFile({
+        url: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1558270923349&di=a86ad669e4fcad40a312f51da3544880&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201510%2F20%2F20151020193932_uBAmZ.jpeg', // 二维码路径
+        success: function (res) {
+          wx.hideLoading()
+          if (res.statusCode === 200) {
+            var codeSrc = res.tempFilePath
+            that.sharePosteCanvas(avaterSrc, codeSrc)
+          } else {
+            wx.showToast({
+              title: '二维码下载失败！',
+              icon: 'none',
+              duration: 2000,
+              success: function () {
+                var codeSrc = ''
+                that.sharePosteCanvas(avaterSrc, codeSrc)
+              }
+            })
+          }
+        }
+      })
+    },
+
+    /**
+   * 开始用canvas绘制分享海报
+   * @param avaterSrc 下载的头像图片路径
+   * @param codeSrc   下载的二维码图片路径
+   */
+    sharePosteCanvas: function (avaterSrc, codeSrc) {
+      wx.showLoading({
+        title: '生成中...',
+        mask: true
+      })
+      var that = this
+      // var cardInfo = that.cardInfo // 需要绘制的数据集合
+      const ctx = wx.createCanvasContext('myCanvas', this) // 创建画布
+      var width = ''
+      wx.createSelectorQuery().select('#canvas-container').boundingClientRect(function (rect) {
+        // var height = rect.height * 0.15
+        // var right = rect.right
+        width = rect.width * 0.15
+        var left = rect.left + rect.width * 0.05
+        ctx.setFillStyle('#fff')
+        ctx.fillRect(0, 0, rect.width, rect.height)
+
+        // 头像为正方形
+        if (avaterSrc) {
+          ctx.drawImage(avaterSrc, left, 15, 60, 60)
+          ctx.setFontSize(16)
+          ctx.setFillStyle('#000')
+          ctx.setTextAlign('left')
+        }
+        // 微信名字
+        if (that.userInfo.nickName) {
+          ctx.fillText(that.userInfo.nickName, left + width + 10, 30)
+          ctx.setFontSize(14)
+          ctx.setFillStyle('#000')
+          ctx.setTextAlign('left')
+        }
+        // 推荐语
+        if (that.cardInfo.msg1) {
+          ctx.fillText(that.cardInfo.msg1, left + width + 10, 65)
+          ctx.setFontSize(16)
+          ctx.setFillStyle('#000')
+          ctx.setTextAlign('left')
+        }
+        if (that.cardInfo.msg2) {
+          ctx.fillText(that.cardInfo.msg2, 90, 390)
+          ctx.setFontSize(16)
+          ctx.setFillStyle('#000')
+          ctx.setTextAlign('left')
+        }
+
+        //  绘制二维码
+        if (codeSrc) {
+          ctx.drawImage(codeSrc, 60, 100, 250, 250)
+        }
+      }).exec()
+
+      setTimeout(function () {
+        ctx.draw()
+        wx.hideLoading()
+      }, 1000)
+    },
+
+    getAvaterInfo () {
+      wx.showLoading({
+        title: '生成中...',
+        mask: true
+      })
+      var that = this
+      wx.downloadFile({
+        url: that.userInfo.avatarUrl, // 头像图片路径
+        success: function (res) {
+          wx.hideLoading()
+          if (res.statusCode === 200) {
+            var avaterSrc = res.tempFilePath // 下载成功返回结果
+            that.getQrCode(avaterSrc) // 继续下载二维码图片
+          } else {
+            wx.showToast({
+              title: '头像下载失败！',
+              icon: 'none',
+              duration: 2000,
+              success: function () {
+                var avaterSrc = ''
+                that.getQrCode(avaterSrc)
+              }
+            })
+          }
+        }
+      })
+    },
+    // 点击保存到相册
+    saveShareImg () {
+    // var that = this
+      wx.showLoading({
+        title: '正在保存',
+        mask: true
+      })
+      setTimeout(function () {
+        wx.canvasToTempFilePath({
+          canvasId: 'myCanvas',
+          success: function (res) {
+            wx.hideLoading()
+            var tempFilePath = res.tempFilePath
+            wx.saveImageToPhotosAlbum({
+              filePath: tempFilePath,
+              success (res) {
+              // utils.aiCardActionRecord(19)
+                wx.showModal({
+                  content: '图片已保存到相册，赶紧晒一下吧~',
+                  showCancel: false,
+                  confirmText: '好的',
+                  confirmColor: '#333',
+                  success: function (res) {
+                    if (res.confirm) { }
+                  },
+                  fail: function (res) { }
+                })
+              },
+              fail: function (res) {
+                wx.showToast({
+                  title: res.errMsg,
+                  icon: 'none',
+                  duration: 2000
+                })
+              }
+            })
+          }
+        })
+      }, 1000)
+    },
     onClose () {
       this.show = false
       this.show1 = false
@@ -136,6 +327,7 @@ export default {
       this.show2 = true
       this.show3 = true
       wx.hideTabBar({})
+      this.getAvaterInfo()
     },
     kefu () { // 客服
       this.show1 = true
