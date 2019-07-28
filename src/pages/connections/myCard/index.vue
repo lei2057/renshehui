@@ -4,7 +4,7 @@
     <div class="mycardinfo-btn" @click="exchange">名片交换信息<div class="mycardinfo-num">{{cardNum}}</div></div>
     <div class="disflex">
       <div class="mycard-btn" @click="addCard">保存名片</div>
-      <div class="mycard-btn">分享名片</div>
+      <button class="mycard-btn" open-type="share">分享名片</button>
     </div>
     <div class="vant-css">
       <van-popup :show="show" @close="onClose" catchtouchmove="ture">
@@ -60,6 +60,17 @@ export default {
         this.qrCodeImg = res.data.url
       })
     }
+  },
+  onShareAppMessage () {
+    // var shareObj = {
+    //   title: '转发',
+    //   path: '/pages/youken/listDetails/main?id=' + this.categoryId,
+    //   imageUrl: 'https://wmqhouse.top/static/system/image/null.png',
+    //   success: function (res) {
+    //     console.log('成功', res)
+    //   }
+    // }
+    // return shareObj
   },
   onShow () {
     this.userId = wx.getStorageSync('userId')
