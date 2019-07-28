@@ -72,7 +72,7 @@
         <van-toast id="van-toast" />
       </div>
       <div v-show="!result">
-        <div class="nullCont-img"><img src="../../../assets/null.png" alt=""></div>
+        <div class="nullCont-img"><img src="https://wmqhouse.top/static/system/image/null.png" alt=""></div>
         <div class="nullCont-text">额...换个关键词试试</div>
     </div>
   </div>

@@ -12,12 +12,12 @@
         <div class="activity-cont">{{content.detail}}</div>
       </div>
       <div class="enroll-wrapper disflex">
-        <img src="../../../assets/img02.png" alt="">
+        <img src="https://wmqhouse.top/static/system/image/img02.png" alt="">
         <div class="enroll-introduce disflex">
           此活动已有 <div class="enroll-people" v-if="content.personNum<9999">{{content.personNum}}</div><div class="enroll-people" v-else>9999+</div> 人参与，赶紧报名吧！
         </div>
       </div>
-      <div class="wrapper activity-table" style="background-image: url('../../../assets/activityBg.png');background-size: 100% 100%;">
+      <div class="wrapper activity-table">
         <div class="activity-table-title">活动报名</div>
         <div class="activity-table-input disflex" v-for="(item,index) in enroll" :key="index">
           <div class="input-title">{{item.codition}}：</div>
@@ -219,6 +219,8 @@ export default {
 .activity-table {
   height: 100%;
   margin-bottom: 50px;
+  background-image: url('https://wmqhouse.top/static/system/image/activityBg.png');
+  background-size: 100% 100%;
   .activity-table-title {
     font-size: 17px;
     font-weight: 600;

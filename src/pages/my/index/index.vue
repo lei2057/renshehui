@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="my-bg"><img src="../../../assets/renmaiBg.png"></div>
+    <div class="my-bg"><img src="https://wmqhouse.top/static/system/image/renmaiBg.png"></div>
     <div class="my-cont">
       <div class="my-photo disflex" v-if="!userInfo">
         <div class="icon100"><img src="../../../assets/user.png" alt=""></div>
@@ -193,6 +193,7 @@ export default {
   },
   onShow () { // mountend
     let userId = wx.getStorageSync('userId')
+    console.log(userId)
     if (userId) {
       this.$http.get({
         url: 'api/appUser/selectUserByUserId',
@@ -200,6 +201,7 @@ export default {
           id: userId
         }
       }).then(res => {
+        console.log(res.data.list)
         this.totalMyCard = res.data.list[0].totalMyCard
         this.totalDataSource = res.data.list[0].totalDataSource
         this.totalChain = res.data.list[0].totalChain

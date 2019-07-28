@@ -3,20 +3,20 @@
     <!-- 弹出层  -->
     <van-popup :show="show" @close="onClose" catchtouchmove="ture">
       <div class="popup">
-        <div class="popup-top" style="background-image: url('../../../assets/empowerBg.png'); background-size: 100% 100%;">
+        <div class="popup-top">
           <div class="popup-out">
-            <div class="popup-icon" @click="onClose"><img src="../../../assets/out.png" alt=""></div>
+            <div class="popup-icon" @click="onClose"><img src="../../../assets/out.png"></div>
           </div>
           <div class="popup-title">温馨提示</div>
         </div>
         <div class="popup-cont">
           <div class="popup-text">为了带来更好的用户体验我们建议你使用微信登录</div>
           <div class="popup-empower disflex">
-            <div class="empower-icon"><img src="../../../assets/user.png" alt=""></div>
-            <div class="empower-center-icon"><img src="../../../assets/jiaohuan.png" alt=""></div>
-            <div class="empower-icon"><img src="../../../assets/youken.png" alt=""></div>
+            <div class="empower-icon"><img src="../../../assets/user.png"></div>
+            <div class="empower-center-icon"><img src="../../../assets/jiaohuan.png"></div>
+            <div class="empower-icon"><img src="../../../assets/youken.png"></div>
           </div>
-          <div class="popup-btn disflex"><div class="btn-icon"><img src="../../../assets/weixin.png" alt=""></div>微信登陆</div>
+          <div class="popup-btn disflex"><div class="btn-icon"><img src="../../../assets/weixin.png"></div>微信登陆</div>
         </div>
       </div>
     </van-popup>
@@ -44,8 +44,8 @@
     <scroll-view :scroll-y="setFixed" v-if="contIndex === 0" class="content">
       <ul class="item-wrapper">
         <li class="list-wrapper" v-for="(item,index) in newListUp" :key="index" @click="next(item.id)">
-          <div class="list-cont disflex" style="background-image: url('../../../assets/listBg.png'); background-size: 100% 100%;">
-            <img class="list-left" :src="item.mainImg" alt="">
+          <div class="list-cont disflex">
+            <img class="list-left" :src="item.mainImg">
             <div class="flex list-right">
               <div class="right-title"><div class="title-text">{{item.category}}</div></div>
               <div class="right-cont">{{item.title}}</div>
@@ -54,13 +54,13 @@
             <div class="tag">置顶</div>
           </div>
           <div class="disflex pd10">
-            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg" alt=""></div>
+            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg"></div>
             <div class="flex">{{item.serviceCompany}}</div>
           </div>
         </li>
         <li class="list-wrapper" v-for="(item,index) in newList" :key="index" @click="next(item.id)">
-          <div class="list-cont disflex" style="background-image: url('../../../assets/listBg.png'); background-size: 100% 100%;">
-            <img class="list-left" :src="item.mainImg" alt="">
+          <div class="list-cont disflex">
+            <img class="list-left" :src="item.mainImg">
             <div class="flex list-right">
               <div class="right-title"><div class="title-text">{{item.category}}</div></div>
               <div class="right-cont">{{item.title}}</div>
@@ -68,7 +68,7 @@
             </div>
           </div>
           <div class="disflex pd10">
-            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg" alt=""></div>
+            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg"></div>
             <div class="flex">{{item.serviceCompany}}</div>
           </div>
         </li>
@@ -77,8 +77,8 @@
     <scroll-view :scroll-y="setFixed" v-else class="content">
       <ul class="item-wrapper">
         <li class="list-wrapper" v-for="(item,index) in contList" :key="index" @click="next(item.id)">
-          <div class="list-cont disflex" style="background-image: url('../../../assets/listBg.png'); background-size: 100% 100%;">
-            <img class="list-left" :src="item.mainImg" alt="">
+          <div class="list-cont disflex">
+            <img class="list-left" :src="item.mainImg">
             <div class="flex list-right">
               <div class="right-title"><div class="title-text">{{item.category}}</div></div>
               <div class="right-cont">{{item.title}}</div>
@@ -86,7 +86,7 @@
             </div>
           </div>
           <div class="disflex pd10">
-            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg" alt=""></div>
+            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg"></div>
             <div class="flex">{{item.serviceCompany}}</div>
           </div>
         </li>
@@ -118,16 +118,6 @@ export default {
     }).then(res => {
       this.navList = res.data
     })
-  },
-  onShow () {
-    this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
-      this.getOffsetHeight()
-    })
-    this.$http.get({
-      url: 'api/activity/selectAllActivity'
-    }).then(res => {
-      this.imgUrls = res.data.slice(0, 5)
-    })
     this.$http.get({
       url: 'api/SupplyChain/selectAllSupplyChain'
     }).then(res => {
@@ -138,6 +128,16 @@ export default {
           this.newList.push(el)
         }
       })
+    })
+  },
+  onShow () {
+    this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
+      this.getOffsetHeight()
+    })
+    this.$http.get({
+      url: 'api/activity/selectAllActivity'
+    }).then(res => {
+      this.imgUrls = res.data.slice(0, 5)
     })
   },
   onPageScroll (e) {
@@ -259,6 +259,8 @@ export default {
       .list-cont {
         position: relative;
         overflow: hidden;
+        background-image: url('https://wmqhouse.top/static/system/image/listBg.png');
+        background-size: 100% 100%;
         .list-left {
           width: 175px;
           height: 110px;
@@ -274,7 +276,7 @@ export default {
             .title-text {
               background: #3AAFFC;
               color: #fff;
-              width: 62px;
+              // width: 62px;
               padding: 2px 0 2px 8px;
               border-bottom-left-radius: 8px;
               border-top-left-radius: 8px;
@@ -325,6 +327,8 @@ export default {
   width: 275px;
   .popup-top {
     height: 65px;
+    background-image: url('https://wmqhouse.top/static/system/image/empowerBg.png');
+    background-size: 100% 100%;
     .popup-out {
       height: 25px;
       display: flex;

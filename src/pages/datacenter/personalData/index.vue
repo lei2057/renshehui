@@ -50,7 +50,7 @@
             </div>
           </div>
           <div v-show="!result">
-            <div class="nullCont-img"><img src="../../../assets/null.png" alt=""></div>
+            <div class="nullCont-img"><img src="https://wmqhouse.top/static/system/image/null.png" alt=""></div>
             <div class="nullCont-text">还没有资料哦，赶紧去海量资料查找</div>
           </div>
         </div>

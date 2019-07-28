@@ -25,7 +25,7 @@
     <div class="vant-css">
       <van-popup :show="show1" @close="onClose" catchtouchmove="ture">
         <div class="popup">
-          <div class="popup-top" style="background-image: url('../../../assets/empowerBg.png'); background-size: 100% 100%;">
+          <div class="popup-top">
             <div class="popup-out">
               <div class="popup-icon" @click="onClose"><img src="../../../assets/out.png" alt=""></div>
             </div>
@@ -184,6 +184,8 @@ export default {
   width: 275px;
   .popup-top {
     height: 65px;
+    background-image: url('https://wmqhouse.top/static/system/image/empowerBg.png'); 
+    background-size: 100% 100%;
     .popup-out {
       height: 25px;
       display: flex;

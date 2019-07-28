@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="newCard-title disflex" style="background-image: url('../../../assets/cardBg.png');background-size: 100% 100%;">
+    <div class="newCard-title disflex">
       <div class="newCard-photo"><img :src="userInfo.avatarUrl" alt=""></div>
       <div class="newCard-text flex">
         <div style="margin-bottom: 8px;">昵称：{{userInfo.nickName}}</div>
@@ -196,6 +196,8 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   margin: 0 13px;
+  background-image: url('https://wmqhouse.top/static/system/image/cardBg.png');
+  background-size: 100% 100%;
   .newCard-photo {
     width: 90px;
     height: 90px;

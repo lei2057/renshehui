@@ -2,7 +2,7 @@
   <div>
     <div class="collection-wrapper" v-if="!listinfo">
       <div class="collection-title">空空如也</div>
-      <div class="collection-img"><img src="../../../assets/collection.png" alt=""></div>
+      <div class="collection-img"><img src="https://wmqhouse.top/static/system/image/collection.png" alt=""></div>
       <div class="collection-text">
         <div>1.打开优肯，选择你感兴趣的供应链服务</div>
         <div>2.点击右上角的收藏即可添加收藏到这了</div>

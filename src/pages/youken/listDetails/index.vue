@@ -1,6 +1,6 @@
 <template>
   <div class="pd10">
-    <div class="details-wrapper" style="background-image: url('../../../assets/detailsBg.png'); background-size: 100% 100%;">
+    <div class="details-wrapper">
       <div class="details-cont">
         <div class="disflex">
           <div class="title-text flex">{{contList.title}}</div>
@@ -25,11 +25,11 @@
       </div>
     </div>
     <div class="service-wrapper">
-      <div class="disflex service-btn">
+      <button class="disflex service-btn" @click="share" open-type="share">
         <div class="service-icon"><img src="../../../assets/top.png" alt=""></div>
         分享好友
-      </div>
-      <div class="disflex service-btn">
+      </button>
+      <div class="disflex service-btn" @click="phoneCall">
         <div class="service-icon"><img src="../../../assets/phone.png" alt=""></div>
         马上咨询
       </div>
@@ -42,12 +42,14 @@ export default {
   data () {
     return {
       xin: false,
-      categoryId: '', // ID
+      categoryId: '', // 资料ID
+      userId: '', // 用户ID
       contList: [], // 详情内容
       serviceList: []// 内容列表
     }
   },
   onLoad (option) {
+    this.userId = wx.getStorageSync('userId')
     this.categoryId = option.id
     this.$http.get({
       url: 'api/SupplyChain/selectById',
@@ -55,17 +57,16 @@ export default {
         id: option.id
       }
     }).then(res => {
-      this.contList = res.data[0]
-      this.serviceList = JSON.parse(res.data[0].keyNotes.replace(/\n/g, '\\n').replace(/\r/g, '\\r'))
+      this.contList = res.data.list
+      this.serviceList = JSON.parse(res.data.list.keyNotes.replace(/\n/g, '\\n').replace(/\r/g, '\\r'))
     })
     this.$http.get({
       url: 'api/SupplyChain/showMyfavoritesState',
       data: {
-        userId: '1',
+        userId: this.userId,
         categoryId: option.id
       }
     }).then(res => {
-      console.log(res)
       // 1是未收藏
       if (res.data.res === '1') {
         this.xin = false
@@ -75,16 +76,15 @@ export default {
     })
   },
   methods: {
-    collect () {
+    collect () { // 收藏
       if (!this.xin) {
         this.$http.get({
           url: 'api/SupplyChain/insertMyfavorites',
           data: {
-            userId: '1',
+            userId: this.userId,
             categoryId: this.categoryId
           }
         }).then(res => {
-          console.log(res)
           this.xin = true
           wx.showToast({
             title: '已收藏',
@@ -98,11 +98,10 @@ export default {
         this.$http.get({
           url: 'api/SupplyChain/delMyfavoritesChain',
           data: {
-            userId: '1',
+            userId: this.userId,
             categoryId: this.categoryId
           }
         }).then(res => {
-          console.log(res)
           this.xin = false
           wx.showToast({
             title: '取消收藏',
@@ -112,6 +111,25 @@ export default {
             wx.hideLoading()
           }, 2000)
         })
+      }
+    },
+    phoneCall () { // 客服拨打电话
+      wx.makePhoneCall({
+        phoneNumber: '0571-85378987'
+      })
+    },
+    share () { // 分享好友
+      this.onShareAppMessage()
+    }
+  },
+  onShareAppMessage (res) {
+    if (res.from === 'button') {
+    }
+    return {
+      title: '转发',
+      path: '/pages/youkun/listDetails/main?id=' + this.categoryId,
+      success: function (res) {
+        console.log('成功', res)
       }
     }
   }
@@ -125,6 +143,8 @@ export default {
   margin-bottom: 15px;
   box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  background-image: url('https://wmqhouse.top/static/system/image/detailsBg.png'); 
+  background-size: 100% 100%;
   .details-cont {
     margin-left: 18px;
     padding-top: 12px;

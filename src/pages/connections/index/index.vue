@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="connectionsBg">
-      <img src="../../../assets/renmaiBg.png" alt="">
+      <img src="https://wmqhouse.top/static/system/image/renmaiBg.png" alt="">
     </div>
     <div class="sousuo-wrapper" id="head_wrapper" v-if="!souShow">
       <div class="sousuo disflex" >
@@ -67,14 +67,14 @@
             </div>
           </div>
         </div>
-        <null v-if="datamingpian.length === 0" text="你还没有收到名片哦赶紧去人脉圈交换吧" img="../../../assets/null.png"></null>
+        <null v-if="datamingpian.length === 0" text="你还没有收到名片哦赶紧去人脉圈交换吧" img="https://wmqhouse.top/static/system/image/null.png"></null>
       </div>
     </div>
     <!-- 弹出层  -->
     <div class="vant-css">
       <van-popup :show="show" @close="onClose" catchtouchmove="ture">
         <div class="popup">
-          <div class="popup-top" style="background-image: url('../../../assets/empowerBg.png'); background-size: 100% 100%;">
+          <div class="popup-top">
             <div class="popup-out">
               <div class="popup-icon" @click="onClose"><img src="../../../assets/out.png" alt=""></div>
             </div>
@@ -138,7 +138,7 @@ export default {
       this.souShow = false
     }
   },
-  onLoad () { // created
+  onLoad () {
     this.userInfo = wx.getStorageSync('userInfo')
     wx.checkSession({
       success: (res) => {
@@ -151,8 +151,9 @@ export default {
       }
     })
   },
-  onShow () { // mountend
+  onShow () {
     let userId = wx.getStorageSync('userId')
+    this.userInfo = wx.getStorageSync('userInfo')
     this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
       this.getOffsetHeight()
     })
@@ -437,6 +438,8 @@ export default {
   width: 275px;
   .popup-top {
     height: 65px;
+    background-image: url('https://wmqhouse.top/static/system/image/empowerBg.png'); 
+    background-size: 100% 100%;
     .popup-out {
       height: 25px;
       display: flex;

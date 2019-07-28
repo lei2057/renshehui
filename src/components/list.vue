@@ -1,7 +1,7 @@
 <template>
   <div class="list-wrapper">
     <div  v-for="(item,index) in listinfo" :key="index">
-      <div class="list-cont disflex" style="background-image: url('../assets/listBg.png'); background-size: 100% 100%;">
+      <div class="list-cont disflex">
         <img class="list-left" :src="item.mainImg" alt="">
         <div class="flex list-right">
           <div class="right-title"><div class="title-text">{{item.category}}</div></div>
@@ -39,7 +39,8 @@ export default {
   border-radius: 8px;
   margin-bottom: 5px; 
   .list-cont {
-    
+    background-image: url('https://wmqhouse.top/static/system/image/listBg.png');
+    background-size: 100% 100%;
     .list-left {
       width: 175px;
       height: 110px;

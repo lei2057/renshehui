@@ -1,5 +1,5 @@
-// const host = 'http://192.168.10.6/'
-const host = 'http://192.168.10.13/'
+const host = 'http://192.168.10.69/'
+// const host = 'http://192.168.10.13/'
 
 function request (url, method, data, header = {}) {
   wx.showLoading({
