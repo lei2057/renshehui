@@ -2,16 +2,11 @@
   <div>
      <div class="z-top">
        <img class="bgtu" src="../../../assets/bg.png" alt="">
-<<<<<<< HEAD
-       <img class="wjtu" :src="data.type==0?'https://wmqhouse.top/static/system/image/wordicon.png':data.type==1?'https://wmqhouse.top/static/system/image/tabericon.png':data.type==2?'../../../assets/ppticon.png':data.type==3?'../../../assets/picon.png':data.type==4?'https://wmqhouse.top/static/system/image/yasuoicon.png':'https://wmqhouse.top/static/system/image/qitaicon.png'" alt="">
-       <img class="fxtu" src="../../../assets/fenxiang.png" alt="">
-=======
        <img class="wjtu" :src="data.type==0?'../../../assets/wordicon.png':data.type==1?'../../../assets/tabericon.png':data.type==2?'../../../assets/ppticon.png':data.type==3?'../../../assets/picon.png':data.type==4?'../../../assets/yasuoicon.png':'../../../assets/qitaicon.png'" alt="">
        <!-- <img class="fxtu" src="../../../assets/fenxiang.png" alt=""> -->
        <button  class="fxtu" openType="share">
           <cover-image  mode="widthFix" src="../../../assets/fenxiang.png"></cover-image>
       </button>
->>>>>>> ef72e1f1d04a002e83e2e14b0de25b50d9b5537f
        <p class="p1">文件名称：{{data.title}}</p>
        <p class="p2">存储模式：百度云盘</p><p  class="p3">文件格式：{{type}}</p>
        <p class="p4">共享时间：{{data.publishTime}}</p>
