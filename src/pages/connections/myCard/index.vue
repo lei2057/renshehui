@@ -4,7 +4,7 @@
     <div class="mycardinfo-btn" @click="exchange">名片交换信息<div class="mycardinfo-num">{{cardNum}}</div></div>
     <div class="disflex">
       <div class="mycard-btn" @click="addCard">保存名片</div>
-      <div class="mycard-btn">分享名片</div>
+      <button class="mycard-btn" open-type="share">分享名片</button>
     </div>
     <div class="vant-css">
       <van-popup :show="show" @close="onClose" catchtouchmove="ture">
@@ -13,7 +13,7 @@
             <div class="popup-icon" @click="onClose"><img src="../../../assets/outMp.png" alt=""></div>
           </div>
           <div class="popup-qrcode">
-            <img src="../../../assets/user.png" alt="">
+            <img :src="qrCodeImg" alt="">
           </div>
           <div class="popup-btn">我的二维码</div>
           <div class="popup-text">扫描好友屏幕上的二维码即可添加名片</div>
@@ -33,7 +33,9 @@ export default {
     return {
       show: false, // 弹框
       userinfo: [],
-      cardNum: 0
+      cardNum: 0,
+      userId: '',
+      qrCodeImg: ''
     }
   },
   methods: {
@@ -47,14 +49,35 @@ export default {
     },
     addCard () {
       this.show = true
+      this.$http.get({
+        url: '/api/qrcode/getUserQrcode',
+        data: {
+          url: '/pages/connections/addCard/main',
+          userId: this.userId
+        }
+      }).then(res => {
+        console.log(res)
+        this.qrCodeImg = res.data.url
+      })
     }
   },
+  onShareAppMessage () {
+    // var shareObj = {
+    //   title: '转发',
+    //   path: '/pages/youken/listDetails/main?id=' + this.categoryId,
+    //   imageUrl: 'https://wmqhouse.top/static/system/image/null.png',
+    //   success: function (res) {
+    //     console.log('成功', res)
+    //   }
+    // }
+    // return shareObj
+  },
   onShow () {
-    let userId = wx.getStorageSync('userId')
+    this.userId = wx.getStorageSync('userId')
     this.$http.get({
       url: 'api/appUser/selectUserById',
       data: {
-        id: userId
+        id: this.userId
       }
     }).then(res => {
       console.log(res)

@@ -320,7 +320,10 @@ export default {
     },
 
     message () {
-      this.show = true
+      // this.show = true
+      wx.makePhoneCall({
+        phoneNumber: '0571-85378987'
+      })
     },
     share () {
       this.show1 = true

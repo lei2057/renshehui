@@ -8,7 +8,7 @@
     </div>
     <div v-if="dataarr">
       <div class="vant-cell">
-        <div class="cell-item border_cell" v-for="item in dataarr" :key="item.id">
+        <div class="cell-item border_cell1" v-for="item in dataarr" :key="item.id">
           <van-swipe-cell id="swipe-cell" :right-width="80" :left-width="1" async-close @close="more">
             <div class="cell-cont disflex">
               <div class="cell-photo"><img :src="item.headPhoto" alt=""></div>
@@ -61,6 +61,7 @@
 
 <script>
 import Dialog from '../../../../static/vant/dialog/dialog'
+import Toast from '../../../../static/vant/toast/toast'
 export default {
   data () {
     return {
@@ -94,6 +95,7 @@ export default {
         }
       }).then(res => {
         console.log(res)
+        Toast('已同意申请')
       })
     },
     onChange (event) {

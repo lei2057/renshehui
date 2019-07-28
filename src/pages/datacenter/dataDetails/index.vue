@@ -2,7 +2,7 @@
   <div>
      <div class="z-top">
        <img class="bgtu" src="../../../assets/bg.png" alt="">
-       <img class="wjtu" :src="data.type==0?'../../../assets/wordicon.png':data.type==1?'../../../assets/tabericon.png':data.type==2?'../../../assets/ppticon.png':data.type==3?'../../../assets/picon.png':data.type==4?'../../../assets/yasuoicon.png':'../../../assets/qitaicon.png'" alt="">
+       <img class="wjtu" :src="data.type==0?'https://wmqhouse.top/static/system/image/wordicon.png':data.type==1?'../../../assets/tabericon.png':data.type==2?'../../../assets/ppticon.png':data.type==3?'../../../assets/picon.png':data.type==4?'../../../assets/yasuoicon.png':'https://wmqhouse.top/static/system/image/qitaicon.png'" alt="">
        <!-- <img class="fxtu" src="../../../assets/fenxiang.png" alt=""> -->
        <button  class="fxtu" openType="share">
           <cover-image  mode="widthFix" src="../../../assets/fenxiang.png"></cover-image>

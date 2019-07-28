@@ -29,7 +29,7 @@
         </div>
         <div class="item-qrcode" v-if="!qrcode" @click="qrCodeInfo"><img src="../../../assets/qrcode.png" alt=""></div>
         <div class="item-num" v-else @click="cardInfo">{{cardNum}}</div>
-        <div class="item-icon"><img src="../../../assets/right.png" alt=""></div>
+        <!-- <div class="item-icon"><img src="../../../assets/right.png" alt=""></div> -->
       </div>
       <div class="wrapper-item pd10 vant-blue">
         <van-tabs type="card" @change="onChange">
@@ -106,7 +106,7 @@
             <div class="popup-icon" @click="onClose"><img src="../../../assets/outMp.png" alt=""></div>
           </div>
           <div class="popup-qrcode">
-            <img src="../../../assets/user.png" alt="">
+            <img :src="qrCodeImg" alt="">
           </div>
           <div class="popup-btn">我的二维码</div>
           <div class="popup-zi">扫描好友屏幕上的二维码即可添加名片</div>
@@ -142,7 +142,8 @@ export default {
       pass: false,
       one: true,
       two: false,
-      show1: false
+      show1: false,
+      qrCodeImg: ''
     }
   },
   onPageScroll (e) { // 根据滚动的距离执行状态
@@ -157,6 +158,7 @@ export default {
   },
   onLoad () {
     this.userInfo = wx.getStorageSync('userInfo')
+    let userId = wx.getStorageSync('userId')
     wx.checkSession({
       success: (res) => {
         console.log(res)
@@ -166,6 +168,16 @@ export default {
         wx.removeStorageSync('userInfo')
         wx.removeStorageSync('userId')
       }
+    })
+    this.$http.get({// 二维码
+      url: '/api/qrcode/getUserQrcode',
+      data: {
+        url: '/pages/connections/addCard/main',
+        userId: userId
+      }
+    }).then(res => {
+      console.log(res)
+      this.qrCodeImg = res.data.url
     })
   },
   onShow () {
@@ -234,17 +246,31 @@ export default {
       this.sousuo = ''
     },
     cha () { // 搜索模糊查询
+      console.log(this.cont)
       let userId = wx.getStorageSync('userId')
-      this.$http.get({
-        url: 'api/appUser/selectAllUsers',
-        data: {
-          data: userId,
-          name: this.sousuo
-        }
-      }).then(res => {
-        this.dataquan = res.data.list
-        console.log(res)
-      })
+      if (this.cont === 0) {
+        this.$http.get({
+          url: 'api/appUser/selectAllUsers',
+          data: {
+            data: userId,
+            name: this.sousuo
+          }
+        }).then(res => {
+          this.dataquan = res.data.list
+          console.log(res)
+        })
+      } else {
+        this.$http.get({
+          url: 'api/appUser/selectMyCard',
+          data: {
+            userId: userId,
+            query: this.sousuo
+          }
+        }).then(res => {
+          this.datamingpian = res.data.list
+          console.log(res)
+        })
+      }
     },
     myCard () {
       if (!this.userInfo) {

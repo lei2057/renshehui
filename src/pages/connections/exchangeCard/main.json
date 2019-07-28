@@ -5,6 +5,7 @@
     "van-tabs": "/static/vant/tabs/index",
     "van-swipe-cell": "/static/vant/swipe-cell/index",
     "van-dialog": "/static/vant/dialog/index",
-    "van-popup": "/static/vant/popup/index"
+    "van-popup": "/static/vant/popup/index",
+    "van-toast":"/static/vant/toast/index"
   }
 }
