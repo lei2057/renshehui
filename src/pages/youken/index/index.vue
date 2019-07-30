@@ -41,7 +41,7 @@
       </div>
     </div>
     <!-- 内容区  -->
-    <scroll-view :scroll-y="setFixed" v-if="contIndex === 0" class="content">
+    <!-- <scroll-view :scroll-y="setFixed" v-if="contIndex === 0" class="content">
       <ul class="item-wrapper">
         <li class="list-wrapper" v-for="item in newListUp" :key="item" @click="next(item.id)">
           <div class="list-cont disflex">
@@ -73,12 +73,12 @@
           </div>
         </li>
       </ul>
-    </scroll-view>
-    <scroll-view :scroll-y="setFixed" v-else class="content">
+    </scroll-view> -->
+    <scroll-view :scroll-y="setFixed" class="content">
       <ul class="item-wrapper">
         <li class="list-wrapper" v-for="item in contList" :key="item" @click="next(item.id)">
           <div class="list-cont disflex">
-            <img class="list-left" :src="item.serviceCompanyImg">
+            <img class="list-left" :src="item.mainImg">
             <div class="flex list-right">
               <div class="right-title"><div class="title-text">{{item.category}}</div></div>
               <div class="right-cont">{{item.title}}</div>
@@ -86,7 +86,7 @@
             </div>
           </div>
           <div class="disflex pd10">
-            <div class="list-bottom-icon"><img :src="item.mainImg"></div>
+            <div class="list-bottom-icon"><img :src="item.serviceCompanyImg"></div>
             <div class="flex">{{item.serviceCompany}}</div>
           </div>
         </li>
@@ -128,16 +128,13 @@ export default {
       url: 'api/SupplyChain/selectAllChainType'
     }).then(res => {
       this.navList = res.data.list
-    })
-    this.$http.get({
-      url: 'api/SupplyChain/selectAllSupplyChain'
-    }).then(res => {
-      res.data.list.forEach(el => {
-        if (el.isUp === '0') {
-          this.newListUp.push(el)
-        } else {
-          this.newList.push(el)
+      this.$http.get({
+        url: 'api/SupplyChain/queryChildTypesById',
+        data: {
+          parentId: this.navList[this.contIndex].id
         }
+      }).then(res => {
+        this.contList = res.data.list
       })
     })
   },
@@ -182,42 +179,42 @@ export default {
         .exec()
     },
     onChange (event) {
-      let index = event.mp.detail.index
-      if (index === 0) {
-        wx.showLoading({
-          title: '加载中'
-        })
-        this.$http.get({
-          url: 'api/SupplyChain/selectAllSupplyChain'
-        }).then(res => {
-          this.contIndex = event.mp.detail.index
-          this.newListUp = []
-          this.newList = []
-          res.data.list.forEach(el => {
-            if (el.isUp === '0') {
-              this.newListUp.push(el)
-            } else {
-              this.newList.push(el)
-            }
-          })
-          wx.hideLoading()
-        })
-      } else {
-        let id = this.navList[event.mp.detail.index - 1].id
-        wx.showLoading({
-          title: '加载中'
-        })
-        this.$http.get({
-          url: 'api/SupplyChain/queryChildTypesById',
-          data: {
-            parentId: id
-          }
-        }).then(res => {
-          this.contIndex = event.mp.detail.index
-          this.contList = res.data.list
-          wx.hideLoading()
-        })
-      }
+      // let index = event.mp.detail.index
+      // if (index === 0) {
+      //   wx.showLoading({
+      //     title: '加载中'
+      //   })
+      //   this.$http.get({
+      //     url: 'api/SupplyChain/selectAllSupplyChain'
+      //   }).then(res => {
+      //     this.contIndex = event.mp.detail.index
+      //     this.newListUp = []
+      //     this.newList = []
+      //     res.data.list.forEach(el => {
+      //       if (el.isUp === '0') {
+      //         this.newListUp.push(el)
+      //       } else {
+      //         this.newList.push(el)
+      //       }
+      //     })
+      //     wx.hideLoading()
+      //   })
+      // } else {
+      let id = this.navList[event.mp.detail.index].id
+      wx.showLoading({
+        title: '加载中'
+      })
+      this.$http.get({
+        url: 'api/SupplyChain/queryChildTypesById',
+        data: {
+          parentId: id
+        }
+      }).then(res => {
+        this.contIndex = event.mp.detail.index
+        this.contList = res.data.list
+        wx.hideLoading()
+      })
+      // }
     },
     activity (id) { // 活动页面详情跳转
       console.log(id)

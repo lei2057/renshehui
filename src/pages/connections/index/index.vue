@@ -6,14 +6,14 @@
     <div class="sousuo-wrapper" id="head_wrapper" v-if="!souShow">
       <div class="sousuo disflex">
         <div class="sousuo-icon" @click="cha"><img src="../../../assets/sousuo.png" alt=""></div>
-        <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
+        <input class="flex sousuo-input" v-model="sousuo" type="text" @confirm="saveKeyword" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
         <div class="del-icon" v-if="sousuo" @click="del"><img src="../../../assets/del.png" alt=""></div>
       </div>
     </div>
     <div class="scrollTop-wrapper" :class="{'fixed':setFixed}" v-if="souShow">
       <div class="sousuo disflex">
         <div class="sousuo-icon" @click="cha"><img src="../../../assets/sousuo.png" alt=""></div>
-        <input class="flex sousuo-input" v-model="sousuo" type="text" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
+        <input class="flex sousuo-input" v-model="sousuo" type="text" @confirm="saveKeyword" placeholder="搜索姓名或公司名称" placeholder-style="font-size: 12px;text-align: center;">
         <div class="del-icon" v-if="sousuo" @click="del"><img src="../../../assets/del.png" alt=""></div>
       </div>
       <div class="scrollTop disflex" @click="scrollTop">
@@ -27,14 +27,14 @@
           <div class="cont-name" v-text="userInfo.nickName||'用户姓名'"></div>
           <div class="cont-text" @click="myCard">查看我的名片</div>
         </div>
-        <div class="item-qrcode" v-if="!qrcode" @click="qrCodeInfo"><img src="../../../assets/qrcode.png" alt=""></div>
-        <div class="item-num" v-else @click="cardInfo">{{cardNum}}</div>
+        <div class="item-qrcode" @click="qrCodeInfo"><img src="../../../assets/qrcode.png" alt=""></div>
+        <!-- <div class="item-num" v-else @click="cardInfo">{{cardNum}}</div> -->
         <!-- <div class="item-icon"><img src="../../../assets/right.png" alt=""></div> -->
       </div>
       <div class="wrapper-item pd10 vant-blue">
         <van-tabs type="card" @change="onChange">
           <van-tab title="人脉圈"></van-tab>
-          <van-tab title="名片夹"></van-tab>
+          <van-tab title="名片夹" :info="cardNum"></van-tab>
         </van-tabs>
       </div>
       <div v-if="cont === 0">
@@ -55,20 +55,18 @@
         </scroll-view>
       </div>
       <div v-if="cont === 1">
-        <div v-if="datamingpian">
-          <div class="wrapper-list disflex" v-for="item in datamingpian" :key="item" @click="myMingpian(item.id)">
-            <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
-            <div class="list-cont flex">
-              <div class="list-name">{{item.name}}</div>
-              <div class="list-text">{{item.company}}</div>
-              <div class="list-text">{{item.userWork}}</div>
-            </div>
-            <div class="list-icon">
-              <div class="phone-icon"><img src="../../../assets/phoneMp.png" alt=""></div>
-            </div>
+        <div class="wrapper-list disflex" v-for="item in datamingpian" :key="item" @click="myMingpian(item.id)">
+          <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
+          <div class="list-cont flex">
+            <div class="list-name">{{item.name}}</div>
+            <div class="list-text">{{item.company}}</div>
+            <div class="list-text">{{item.userWork}}</div>
+          </div>
+          <div class="list-icon">
+            <div class="phone-icon"><img src="../../../assets/phoneMp.png" alt=""></div>
           </div>
         </div>
-        <null v-else text="你还没有收到名片哦赶紧去人脉圈交换吧" img="https://wmqhouse.top/static/system/image/null.png"></null>
+        <null text="你还没有收到名片哦赶紧去人脉圈交换吧" img="https://wmqhouse.top/static/system/image/null.png"></null>
       </div>
     </div>
     <!-- 弹出层  -->
@@ -159,16 +157,6 @@ export default {
   onLoad () {
     this.userInfo = wx.getStorageSync('userInfo')
     let userId = wx.getStorageSync('userId')
-    wx.checkSession({
-      success: (res) => {
-        console.log(res)
-      },
-      fail: () => {
-        this.show = true
-        wx.removeStorageSync('userInfo')
-        wx.removeStorageSync('userId')
-      }
-    })
     this.$http.get({// 二维码
       url: '/api/qrcode/getUserQrcode',
       data: {
@@ -176,15 +164,33 @@ export default {
         userId: userId
       }
     }).then(res => {
-      console.log(res)
       this.qrCodeImg = res.data.url
     })
   },
   onShow () {
     let userId = wx.getStorageSync('userId')
     this.userInfo = wx.getStorageSync('userInfo')
+    let phone = wx.getStorageSync('phone')
     this.$nextTick(() => { // 稍微延迟一下，获取头部部分高度
       this.getOffsetHeight()
+    })
+    wx.checkSession({
+      success: (res) => {
+        if (!phone) {
+          this.show = true
+          this.pass = true
+          this.empower = false
+          this.one = false
+          this.two = true
+          this.dian1 = false
+          this.dian2 = true
+        }
+      },
+      fail: () => {
+        this.show = true
+        wx.removeStorageSync('userInfo')
+        wx.removeStorageSync('userId')
+      }
     })
     // 请求人脉圈的数据
     this.$http.get({
@@ -193,6 +199,7 @@ export default {
         data: userId
       }
     }).then(res => {
+      console.log(res, '1')
       this.dataquan = res.data.list
     })
     // 请求名片夹的数据
@@ -203,11 +210,11 @@ export default {
       }
     }).then(res => {
       if (res.code === '0000011') {
-        this.datamingpian = []
-        this.cardNum = 0
+
+      } else {
+        this.datamingpian = res.data.list
+        this.cardNum = res.data.total
       }
-      this.datamingpian = res.data.list
-      this.cardNum = res.data.total
     })
   },
   methods: {
@@ -234,7 +241,6 @@ export default {
       })
     },
     onChange (event) {
-      console.log(event.mp.detail)
       this.cont = event.mp.detail.index
       this.qrcode = event.mp.detail.index
     },
@@ -242,9 +248,13 @@ export default {
       this.show1 = true
     },
     cardInfo () { // 信息小红点跳转
-      wx.navigateTo({
-        url: '../exchangeCard/main'
-      })
+      if (!this.userInfo) {
+        this.show = true
+      } else {
+        wx.navigateTo({
+          url: '../exchangeCard/main'
+        })
+      }
     },
     del () { // 搜索框删除内容
       this.sousuo = ''
@@ -276,6 +286,9 @@ export default {
         })
       }
     },
+    saveKeyword () {
+      this.cha()
+    },
     myCard () {
       if (!this.userInfo) {
         this.show = true
@@ -286,6 +299,11 @@ export default {
       }
     },
     myQuan (id, state) { // 1:表示不是好友状态
+      if (!this.userInfo) {
+        wx.navigateTo({
+          url: '../friendCard/main?id=' + id + '&key=' + state + '&num=0'
+        })
+      }
       wx.navigateTo({
         url: '../friendCard/main?id=' + id + '&key=' + state + '&num=' + this.cardNum
       })
@@ -332,7 +350,7 @@ export default {
             }
           },
           fail: (res) => {
-            console.log(res)
+            console.log(`res 异常`)
           }
         })
       } else {
@@ -342,20 +360,24 @@ export default {
     getPhoneNumber (e) {
       let encryptedData = e.mp.detail.encryptedData
       let iv = e.mp.detail.iv
-      this.$http.get({
-        url: 'api/appUserLoginApi/getPhone',
-        data: {
-          sessionkey: this.sessionkey,
-          encryptedData: encryptedData,
-          iv: iv
-        }
-      }).then(res => {
-        wx.setStorageSync('phone', res.purePhoneNumber)
-        wx.navigateTo({
-          url: '../newCard/main'
+      if (encryptedData) {
+        this.$http.get({
+          url: 'api/appUserLoginApi/getPhone',
+          data: {
+            sessionkey: this.sessionkey,
+            encryptedData: encryptedData,
+            iv: iv
+          }
+        }).then(res => {
+          wx.setStorageSync('phone', res.purePhoneNumber)
+          wx.navigateTo({
+            url: '../newCard/main'
+          })
+          this.show = false
         })
-        this.show = false
-      })
+      } else {
+        console.log('拒绝授权')
+      }
     }
   }
 }

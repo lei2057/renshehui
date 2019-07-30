@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "服务详情",
   "usingComponents": {
-
+    "van-popup": "/static/vant/popup/index"
   }
 }

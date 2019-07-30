@@ -34,6 +34,28 @@
         马上咨询
       </div>
     </div>
+    <!-- 弹出层  -->
+    <div class="vant-css">
+      <van-popup :show="show" @close="onClose" catchtouchmove="ture">
+        <div class="popup">
+          <div class="popup-top">
+            <div class="popup-out">
+              <div class="popup-icon" @click="onClose"><img src="../../../assets/out.png"></div>
+            </div>
+            <div class="popup-title">温馨提示</div>
+          </div>
+          <div class="popup-cont">
+            <div class="popup-text">为了带来更好的用户体验我们建议你使用微信登录</div>
+            <div class="popup-empower disflex">
+              <div class="empower-icon"><img src="../../../assets/user.png"></div>
+              <div class="empower-center-icon"><img src="../../../assets/jiaohuan.png"></div>
+              <div class="empower-icon"><img src="../../../assets/youken.png"></div>
+            </div>
+            <button class="popup-btn" open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">微信登陆</button>
+          </div>
+        </div>
+      </van-popup>
+    </div>
   </div>
 </template>
 
@@ -45,7 +67,8 @@ export default {
       categoryId: '', // 资料ID
       userId: '', // 用户ID
       contList: [], // 详情内容
-      serviceList: [] // 内容列表
+      serviceList: [], // 内容列表
+      show: false// 授权弹框
     }
   },
   onLoad (option) {
@@ -78,40 +101,45 @@ export default {
   },
   methods: {
     collect () { // 收藏
-      if (!this.xin) {
-        this.$http.get({
-          url: 'api/SupplyChain/insertMyfavorites',
-          data: {
-            userId: this.userId,
-            categoryId: this.categoryId
-          }
-        }).then(res => {
-          this.xin = true
-          wx.showToast({
-            title: '已收藏',
-            icon: 'none'
-          })
-          setTimeout(() => {
-            wx.hideLoading()
-          }, 2000)
-        })
+      let userInfo = wx.getStorageSync('userInfo')
+      if (!userInfo) {
+        this.show = true
       } else {
-        this.$http.get({
-          url: 'api/SupplyChain/delMyfavoritesChain',
-          data: {
-            userId: this.userId,
-            categoryId: this.categoryId
-          }
-        }).then(res => {
-          this.xin = false
-          wx.showToast({
-            title: '取消收藏',
-            icon: 'none'
+        if (!this.xin) {
+          this.$http.get({
+            url: 'api/SupplyChain/insertMyfavorites',
+            data: {
+              userId: this.userId,
+              categoryId: this.categoryId
+            }
+          }).then(res => {
+            this.xin = true
+            wx.showToast({
+              title: '已收藏',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              wx.hideLoading()
+            }, 2000)
           })
-          setTimeout(() => {
-            wx.hideLoading()
-          }, 2000)
-        })
+        } else {
+          this.$http.get({
+            url: 'api/SupplyChain/delMyfavoritesChain',
+            data: {
+              userId: this.userId,
+              categoryId: this.categoryId
+            }
+          }).then(res => {
+            this.xin = false
+            wx.showToast({
+              title: '取消收藏',
+              icon: 'none'
+            })
+            setTimeout(() => {
+              wx.hideLoading()
+            }, 2000)
+          })
+        }
       }
     },
     phoneCall () { // 客服拨打电话
@@ -121,6 +149,47 @@ export default {
     },
     share () { // 分享好友
       this.onShareAppMessage()
+    },
+    onClose () {
+      this.show = false
+    },
+    onGotUserInfo (e) { // 登录授权
+      let that = this
+      that.show = false
+      if (e.mp.detail.userInfo) {
+        wx.setStorage({
+          key: 'userInfo',
+          data: e.mp.detail.userInfo
+        })
+        wx.login({
+          success (res) {
+            if (res.code) {
+              // 发起网络请求
+              that.$http.get({
+                url: 'api/appUserLoginApi/userAuthorizedOk',
+                data: {
+                  code: res.code,
+                  headPhoto: e.mp.detail.userInfo.avatarUrl,
+                  name: e.mp.detail.userInfo.nickName,
+                  sex: e.mp.detail.userInfo.gender
+                }
+              }).then(res => {
+                let userId = wx.getStorageSync('userId')
+                if (userId === '') {
+                  wx.setStorageSync('userId', res.data.userId)
+                }
+              })
+            } else {
+              console.log('登录失败！' + res.errMsg)
+            }
+          },
+          fail: (res) => {
+            console.log(res)
+          }
+        })
+      } else {
+        console.log('拒绝授权')
+      }
     }
   },
   onShareAppMessage () {
@@ -164,7 +233,7 @@ export default {
     .details-item {
       margin-top: 28px;
       .item-cont {
-        margin-left: 27px;
+        margin-left: 10px;
       }
     }
   }
@@ -200,5 +269,64 @@ export default {
     }
   }
 }
-
+.popup {
+  width: 275px;
+  .popup-top {
+    height: 65px;
+    background-image: url('https://wmqhouse.top/static/system/image/empowerBg.png');
+    background-size: 100% 100%;
+    .popup-out {
+      height: 25px;
+      display: flex;
+      justify-content: flex-end;
+      .popup-icon {
+        width: 13px;
+        height: 13px;
+        margin-top: 10px;
+        margin-right: 10px;
+      }
+    }
+    .popup-title {
+      font-size: 24px;
+      text-align: center;
+      color: #fff;
+      text-shadow:1px 2px 5px rgba(166,27,27,0.15);
+    }
+  }
+  .popup-cont {
+    margin-top: 15px;
+    .popup-text {
+      width: 155px;
+      text-align: center;
+      margin: auto;
+    }
+    .popup-empower {
+      margin-top: 14px;
+      .empower-icon {
+        width: 66px;
+        height: 66px;
+      }
+      .empower-center-icon {
+        width: 31px;
+        height: 17px;
+        margin: 0 33px;
+      }
+    }
+    .popup-btn {
+      margin: 13px auto;
+      width: 200px;
+      height: 39px;
+      line-height: 39px;
+      background: #87D850;
+      color: #fff;
+      box-shadow:1px 2px 5px 0px rgba(0, 0, 0, 0.15);
+      border-radius:20px;
+      .btn-icon {
+        width: 17px;
+        height: 13px;
+        margin-right: 10px;
+      }
+    }
+  }
+}
 </style>

@@ -345,9 +345,17 @@ export default {
       })
     },
     renmai () {
-      wx.navigateTo({
-        url: '../../connections/exchangeCard/main'
-      })
+      console.log(this.userInfo)
+      if (!this.userInfo) {
+        wx.showToast({
+          title: '请您先登录！',
+          icon: 'none'
+        })
+      } else {
+        wx.navigateTo({
+          url: '../../connections/exchangeCard/main'
+        })
+      }
     },
     collection () { // 资料查看Go
       let userId = wx.getStorageSync('userId')

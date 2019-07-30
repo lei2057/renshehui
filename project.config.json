@@ -38,7 +38,7 @@
 				{
 					"id": 0,
 					"name": "demo",
-					"pathName": "pages/connections/newCard/main",
+					"pathName": "pages/connections/exchangeCard/main",
 					"query": "",
 					"scene": null
 				}

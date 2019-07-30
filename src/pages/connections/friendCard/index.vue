@@ -95,11 +95,7 @@ export default {
   onLoad (option) {
     this.friendId = option.id
     this.pageType = option.key
-    if (!option.num) {
-      this.cardNum = 0
-    } else {
-      this.cardNum = option.num
-    }
+    this.cardNum = option.num
     this.$http.get({
       url: 'api/appUser/selectUserById',
       data: {

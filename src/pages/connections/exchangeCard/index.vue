@@ -25,7 +25,7 @@
                 <div class="cell-icon"><img src="../../../assets/duihao.png" alt=""></div>
                 <div>等待中</div>
               </div>
-              <div class="cell-state" v-show="item.notificationState==='0'">
+              <div class="cell-state" v-show="item.notificationState==='0'" @click="a">
                 <div class="cell-icon"><img src="../../../assets/yuanjiaohuan.png" alt=""></div>
                 <div>已交换</div>
               </div>
@@ -96,6 +96,7 @@ export default {
       }).then(res => {
         console.log(res)
         Toast('已同意申请')
+        this.getdata(0)
       })
     },
     onChange (event) {
