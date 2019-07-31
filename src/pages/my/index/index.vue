@@ -88,7 +88,7 @@
         </div> -->
         <button @click="saveShareImg" class="flex share-btn">
           <view  class="share-icon">
-            <cover-image  mode="widthFix" src="../../../assets/pyq.png"></cover-image>
+            <cover-image  mode="widthFix" src="https://wmqhouse.top/static/system/image/pyq.png"></cover-image>
           </view>
           <view>保存海报</view>
         </button>
@@ -100,7 +100,7 @@
         </div> -->
         <button openType="share" class="flex share-btn">
           <view  class="share-icon">
-            <cover-image  mode="widthFix" src="../../../assets/haoyou.png"></cover-image>
+            <cover-image  mode="widthFix" src="https://wmqhouse.top/static/system/image/haoyou.png"></cover-image>
           </view>
           <view>分享好友</view>
         </button>

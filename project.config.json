@@ -37,8 +37,8 @@
 			"list": [
 				{
 					"id": 0,
-					"name": "demo",
-					"pathName": "pages/connections/exchangeCard/main",
+					"name": "pages/youken/activity/main",
+					"pathName": "pages/youken/activity/main",
 					"query": "",
 					"scene": null
 				}

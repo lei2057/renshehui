@@ -46,9 +46,13 @@
               <div class="list-text">{{item.company}}</div>
               <div class="list-text">{{item.userWork}}</div>
             </div>
-            <div class="list-icon" v-if="item.state === '1'||item.state === '2'">
+            <div class="list-icon" v-if="item.state === '1'">
               <div class="jiaohuan-icon"><img src="../../../assets/jiaohuan.png" alt=""></div>
               <div>互换名片</div>
+            </div>
+            <div class="list-icon" v-else-if="item.state === '2'">
+              <div class="jiaohuan-icon"><img src="../../../assets/jiaohuan.png" alt=""></div>
+              <div>等待通过</div>
             </div>
             <div class="list-icon" v-else>已交换名片</div>
           </div>
@@ -164,6 +168,7 @@ export default {
         userId: userId
       }
     }).then(res => {
+      console.log(res)
       this.qrCodeImg = res.data.url
     })
   },
@@ -299,6 +304,7 @@ export default {
       }
     },
     myQuan (id, state) { // 1:表示不是好友状态
+      console.log(id, state)
       if (!this.userInfo) {
         wx.navigateTo({
           url: '../friendCard/main?id=' + id + '&key=' + state + '&num=0'

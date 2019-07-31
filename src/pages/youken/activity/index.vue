@@ -63,7 +63,7 @@
             </div>保存海报</div> -->
             <button @click="saveShareImg" class="flex share-btn">
               <view  class="share-icon">
-                <cover-image  mode="widthFix" src="../../../assets/pyq.png"></cover-image>
+                <cover-image  mode="widthFix" src="https://wmqhouse.top/static/system/image/pyq.png"></cover-image>
               </view>
               <view>保存海报</view>
             </button>
@@ -73,7 +73,7 @@
             </div>分享好友</div> -->
             <button openType="share" class="flex share-btn">
               <view  class="share-icon">
-                <cover-image  mode="widthFix" src="../../../assets/pyq.png"></cover-image>
+                <cover-image  mode="widthFix" src="https://wmqhouse.top/static/system/image/haoyou.png"></cover-image>
               </view>
               <view>分享好友</view>
             </button>
@@ -115,14 +115,17 @@ export default {
       res.data.forEach(el => {
         if (option.id === el.id) {
           this.content = el
-          console.log(el, 11)
           this.imgBg = el.detailPhoto.split(',')[0]
           this.enroll = JSON.parse(el.registrationConditions)
         }
       })
     })
     this.$http.get({
-      url: '/api/qrcode/getProgramQrcode'
+      url: '/api/qrcode/getUserQrcode',
+      data: {
+        userId: this.activityId,
+        url: 'pages/youken/activity/main'
+      }
     }).then(res => {
       console.log(res)
       this.qrCodeImg = res.data.url
@@ -226,7 +229,7 @@ export default {
       })
       var that = this
       wx.downloadFile({
-        url: that.qrCodeImg, // 头像图片路径
+        url: 'that.qrCodeImg', // 头像图片路径
         success: function (res) {
           wx.hideLoading()
           if (res.statusCode === 200) {

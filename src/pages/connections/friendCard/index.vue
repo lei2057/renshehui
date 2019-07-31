@@ -136,6 +136,8 @@ export default {
         if (res.code === '0000000') {
           Toast('已经发送交换申请')
           this.pageType = '2'
+        } else if (res.code === '0000013') {
+          Toast('请您先登陆')
         }
       })
     },
@@ -150,8 +152,8 @@ export default {
       }
     },
     cardGo () {
-      wx.navigateTo({
-        url: '../newCard/main'
+      wx.switchTab({
+        url: '../index/main'
       })
     }
   },
