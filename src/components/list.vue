@@ -1,17 +1,19 @@
 <template>
   <div class="list-wrapper">
-    <div  v-for="(item,index) in listinfo" :key="index">
-      <div class="list-cont disflex">
-        <img class="list-left" :src="item.mainImg" alt="">
-        <div class="flex list-right">
-          <div class="right-title"><div class="title-text">{{item.category}}</div></div>
-          <div class="right-cont">{{item.title}}</div>
-          <span class="right-time">{{item.publishTime}}</span>
+    <div v-for="item in listinfo" :key="item">
+      <div @click="items(item.id)">
+        <div class="list-cont disflex">
+          <img class="list-left" :src="item.mainImg" alt="">
+          <div class="flex list-right">
+            <div class="right-title"><div class="title-text">{{item.category}}</div></div>
+            <div class="right-cont">{{item.title}}</div>
+            <span class="right-time">{{item.publishTime}}</span>
+          </div>
         </div>
-      </div>
-      <div class="disflex pd10">
-        <div class="list-bottom-icon"><img :src="item.serviceCompanyImg" alt=""></div>
-        <div class="flex">{{item.serviceCompany}}</div>
+        <div class="disflex pd10">
+          <div class="list-bottom-icon"><img :src="item.serviceCompanyImg" alt=""></div>
+          <div class="flex">{{item.serviceCompany}}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -22,12 +24,11 @@ export default {
   props: {
     listinfo: Object
   },
-  onLoad () {
-    // console.log(this.listinfo)
-  },
-  watch: {
-    listinfo (val) {
-      // console.log(val)
+  methods: {
+    items (id) {
+      wx.navigateTo({
+        url: '../pages/youken/listDetails/main?id=' + id
+      })
     }
   }
 }

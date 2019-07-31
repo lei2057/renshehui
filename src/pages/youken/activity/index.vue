@@ -127,8 +127,8 @@ export default {
         url: 'pages/youken/activity/main'
       }
     }).then(res => {
-      console.log(res)
-      this.qrCodeImg = res.data.url
+      // console.log(res)
+      this.qrCodeImg = res
     })
   },
   methods: {

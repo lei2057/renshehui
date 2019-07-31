@@ -32,7 +32,7 @@
         <!-- <div class="item-icon"><img src="../../../assets/right.png" alt=""></div> -->
       </div>
       <div class="wrapper-item pd10 vant-blue">
-        <van-tabs type="card" @change="onChange">
+        <van-tabs :active="active" type="card" @change="onChange">
           <van-tab title="人脉圈"></van-tab>
           <van-tab title="名片夹" :info="cardNum"></van-tab>
         </van-tabs>
@@ -145,7 +145,8 @@ export default {
       one: true,
       two: false,
       show1: false,
-      qrCodeImg: ''
+      qrCodeImg: '',
+      active: 0
     }
   },
   onPageScroll (e) { // 根据滚动的距离执行状态
@@ -173,6 +174,11 @@ export default {
     })
   },
   onShow () {
+    let key = getApp().globalData.homeCurrentTab
+    if (key) {
+      this.active = key
+      this.cont = key
+    }
     let userId = wx.getStorageSync('userId')
     this.userInfo = wx.getStorageSync('userInfo')
     let phone = wx.getStorageSync('phone')
@@ -246,6 +252,7 @@ export default {
       })
     },
     onChange (event) {
+      console.log(event.mp)
       this.cont = event.mp.detail.index
       this.qrcode = event.mp.detail.index
     },

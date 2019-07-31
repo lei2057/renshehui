@@ -66,9 +66,10 @@ export default {
     return {
       msgarr: ['已获取', '已收藏'],
       activeindex: '0',
-      userid: '1',
+      userid: '',
       dataarr: [],
-      result: true
+      result: true,
+      key: ''
     }
   },
 
@@ -112,11 +113,17 @@ export default {
       }
     }
   },
-  onShow () { // mountend
-    this.getdata(0)
+  onShow () {
+    if (this.key === '1') {
+      this.activeindex = this.key
+      this.getdata(1)
+    } else {
+      this.activeindex = '0'
+      this.getdata(0)
+    }
   },
-  onload () { // created
-
+  onLoad (options) {
+    this.key = options.key
   }
 }
 </script>

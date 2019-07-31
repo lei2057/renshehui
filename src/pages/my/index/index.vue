@@ -11,7 +11,7 @@
         <div class="flex"><div class="my-name">{{userInfo.nickName}}</div></div>
       </div>
       <div class="my-info wrapper-info disflex">
-        <div class="border_cell_right flex">
+        <div class="border_cell_right flex" @click="mingpian">
           <div class="my-num">{{totalMyCard||0}}</div>
           <div>人脉名片</div>
         </div>
@@ -19,7 +19,7 @@
           <div class="my-num">{{totalDataSource||0}}</div>
           <div>资料收藏</div>
         </div>
-        <div class="flex">
+        <div class="flex" @click="youken">
           <div class="my-num">{{totalChain||0}}</div>
           <div>优肯方案</div>
         </div>
@@ -345,11 +345,9 @@ export default {
       })
     },
     renmai () {
-      console.log(this.userInfo)
       if (!this.userInfo) {
-        wx.showToast({
-          title: '请您先登录！',
-          icon: 'none'
+        wx.switchTab({
+          url: '../../connections/index/main'
         })
       } else {
         wx.navigateTo({
@@ -358,6 +356,17 @@ export default {
       }
     },
     collection () { // 资料查看Go
+      wx.navigateTo({
+        url: '../../datacenter/personalData/main?key=1'
+      })
+    },
+    mingpian () { // 人脉名片
+      getApp().globalData.homeCurrentTab = 1
+      wx.switchTab({
+        url: '../../connections/index/main'
+      })
+    },
+    youken () { // 优肯方案
       let userId = wx.getStorageSync('userId')
       if (userId) {
         wx.navigateTo({
@@ -410,7 +419,6 @@ export default {
   },
   onShow () { // mountend
     let userId = wx.getStorageSync('userId')
-    console.log(userId)
     if (userId) {
       this.$http.get({
         url: 'api/appUser/selectUserByUserId',
@@ -418,7 +426,6 @@ export default {
           id: userId
         }
       }).then(res => {
-        console.log(res.data.list)
         this.totalMyCard = res.data.list[0].totalMyCard
         this.totalDataSource = res.data.list[0].totalDataSource
         this.totalChain = res.data.list[0].totalChain
@@ -448,7 +455,7 @@ export default {
     this.$http.get({
       url: '/api/qrcode/getProgramQrcode'
     }).then(res => {
-      console.log(res)
+      // console.log(res)
       this.qrCodeImg = res.data.url
     })
   }

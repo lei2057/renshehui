@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="collection-wrapper" v-if="!listinfo">
+    <div class="collection-wrapper" v-if="listinfo.length === 0">
       <div class="collection-title">空空如也</div>
       <div class="collection-img"><img src="https://wmqhouse.top/static/system/image/collection.png" alt=""></div>
       <div class="collection-text">
@@ -9,7 +9,7 @@
       </div>
       <div class="collection-btn" @click="collectGo">马上去收藏</div>
     </div>
-    <div class="pd10" v-if="listinfo">
+    <div class="pd10" v-else>
       <Lists :listinfo="listinfo"></Lists>
     </div>
   </div>
@@ -25,7 +25,9 @@ export default {
   },
   methods: {
     collectGo () {
-
+      wx.switchTab({
+        url: '../../youken/index/main'
+      })
     }
   },
   components: {Lists},
