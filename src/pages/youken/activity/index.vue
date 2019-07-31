@@ -116,6 +116,7 @@ export default {
         if (option.id === el.id) {
           this.content = el
           this.imgBg = el.detailPhoto.split(',')[0]
+          console.log(this.imgBg)
           this.enroll = JSON.parse(el.registrationConditions)
         }
       })
@@ -127,7 +128,7 @@ export default {
         url: 'pages/youken/activity/main'
       }
     }).then(res => {
-      // console.log(res)
+      // console.log(res, 11)
       this.qrCodeImg = res
     })
   },
@@ -141,6 +142,7 @@ export default {
       var that = this
       wx.downloadFile({
         url: that.imgBg, // 二维码路径
+        // url: 'https://renshehui.oss-cn-hangzhou.aliyuncs.com/20190801/86bfcfff-7f81-4154-aae6-0f0c5f471b4b.jpeg',
         success: function (res) {
           wx.hideLoading()
           if (res.statusCode === 200) {
@@ -229,7 +231,7 @@ export default {
       })
       var that = this
       wx.downloadFile({
-        url: 'that.qrCodeImg', // 头像图片路径
+        url: that.qrCodeImg, // 头像图片路径
         success: function (res) {
           wx.hideLoading()
           if (res.statusCode === 200) {
