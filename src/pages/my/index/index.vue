@@ -401,9 +401,8 @@ export default {
                   sex: e.mp.detail.userInfo.gender
                 }
               }).then(res => {
-                if (wx.getStorageSync('userId') === '' || wx.getStorageSync('userId') === undefined || wx.getStorageSync('userId') === null) {
-                  wx.setStorageSync('userId', res.data.userId)
-                }
+                // if (wx.getStorageSync('userId') === '' || wx.getStorageSync('userId') === undefined || wx.getStorageSync('userId') === null) {
+                wx.setStorageSync('userId', res.data.userId)
                 that.onLoad()
               })
             } else {

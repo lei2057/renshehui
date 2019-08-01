@@ -80,7 +80,6 @@ export default {
         id: this.userId
       }
     }).then(res => {
-      console.log(res)
       this.userinfo = res.data.list[0]
     })
   },

@@ -113,17 +113,6 @@ export default {
     }
   },
   onLoad () {
-    // this.userInfo = wx.getStorageSync('userInfo')
-    // wx.checkSession({
-    //   success: (res) => {
-    //     console.log(res)
-    //   },
-    //   fail: () => {
-    //     this.show = true
-    //     wx.removeStorageSync('userInfo')
-    //     wx.removeStorageSync('userId')
-    //   }
-    // })
     this.$http.get({
       url: 'api/SupplyChain/selectAllChainType'
     }).then(res => {

@@ -146,7 +146,8 @@ export default {
       two: false,
       show1: false,
       qrCodeImg: '',
-      active: 0
+      active: 0,
+      msg: ''// 用户是否存在
     }
   },
   onPageScroll (e) { // 根据滚动的距离执行状态
@@ -160,8 +161,8 @@ export default {
     }
   },
   onLoad () {
-    this.userInfo = wx.getStorageSync('userInfo')
     let userId = wx.getStorageSync('userId')
+    this.userInfo = wx.getStorageSync('userInfo')
     this.$http.get({// 二维码
       url: '/api/qrcode/getUserQrcode',
       data: {
@@ -169,7 +170,6 @@ export default {
         userId: userId
       }
     }).then(res => {
-      console.log(res)
       this.qrCodeImg = res.data.url
     })
   },
@@ -252,7 +252,6 @@ export default {
       })
     },
     onChange (event) {
-      console.log(event.mp)
       this.cont = event.mp.detail.index
       this.qrcode = event.mp.detail.index
     },
@@ -272,7 +271,6 @@ export default {
       this.sousuo = ''
     },
     cha () { // 搜索模糊查询
-      console.log(this.cont)
       let userId = wx.getStorageSync('userId')
       if (this.cont === 0) {
         this.$http.get({
@@ -283,7 +281,6 @@ export default {
           }
         }).then(res => {
           this.dataquan = res.data.list
-          console.log(res)
         })
       } else {
         this.$http.get({
@@ -294,7 +291,6 @@ export default {
           }
         }).then(res => {
           this.datamingpian = res.data.list
-          console.log(res)
         })
       }
     },
@@ -311,7 +307,6 @@ export default {
       }
     },
     myQuan (id, state) { // 1:表示不是好友状态
-      console.log(id, state)
       if (!this.userInfo) {
         wx.navigateTo({
           url: '../friendCard/main?id=' + id + '&key=' + state + '&num=0'
@@ -352,11 +347,9 @@ export default {
                   sex: e.mp.detail.userInfo.gender
                 }
               }).then(res => {
-                let userId = wx.getStorageSync('userId')
                 that.sessionkey = res.data.sessionkey
-                if (userId === '') {
-                  wx.setStorageSync('userId', res.data.userId)
-                }
+                wx.setStorageSync('userId', res.data.userId)
+                that.msg = res.msg
               })
             } else {
               console.log('登录失败！' + res.errMsg)
@@ -371,22 +364,36 @@ export default {
       }
     },
     getPhoneNumber (e) {
+      let that = this
       let encryptedData = e.mp.detail.encryptedData
       let iv = e.mp.detail.iv
       if (encryptedData) {
-        this.$http.get({
+        that.$http.get({
           url: 'api/appUserLoginApi/getPhone',
           data: {
-            sessionkey: this.sessionkey,
+            sessionkey: that.sessionkey,
             encryptedData: encryptedData,
             iv: iv
           }
         }).then(res => {
           wx.setStorageSync('phone', res.purePhoneNumber)
-          wx.navigateTo({
-            url: '../newCard/main'
-          })
-          this.show = false
+          if (that.msg === '该用户已经存在') {
+            console.log(that.msg)
+
+            // wx.switchTab({
+            //   url: '../index/main'
+            // })
+            // that.show = false
+            // that.onLoad()
+            wx.navigateTo({
+              url: '../index/main'
+            })
+          } else {
+            wx.navigateTo({
+              url: '../newCard/main'
+            })
+          }
+          that.show = false
         })
       } else {
         console.log('拒绝授权')
