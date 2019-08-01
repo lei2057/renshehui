@@ -403,6 +403,7 @@ export default {
               }).then(res => {
                 // if (wx.getStorageSync('userId') === '' || wx.getStorageSync('userId') === undefined || wx.getStorageSync('userId') === null) {
                 wx.setStorageSync('userId', res.data.userId)
+                wx.setStorageSync('sessionkey', res.data.sessionkey)
                 that.onLoad()
               })
             } else {

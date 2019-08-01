@@ -347,8 +347,8 @@ export default {
                   sex: e.mp.detail.userInfo.gender
                 }
               }).then(res => {
-                that.sessionkey = res.data.sessionkey
                 wx.setStorageSync('userId', res.data.userId)
+                wx.setStorageSync('sessionkey', res.data.sessionkey)
                 that.msg = res.msg
               })
             } else {
@@ -365,28 +365,22 @@ export default {
     },
     getPhoneNumber (e) {
       let that = this
+      let sessionkey = wx.getStorageSync('sessionkey')
       let encryptedData = e.mp.detail.encryptedData
       let iv = e.mp.detail.iv
       if (encryptedData) {
         that.$http.get({
           url: 'api/appUserLoginApi/getPhone',
           data: {
-            sessionkey: that.sessionkey,
+            sessionkey: sessionkey,
             encryptedData: encryptedData,
             iv: iv
           }
         }).then(res => {
           wx.setStorageSync('phone', res.purePhoneNumber)
-          if (that.msg === '该用户已经存在') {
-            console.log(that.msg)
-
-            // wx.switchTab({
-            //   url: '../index/main'
-            // })
-            // that.show = false
-            // that.onLoad()
-            wx.navigateTo({
-              url: '../index/main'
+          if (that.msg === '该用户已经存在' || sessionkey) {
+            wx.switchTab({
+              url: '../../youken/index/main'
             })
           } else {
             wx.navigateTo({
