@@ -147,7 +147,8 @@ export default {
       show1: false,
       qrCodeImg: '',
       active: 0,
-      msg: ''// 用户是否存在
+      msg: '', // 用户是否存在
+      userInfoShow: false
     }
   },
   onPageScroll (e) { // 根据滚动的距离执行状态
@@ -379,9 +380,7 @@ export default {
         }).then(res => {
           wx.setStorageSync('phone', res.purePhoneNumber)
           if (that.msg === '该用户已经存在' || sessionkey) {
-            wx.switchTab({
-              url: '../../youken/index/main'
-            })
+            this.userInfo = wx.getStorageSync('userInfo')
           } else {
             wx.navigateTo({
               url: '../newCard/main'
@@ -392,6 +391,11 @@ export default {
       } else {
         console.log('拒绝授权')
       }
+    }
+  },
+  watch: {
+    userInfoShow (res) {
+      console.log(res)
     }
   }
 }
