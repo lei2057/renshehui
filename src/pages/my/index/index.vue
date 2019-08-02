@@ -428,6 +428,7 @@ export default {
     }
   },
   onLoad () { // created
+    var userd = wx.getStorageSync('userId')
     wx.checkSession({
       success: (res) => {
         console.log(res, '存在')
@@ -448,7 +449,11 @@ export default {
       }
     })
     this.$http.get({
-      url: '/api/qrcode/getProgramQrcode'
+      url: '/api/qrcode/getProgramQrcode',
+      data: {
+        url: '/pages/youken/index/main',
+        userId: userd
+      }
     }).then(res => {
       console.log(res)
       this.qrCodeImg = res.data.url
