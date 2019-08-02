@@ -457,7 +457,10 @@ export default {
     })
     this.$http.get({
       url: '/api/qrcode/getProgramQrcode',
-      userId: userd
+      data: {
+        url: '/pages/youken/index/main',
+        userId: userd
+      }
     }).then(res => {
       console.log(res)
       this.qrCodeImg = res.data.url
