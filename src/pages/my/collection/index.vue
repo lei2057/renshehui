@@ -34,11 +34,13 @@ export default {
   onShow () { // mountend
 
   },
-  onLoad (option) {
+  onLoad () {
+    let userId = wx.getStorageSync('userId')
     this.$http.get({
       url: 'api/appUser/selectMyfavoriteDataSources',
       data: {
-        id: option.id
+        id: userId,
+        type: 0
       }
     }).then(res => {
       console.log(res)

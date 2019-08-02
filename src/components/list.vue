@@ -1,7 +1,7 @@
 <template>
-  <div class="list-wrapper">
+  <div>
     <div v-for="item in listinfo" :key="item">
-      <div @click="items(item.id)">
+      <div class="list-wrapper" @click="items(item.id)">
         <div class="list-cont disflex">
           <img class="list-left" :src="item.mainImg" alt="">
           <div class="flex list-right">
@@ -27,7 +27,7 @@ export default {
   methods: {
     items (id) {
       wx.navigateTo({
-        url: '../pages/youken/listDetails/main?id=' + id
+        url: '/pages/youken/listDetails/main?id=' + id
       })
     }
   }
@@ -38,7 +38,7 @@ export default {
 .list-wrapper {
   background: #fff;
   border-radius: 8px;
-  margin-bottom: 5px; 
+  margin-bottom: 10px; 
   .list-cont {
     background-image: url('https://wmqhouse.top/static/system/image/listBg.png');
     background-size: 100% 100%;
@@ -57,7 +57,7 @@ export default {
         .title-text {
           background: #3AAFFC;
           color: #fff;
-          width: 62px;
+          // width: 62px;
           padding: 2px 0 2px 8px;
           border-bottom-left-radius: 8px;
           border-top-left-radius: 8px;

@@ -368,16 +368,9 @@ export default {
       })
     },
     youken () { // 优肯方案
-      let userId = wx.getStorageSync('userId')
-      if (userId) {
-        wx.navigateTo({
-          url: '../collection/main?id=' + userId
-        })
-      } else {
-        wx.navigateTo({
-          url: '../collection/main'
-        })
-      }
+      wx.navigateTo({
+        url: '../collection/main'
+      })
     },
     onGotUserInfo (e) { // 登录授权
       let that = this

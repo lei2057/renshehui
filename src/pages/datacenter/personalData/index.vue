@@ -30,7 +30,7 @@
         </div>
         <div class="z-tabbottom" >
           <div v-show="result">
-              <div v-for="item in dataarr" :key="item.id">
+              <div v-for="item in dataarr" :key="item">
                 <div class="list" @click="godataDetails(item.id)">
                   <div class="listleft">
                     <img :src="item.type==0?'https://wmqhouse.top/static/system/image/wordicon.png':item.type==1?'https://wmqhouse.top/static/system/image/tabericon.png':item.type==2?'../../../assets/ppticon.png':item.type==3?'../../../assets/picon.png':item.type==4?'https://wmqhouse.top/static/system/image/yasuoicon.png':'https://wmqhouse.top/static/system/image/qitaicon.png'" alt="">
@@ -82,6 +82,7 @@ export default {
     },
     // 点击切换左侧列表
     gotap (index) {
+      console.log(index)
       this.activeindex = index
       this.getdata(index)
     },
@@ -94,10 +95,12 @@ export default {
             id: this.userid
           }
         }).then(res => {
-          this.dataarr = res.data.list
-          if (res.data.list.length === 0) {
+          console.log(res)
+          if (res.code === '0000013') {
+            console.log('0000013')
             this.result = false
           } else {
+            this.dataarr = res.data.list
             this.result = true
           }
         })
@@ -105,25 +108,31 @@ export default {
         this.$http.get({
           url: '/api/appUser/selectMyfavoriteDataSources',
           data: {
-            id: this.userid
+            id: this.userid,
+            type: 1
           }
         }).then(res => {
+          console.log(res)
           this.dataarr = res.data.list
         })
       }
     }
   },
   onShow () {
-    if (this.key === '1') {
-      this.activeindex = this.key
-      this.getdata(1)
-    } else {
-      this.activeindex = '0'
-      this.getdata(0)
-    }
+    // if (this.key === '1') {
+    //   this.activeindex = this.key
+    //   this.getdata(1)
+    // } else {
+    //   this.activeindex = '0'
+    //   this.getdata(0)
+    // }
   },
   onLoad (options) {
-    this.key = options.key
+    // console.log(options.key)
+    // this.key = options.key
+    this.userid = wx.getStorageSync('userId')
+    this.getdata(0)
+    console.log(this.result)
   }
 }
 </script>
@@ -208,7 +217,7 @@ export default {
   }
   .z-tabbottom{
     width: 360px;
-    height: 380px;
+    // height: 380px;
     margin: 0 auto;
     background-color: rgb(250, 250, 250);
     .nullCont-img {

@@ -2,10 +2,10 @@
   <div>
      <div class="z-top">
        <img class="bgtu" src="../../../assets/bg.png" alt="">
-       <img class="wjtu" :src="data.type==0?'https://wmqhouse.top/static/system/image/wordicon.png':data.type==1?'../../../assets/tabericon.png':data.type==2?'../../../assets/ppticon.png':data.type==3?'../../../assets/picon.png':data.type==4?'../../../assets/yasuoicon.png':'https://wmqhouse.top/static/system/image/qitaicon.png'" alt="">
+       <img class="wjtu" :src="data.type==0?'https://wmqhouse.top/static/system/image/wordicon.png':data.type==1?'../../../assets/tabericon.png':data.type==2?'../../../assets/ppticon.png':data.type==3?'../../../assets/picon.png':data.type==4?'https://wmqhouse.top/static/system/image/yasuoicon.png':'https://wmqhouse.top/static/system/image/qitaicon.png'" alt="">
        <!-- <img class="fxtu" src="../../../assets/fenxiang.png" alt=""> -->
        <button  class="fxtu" openType="share">
-          <cover-image  mode="widthFix" src="../../../assets/fenxiang.png"></cover-image>
+          <cover-image  mode="widthFix" src="https://wmqhouse.top/static/system/image/fenxiang.png"></cover-image>
       </button>
        <p class="p1">文件名称：{{data.title}}</p>
        <p class="p2">存储模式：百度云盘</p><p  class="p3">文件格式：{{type}}</p>
@@ -13,7 +13,7 @@
        <img class="sctu" :src="islike==1?'https://wmqhouse.top/static/system/image/shoucang.png':'https://wmqhouse.top/static/system/image/shoucang2.png'" alt="" @click="shoucang">
      </div>
      <div class="btnf" v-show="isfrist==='0'">
-       <div class="btn1" @click="huoquwenjian()">获取文件</div>
+       <div class="btn1" @click="huoquwenjianshow()">获取文件</div>
        <div class="btn2" @click="shangchuanshixiao">上报网盘文件失效</div>
      </div>
      <div class="btnf" v-show="isfrist==='1'">
@@ -122,20 +122,27 @@ export default {
           categoryId: this.id
         }
       }).then(res => {
-        if (res.data.res === '0') {
-          // 0是可以获取文件
-          if (this.isfenxiang === '0') {
-            // this.isfrist = false
-            wx.previewImage({
-              current: this.data.cloudInformation, // 当前显示图片的http链接
-              urls: [this.data.cloudInformation] // 需要预览的图片http链接列表
-            })
-          } else {
-            this.show1 = true
-          }
-        } else {
-          this.show2 = true
-        }
+        // if (res.data.res === '0') {
+        //   // 0是可以获取文件
+        //   if (this.isfenxiang === '0') {
+        //     // this.isfrist = false
+        //     wx.previewImage({
+        //       current: this.data.cloudInformation, // 当前显示图片的http链接
+        //       urls: [this.data.cloudInformation] // 需要预览的图片http链接列表
+        //     })
+        //   } else {
+        //     this.show1 = true
+        //   }
+        // } else {
+        //   this.show2 = true
+        // }
+      })
+    },
+    // 获取文件查看二维码图片
+    huoquwenjianshow () {
+      wx.previewImage({
+        current: this.data.cloudInformation, // 当前显示图片的http链接
+        urls: [this.data.cloudInformation] // 需要预览的图片http链接列表
       })
     },
     // 收藏或取消
