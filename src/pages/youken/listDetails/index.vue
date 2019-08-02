@@ -174,10 +174,10 @@ export default {
                   sex: e.mp.detail.userInfo.gender
                 }
               }).then(res => {
-                let userId = wx.getStorageSync('userId')
-                if (userId === '') {
-                  wx.setStorageSync('userId', res.data.userId)
-                }
+                // let userId = wx.getStorageSync('userId')
+                // if (userId === '') {
+                wx.setStorageSync('userId', res.data.userId)
+                wx.setStorageSync('sessionkey', res.data.sessionkey)
               })
             } else {
               console.log('登录失败！' + res.errMsg)

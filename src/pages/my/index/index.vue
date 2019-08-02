@@ -156,6 +156,7 @@ export default {
       var that = this
       wx.downloadFile({
         url: that.qrCodeImg, // 二维码路径
+        // url: 'https://wmqhouse.top/static/system/image/null.png',
         success: function (res) {
           wx.hideLoading()
           if (res.statusCode === 200) {
@@ -386,6 +387,7 @@ export default {
           data: e.mp.detail.userInfo
         })
         that.userInfo = e.mp.detail.userInfo
+        console.log(that.userInfo)
         wx.login({
           success (res) {
             if (res.code) {
@@ -399,9 +401,9 @@ export default {
                   sex: e.mp.detail.userInfo.gender
                 }
               }).then(res => {
-                if (wx.getStorageSync('userId') === '' || wx.getStorageSync('userId') === undefined || wx.getStorageSync('userId') === null) {
-                  wx.setStorageSync('userId', res.data.userId)
-                }
+                // if (wx.getStorageSync('userId') === '' || wx.getStorageSync('userId') === undefined || wx.getStorageSync('userId') === null) {
+                wx.setStorageSync('userId', res.data.userId)
+                wx.setStorageSync('sessionkey', res.data.sessionkey)
                 that.onLoad()
               })
             } else {
@@ -457,7 +459,7 @@ export default {
       url: '/api/qrcode/getProgramQrcode',
       userId: userd
     }).then(res => {
-      // console.log(res)
+      console.log(res)
       this.qrCodeImg = res.data.url
     })
   }
