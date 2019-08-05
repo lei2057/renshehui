@@ -163,15 +163,17 @@ export default {
   },
   onLoad () {
     let userId = wx.getStorageSync('userId')
+    console.log(userId)
     this.userInfo = wx.getStorageSync('userInfo')
     this.$http.get({// 二维码
       url: '/api/qrcode/getUserQrcode',
       data: {
-        url: '/pages/connections/addCard/main',
+        url: 'pages/connections/addCard/main',
         userId: userId
       }
     }).then(res => {
       this.qrCodeImg = res.data.url
+      console.log(this.qrCodeImg, 111)
     })
   },
   onShow () {
@@ -576,6 +578,10 @@ export default {
     width: 155px;
     height: 155px;
     margin: 20px auto 30px;
+  }
+  .popup-qrcode img{
+    width: 155px;
+    height: 155px;
   }
   .popup-btn {
     width: 174px;

@@ -10,16 +10,40 @@ import Card from '../../../components/card'
 export default {
   data () {
     return {
-      userinfo: {}
+      userinfo: {},
+      id: '',
+      userId: ''
     }
   },
+  onShow () {
+    this.$http.get({
+      url: 'api/appUser/selectUserById',
+      data: {
+        id: this.id
+      }
+    }).then(res => {
+      this.userinfo = res.data.list[0]
+    })
+  },
   onLoad (option) {
-    console.log(option)
-    this.userinfo = ''
+    // scene 需要使用 decodeURIComponent 才能获取到生成二维码时传入的 scene
+    this.id = decodeURIComponent(option.scene)
+    console.log(this.id)
+    this.userId = wx.getStorageSync('userId')
+    // scene 需要使用 decodeURIComponent 才能获取到生成二维码时传入的 scene
+    // const scene = decodeURIComponent(option.scene)
   },
   methods: {
     addCard () {
-      console.log('添加到名片夹')
+      this.$http.get({
+        url: 'api/appUser/saoUser',
+        data: {
+          userId: this.userId,
+          attentionId: this.id
+        }
+      }).then(res => {
+        console.log(res)
+      })
     }
   },
   components: {

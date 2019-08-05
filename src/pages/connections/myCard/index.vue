@@ -49,14 +49,15 @@ export default {
     },
     addCard () {
       this.show = true
+      console.log(this.userId)
       this.$http.get({
         url: '/api/qrcode/getUserQrcode',
         data: {
-          url: '/pages/connections/addCard/main',
+          url: 'pages/connections/addCard/main',
           userId: this.userId
         }
       }).then(res => {
-        console.log(res)
+        console.log(res, 11)
         this.qrCodeImg = res.data.url
       })
     }
