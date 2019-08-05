@@ -136,7 +136,7 @@ export default {
       userInfo: {}, // 用户信息
       cardInfo: {
         name: '微信名字',
-        msg1: '向你推荐了人社会',
+        msg1: '向你推荐了人社汇',
         msg2: '打开微信扫一扫，即可试用'
       },
       qrCodeImg: ''
@@ -421,6 +421,7 @@ export default {
           id: userId
         }
       }).then(res => {
+        console.log(res, 111)
         this.totalMyCard = res.data.list[0].totalMyCard
         this.totalDataSource = res.data.list[0].totalDataSource
         this.totalChain = res.data.list[0].totalChain
@@ -428,7 +429,9 @@ export default {
     }
   },
   onLoad () { // created
-    var userd = wx.getStorageSync('userId')
+  // // scene 需要使用 decodeURIComponent 才能获取到生成二维码时传入的 scene
+  //   const scene = decodeURIComponent(query.scene)
+    // var userd = wx.getStorageSync('userId')
     wx.checkSession({
       success: (res) => {
         console.log(res, '存在')
@@ -449,11 +452,11 @@ export default {
       }
     })
     this.$http.get({
-      url: '/api/qrcode/getProgramQrcode',
-      data: {
-        url: '/pages/youken/index/main',
-        userId: userd
-      }
+      url: '/api/qrcode/getProgramQrcode'
+      // data: {
+      //   url: '/pages/youken/index/main',
+      //   userId: userd
+      // }
     }).then(res => {
       console.log(res)
       this.qrCodeImg = res.data.url

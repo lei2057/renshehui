@@ -108,7 +108,12 @@ export default {
 
   },
   onLoad (option) {
-    this.activityId = option.id
+    // scene 需要使用 decodeURIComponent 才能获取到生成二维码时传入的 scene
+    if (option.scene === undefined) {
+      this.activityId = option.id
+    } else {
+      this.activityId = decodeURIComponent(option.scene)
+    }
     this.$http.get({
       url: 'api/activity/selectAllActivity'
     }).then(res => {
@@ -129,7 +134,7 @@ export default {
       }
     }).then(res => {
       // console.log(res, 11)
-      this.qrCodeImg = res
+      this.qrCodeImg = res.data.url
     })
   },
   methods: {
