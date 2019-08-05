@@ -21,7 +21,7 @@
     <div class="wrapper pd10">
       <div class="service" v-for="item in serviceList" :key="item">
         <div class="service-title">{{item.titles}}</div>
-        <div class="service-cont">{{item.details}}</div>
+        <div class="service-cont" v-html="item.details"></div>
       </div>
     </div>
     <div class="service-wrapper">
@@ -82,7 +82,7 @@ export default {
     }).then(res => {
       console.log(res)
       this.contList = res.data.list
-      this.serviceList = JSON.parse(res.data.list.keyNotes.replace(/\n/g, '\\n').replace(/\r/g, '\\r'))
+      this.serviceList = JSON.parse(res.data.list.keyNotes.replace(/\n|\r\n/g, '<br/>'))
     })
     this.$http.get({
       url: 'api/SupplyChain/showMyfavoritesState',
@@ -176,6 +176,7 @@ export default {
               }).then(res => {
                 // let userId = wx.getStorageSync('userId')
                 // if (userId === '') {
+                console.log(res)
                 wx.setStorageSync('userId', res.data.userId)
                 wx.setStorageSync('sessionkey', res.data.sessionkey)
               })
