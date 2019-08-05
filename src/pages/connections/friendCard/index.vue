@@ -40,7 +40,7 @@
     </div> -->
     <div >
       <div class="mycardinfo-btn disflex" @click="call"><div class="icon15 mgr10"><img src="../../../assets/phone.png" alt=""></div>拨打电话</div>
-      <div class="mycard-btn disflex" @click="share"><div class="icon15 mgr10"><img src="../../../assets/topMp.png" alt=""></div>分享名片</div>
+      <button openType="share" class="mycard-btn disflex"><div class="icon15 mgr10"><img src="../../../assets/topMp.png" alt=""></div>分享名片</button>
     </div>
     <div class="vant-popup">
       <van-popup
@@ -108,6 +108,9 @@ export default {
   onShow () {
 
   },
+  onShareAppMessage () {
+
+  },
   methods: {
     onClose (event) {
       this.show = false
@@ -121,9 +124,9 @@ export default {
         phoneNumber: this.userinfo.phone
       })
     },
-    share () {
-      console.log('分享名片')
-    },
+    // share () {
+    //   console.log('分享名片')
+    // },
     exchangeCard () {
       let userId = wx.getStorageSync('userId')
       this.$http.get({
