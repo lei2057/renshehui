@@ -144,7 +144,7 @@ export default {
     },
     phoneCall () { // 客服拨打电话
       wx.makePhoneCall({
-        phoneNumber: '0571-85378987'
+        phoneNumber: this.contList.phone
       })
     },
     share () { // 分享好友
@@ -232,7 +232,7 @@ export default {
       margin-right: 5px;
     }
     .details-item {
-      margin-top: 28px;
+      margin-top: 25px;
       .item-cont {
         margin-left: 10px;
       }

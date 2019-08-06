@@ -59,18 +59,22 @@
         </scroll-view>
       </div>
       <div v-if="cont === 1">
-        <div class="wrapper-list disflex" v-for="item in datamingpian" :key="item" @click="myMingpian(item.id)">
-          <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
-          <div class="list-cont flex">
-            <div class="list-name">{{item.name}}</div>
-            <div class="list-text">{{item.company}}</div>
-            <div class="list-text">{{item.userWork}}</div>
-          </div>
-          <div class="list-icon">
-            <div class="phone-icon"><img src="../../../assets/phoneMp.png" alt=""></div>
+        <div v-if="datamingpian.length !== 0">
+          <div class="wrapper-list disflex" v-for="item in datamingpian" :key="item" @click="myMingpian(item.id)">
+            <div class="list-photo"><img :src="item.headPhoto" alt=""></div>
+            <div class="list-cont flex">
+              <div class="list-name">{{item.name}}</div>
+              <div class="list-text">{{item.company}}</div>
+              <div class="list-text">{{item.userWork}}</div>
+            </div>
+            <div class="list-icon">
+              <div class="phone-icon"><img src="../../../assets/phoneMp.png" alt=""></div>
+            </div>
           </div>
         </div>
-        <null text="你还没有收到名片哦赶紧去人脉圈交换吧" img="https://wmqhouse.top/static/system/image/null.png"></null>
+        <div v-else>
+          <null text="你还没有收到名片哦赶紧去人脉圈交换吧" img="https://wmqhouse.top/static/system/image/null.png"></null>
+        </div>
       </div>
     </div>
     <!-- 弹出层  -->
@@ -162,6 +166,7 @@ export default {
     }
   },
   onLoad () {
+    console.log(this.datamingpian.length)
     let userId = wx.getStorageSync('userId')
     console.log(userId)
     this.userInfo = wx.getStorageSync('userInfo')

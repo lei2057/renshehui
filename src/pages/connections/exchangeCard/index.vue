@@ -9,7 +9,7 @@
     <div v-if="dataarr">
       <div class="vant-cell">
         <div class="cell-item border_cell1" v-for="item in dataarr" :key="item.id">
-          <van-swipe-cell id="swipe-cell" :right-width="80" :left-width="1" async-close @close="more">
+          <van-swipe-cell id="swipe-cell" :right-width="80" :left-width="1" async-close @close="more(event,item.notificationId)">
             <div class="cell-cont disflex">
               <div class="cell-photo"><img :src="item.headPhoto" alt=""></div>
               <div class="cell-info flex">
@@ -47,8 +47,8 @@
           @close="onClose"
           >
             <div class="more-list">
-              <div class="more-item border_cell" @click="share">分享名片</div>
-              <div class="more-item" @click="del(item.notificationId)">删除记录</div>
+              <button openType="share" style="background-color: #fff;line-height: 2;" class="more-item border_cell">分享名片</button>
+              <div class="more-item" @click="del">删除记录</div>
             </div>
             <div class="more-off" @click="onClose">取消</div>
           </van-popup>
@@ -66,10 +66,31 @@ export default {
   data () {
     return {
       show: false, // 弹框
-      type: '',
+      // type: '',
       show1: true,
       userId: '',
-      dataarr: []
+      dataarr: [],
+      id: '', // 用户ID
+      activeKey: 0
+    }
+  },
+  onShareAppMessage () {
+    console.log(this.id)
+    return {
+      title: '好友名片',
+      desc: '',
+      path: '/pages/connections/friendCard/main?id=' + this.id,
+      imageUrl: '../../../assets/yuanjiaohuan.png', // 可以更换分享的图片
+      success (res) {
+        // 转发成功
+        console.log(res)
+        this.show = false
+      }
+    }
+  },
+  watch: {
+    'activeKey' (res) {
+      console.log(res)
     }
   },
   methods: {
@@ -102,13 +123,15 @@ export default {
     onChange (event) {
       // 0是收到   1是发出
       console.log(event.mp.detail)
+      this.activeKey = event.mp.detail.index
       this.getdata(event.mp.detail.index)
     },
-    more (event) {
+    more (event, id) {
       this.show = true
-      console.log('more')
-      console.log(event.mp.detail)
-      this.type = event.mp.detail.position
+      console.log('more', id)
+      this.id = id
+      // console.log(event.mp.detail)
+      // this.type = event.mp.detail.position
     },
     onClose (event) {
       this.show = false
@@ -121,11 +144,14 @@ export default {
         this.$http.get({
           url: 'api/notification/delNotification',
           data: {
-            id: id
+            id: this.id
           }
         }).then(res => {
-          this.getdata(0)
-          this.getdata(1)
+          if (this.activeKey === 0) {
+            this.getdata(0)
+          } else {
+            this.getdata(1)
+          }
         })
       })
     },
@@ -156,7 +182,13 @@ export default {
     }
   },
   onShow () {
-    this.getdata(0)
+    if (this.activeKey === 0) {
+      this.getdata(0)
+      this.show = false
+    } else {
+      this.getdata(1)
+      this.show = false
+    }
   },
   onLoad () {
     this.userId = wx.getStorageSync('userId')

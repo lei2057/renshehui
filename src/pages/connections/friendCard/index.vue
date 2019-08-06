@@ -30,15 +30,15 @@
         <div class="tag">简介</div>
       </div>
     </div>
-    <!-- <div v-if="pageType === '1'">
+    <div v-if="pageType === '1'">
       <div class="mycardinfo-btn w300 disflex" @click="exchangeCard"><div class="icon19-13 mgr10"><img src="../../../assets/cardjiaohuan.png" alt=""></div>交换名片</div>
       <div class="mycardinfo-btn w300 mgt ptr disflex" @click="myCard"><div class="icon15-18 mgr10"><img src="../../../assets/userIcon.png" alt=""></div>我的名片<div class="mycardinfo-num">{{cardNum}}</div></div>
     </div>
     <div v-else-if="pageType === '2'">
       <div class="mycardinfo-btn w300 bg1 disflex">名片已发送交换申请</div>
       <div class="mycardinfo-btn w300 mgt ptr disflex" @click="myCard"><div class="icon15-18 mgr10"><img src="../../../assets/userIcon.png" alt=""></div>我的名片<div class="mycardinfo-num">{{cardNum}}</div></div>
-    </div> -->
-    <div >
+    </div>
+    <div v-else>
       <div class="mycardinfo-btn disflex" @click="call"><div class="icon15 mgr10"><img src="../../../assets/phone.png" alt=""></div>拨打电话</div>
       <button openType="share" class="mycard-btn disflex"><div class="icon15 mgr10"><img src="../../../assets/topMp.png" alt=""></div>分享名片</button>
     </div>
