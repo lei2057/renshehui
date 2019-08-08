@@ -40,7 +40,7 @@ export default {
   border-radius: 8px;
   margin-bottom: 10px; 
   .list-cont {
-    background-image: url('https://wmqhouse.top/static/system/image/listBg.png');
+    background-image: url('https://hrotp.com/static/system/image/listBg.png');
     background-size: 100% 100%;
     .list-left {
       width: 175px;
