@@ -115,14 +115,12 @@ export default {
           attentionId: attentionId// 发送人id
         }
       }).then(res => {
-        console.log(res)
         Toast('已同意申请')
         this.getdata(0)
       })
     },
     onChange (event) {
       // 0是收到   1是发出
-      console.log(event.mp.detail)
       this.activeKey = event.mp.detail.index
       this.getdata(event.mp.detail.index)
     },
@@ -182,6 +180,7 @@ export default {
     }
   },
   onShow () {
+    console.log(this.activeKey)
     if (this.activeKey === 0) {
       this.getdata(0)
       this.show = false
@@ -190,7 +189,10 @@ export default {
       this.show = false
     }
   },
-  onLoad () {
+  onLoad (options) {
+    if (options.key) {
+      this.activeKey = parseInt(options.key)
+    }
     this.userId = wx.getStorageSync('userId')
   }
 }

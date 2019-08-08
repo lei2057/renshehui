@@ -122,6 +122,10 @@ export default {
           categoryId: this.id
         }
       }).then(res => {
+        wx.showToast({
+          title: '获取文件成功',
+          icon: 'none'
+        })
         // if (res.data.res === '0') {
         //   // 0是可以获取文件
         //   if (this.isfenxiang === '0') {
