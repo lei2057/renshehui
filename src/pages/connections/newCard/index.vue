@@ -29,7 +29,7 @@
         <input class="newCard-input flex" type="text" placeholder="请填写您的城市" v-model="city">
       </div>
       <div class="newCard-textarea">
-        <textarea type="text" maxlength="45" placeholder="来一段简单的介绍，让其他人更好的了解你。本文段最多输入45个文字。" v-model="remarks"></textarea>
+        <textarea type="text" v-if="textareaShow" maxlength="45" placeholder="来一段简单的介绍，让其他人更好的了解你。本文段最多输入45个文字。" v-model="remarks"></textarea>
       </div>
     </div>
     <div class="newCard-needKnow">
@@ -43,7 +43,7 @@
     <div style="height: 64px;"></div>
     <div class="newCard-btn" @click="cardAdd" v-text="btnText===0?'创建名片':'保存名片'"></div>
     <div class="vant-css">
-      <van-popup :show="show" @close="onClose" catchtouchmove="ture" style="z-index:60;">
+      <van-popup :show="show" @close="onClose" catchtouchmove="ture">
         <div class="popup">
           <div class="popup-title">名片服务声明</div>
           <div class="popup-cont">
@@ -77,7 +77,8 @@ export default {
       job: '',
       email: '',
       city: '',
-      remarks: ''
+      remarks: '',
+      textareaShow: true
     }
   },
   onLoad (option) {
@@ -105,13 +106,16 @@ export default {
   methods: {
     onClose (event) {
       this.show = false
+      this.textareaShow = true
     },
     needKnow () { // 阅读声明
       this.show = true
+      this.textareaShow = false
     },
     needOk () { // 确认已阅读声明
       this.checkbox = true
       this.show = false
+      this.textareaShow = true
     },
     checkboxChange (event) {
       let type = event.mp.detail.value
@@ -235,7 +239,7 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
     }
   }
   .newCard-textarea {
-    z-index: 0;
+    // z-index: 0;
     background: rgba(244,244,244,1);
     border-radius: 8px;
     padding: 15px 20px;
