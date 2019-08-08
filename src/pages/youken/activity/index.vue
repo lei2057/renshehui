@@ -137,6 +137,9 @@ export default {
       this.qrCodeImg = res.data.url
     })
   },
+  onShow () {
+    this.show1 = false
+  },
   methods: {
     //  头像
     getQrCode: function (avaterSrc) {
@@ -290,43 +293,64 @@ export default {
     },
     // 点击保存到相册
     saveShareImg () {
-    // var that = this
-      wx.showLoading({
-        title: '正在保存',
-        mask: true
-      })
-      setTimeout(function () {
-        wx.canvasToTempFilePath({
-          canvasId: 'myCanvas',
-          success: function (res) {
-            wx.hideLoading()
-            var tempFilePath = res.tempFilePath
-            wx.saveImageToPhotosAlbum({
-              filePath: tempFilePath,
-              success (res) {
-              // utils.aiCardActionRecord(19)
-                wx.showModal({
-                  content: '图片已保存到相册，赶紧晒一下吧~',
-                  showCancel: false,
-                  confirmText: '好的',
-                  confirmColor: '#333',
-                  success: function (res) {
-                    if (res.confirm) { }
-                  },
-                  fail: function (res) { }
-                })
-              },
-              fail: function (res) {
-                wx.showToast({
-                  title: res.errMsg,
-                  icon: 'none',
-                  duration: 2000
+      wx.authorize({
+        scope: 'scope.writePhotosAlbum',
+        success () {
+        // 授权成功
+          wx.showLoading({
+            title: '正在保存',
+            mask: true
+          })
+          // setTimeout(function () {
+          wx.canvasToTempFilePath({
+            canvasId: 'myCanvas',
+            success: function (res) {
+              wx.hideLoading()
+              var tempFilePath = res.tempFilePath
+              wx.saveImageToPhotosAlbum({
+                filePath: tempFilePath,
+                success (res) {
+                  // utils.aiCardActionRecord(19)
+                  wx.showModal({
+                    content: '图片已保存到相册，赶紧晒一下吧~',
+                    showCancel: false,
+                    confirmText: '好的',
+                    confirmColor: '#333',
+                    success: function (res) {
+                      if (res.confirm) { }
+                    },
+                    fail: function (res) { }
+                  })
+                },
+                fail: function (res) {
+                  wx.showToast({
+                    title: res.errMsg,
+                    icon: 'none',
+                    duration: 2000
+                  })
+                }
+              })
+            }
+          })
+          // }, 1000)
+        },
+        fail: function () {
+        // 授权失败
+          wx.showModal({
+            title: '警告',
+            content: '您点击了拒绝授权,将无法正常保存图片,点击确定重新获取授权。',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({
+                  success: (res) => {
+                    console.log('授权成功')
+                  }
                 })
               }
-            })
-          }
-        })
-      }, 1000)
+            }
+          })
+        }
+      })
     },
 
     message () {

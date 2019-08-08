@@ -43,7 +43,7 @@
     <div style="height: 64px;"></div>
     <div class="newCard-btn" @click="cardAdd" v-text="btnText===0?'创建名片':'保存名片'"></div>
     <div class="vant-css">
-      <van-popup :show="show" @close="onClose" catchtouchmove="ture">
+      <van-popup :show="show" @close="onClose" catchtouchmove="ture" style="z-index:60;">
         <div class="popup">
           <div class="popup-title">名片服务声明</div>
           <div class="popup-cont">
@@ -235,6 +235,7 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
     }
   }
   .newCard-textarea {
+    z-index: 0;
     background: rgba(244,244,244,1);
     border-radius: 8px;
     padding: 15px 20px;

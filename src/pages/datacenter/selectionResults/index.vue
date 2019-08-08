@@ -162,15 +162,15 @@ export default {
   background-color: #3AAFFC;
   border: 1px solid #3AAFFC;
   .z-select{
-    // width: 343px;
+    width: 343px;
     height: 44px;
     margin: 0 auto;
     display: flex;
     .list{
       display: flex;
-      // width:68px;
+      width:78px;
       height:44px;
-      margin-right: 30px;
+      margin-right: 20px;
       position: relative;
       &:nth-child(4){
         margin-right: 0px;

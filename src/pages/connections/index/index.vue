@@ -179,7 +179,10 @@ export default {
     })
   },
   onShow () {
+    console.log(this.active)
+    console.log()
     let key = getApp().globalData.homeCurrentTab
+    console.log(key)
     if (key) {
       this.active = key
       this.cont = key

@@ -86,7 +86,7 @@
           </div>
           保存海报
         </div> -->
-        <button @click="saveShareImg" class="flex share-btn">
+        <button @click="saveShareImg" class="flex share-btn" open-type="writePhotosAlbum">
           <view  class="share-icon">
             <cover-image  mode="widthFix" src="https://hrotp.com/static/system/image/pyq.png"></cover-image>
           </view>
@@ -268,104 +268,65 @@ export default {
     },
     // 点击保存到相册
     saveShareImg () {
-      var that = this
-      wx.showLoading({
-        title: '正在保存',
-        mask: true
-      })
-      setTimeout(function () {
-        wx.canvasToTempFilePath({
-          canvasId: 'myCanvas',
-          success: function (res) {
-            wx.hideLoading()
-            var tempFilePath = res.tempFilePath
-            wx.saveImageToPhotosAlbum({
-              filePath: tempFilePath,
-              success (res) {
-              // utils.aiCardActionRecord(19)
-                wx.showModal({
-                  content: '图片已保存到相册，赶紧晒一下吧~',
-                  showCancel: false,
-                  confirmText: '好的',
-                  confirmColor: '#333',
-                  success: function (res) {
-                    if (res.confirm) { }
-                  },
-                  fail: function (res) { }
-                })
-              },
-              fail: function (res) {
-                // wx.showToast({
-                //   title: res.errMsg,
-                //   icon: 'none',
-                //   duration: 2000
-                // })
-                console.log(res)
-                if (res.errMsg === 'saveImageToPhotosAlbum:fail auth deny') {
-                  // this.openSettingBtnHidden = false
-                  that.setData({
-                    openSettingBtnHidden: false
+      // var that = this
+      wx.authorize({
+        scope: 'scope.writePhotosAlbum',
+        success () {
+        // 授权成功
+          wx.showLoading({
+            title: '正在保存',
+            mask: true
+          })
+          // setTimeout(function () {
+          wx.canvasToTempFilePath({
+            canvasId: 'myCanvas',
+            success: function (res) {
+              wx.hideLoading()
+              var tempFilePath = res.tempFilePath
+              wx.saveImageToPhotosAlbum({
+                filePath: tempFilePath,
+                success (res) {
+                  // utils.aiCardActionRecord(19)
+                  wx.showModal({
+                    content: '图片已保存到相册，赶紧晒一下吧~',
+                    showCancel: false,
+                    confirmText: '好的',
+                    confirmColor: '#333',
+                    success: function (res) {
+                      if (res.confirm) { }
+                    },
+                    fail: function (res) { }
                   })
+                },
+                fail: function (res) {
                   wx.showToast({
-                    title: '缺少授权，请点击授权',
+                    title: res.errMsg,
                     icon: 'none',
                     duration: 2000
                   })
-                  // this.$apply()
-                } else if (res.errMsg === 'saveImageToPhotosAlbum:fail cancel') {
-                  // this.openSettingBtnHidden = false
-                  that.setData({
-                    openSettingBtnHidden: true
-                  })
-                  wx.showToast({
-                    title: '取消保存',
-                    icon: 'none',
-                    duration: 2000
-                  })
-                  // this.$apply()
-                } else if (res.errMsg === 'saveImageToPhotosAlbum:fail:auth denied') {
-                  // this.openSettingBtnHidden = false
-                  that.setData({
-                    openSettingBtnHidden: false
-                  })
-                  wx.showToast({
-                    title: '已拒绝授权，请点击重新授权',
-                    icon: 'none',
-                    duration: 2000
-                  })
-                  // this.$apply()
                 }
-
-                // console.log(err);
-                // if (err.errMsg === "saveImageToPhotosAlbum:fail auth deny") {
-                // console.log("用户一开始拒绝了，我们想再次发起授权")
-                // wx.authorize({
-                //   scope: 'scope.writePhotosAlbum',
-                //   success(successdata) {
-                //     console.log('授权成功')
-                //   },
-                //   fail(faildata) {
-                //     console.log('授权失败')
-                //     console.log(faildata)
-                //   }
-                // })
-                // console.log('打开设置窗口')
-                // wx.openSetting({
-                //   success(settingdata) {
-                //     console.log(settingdata)
-                //     if (settingdata.authSetting['scope.writePhotosAlbum']) {
-                //       console.log('获取权限成功，给出再次点击图片保存到相册的提示。')
-                //     } else {
-                //       console.log('获取权限失败，给出不给权限就无法正常使用的提示')
-                //     }
-                //   }
-                // })
-                // }
+              })
+            }
+          })
+          // }, 1000)
+        },
+        fail: function () {
+        // 授权失败
+          wx.showModal({
+            title: '警告',
+            content: '您点击了拒绝授权,将无法正常保存图片,点击确定重新获取授权。',
+            success: function (res) {
+              if (res.confirm) {
+                wx.openSetting({
+                  success: (res) => {
+                    console.log('授权成功')
+                  }
+                })
               }
-            })
-          }
-        })
-      }, 1000)
+            }
+          })
+        }
+      })
     },
     onClose () {
       this.show = false
