@@ -166,9 +166,7 @@ export default {
     }
   },
   onLoad () {
-    console.log(this.datamingpian.length)
     let userId = wx.getStorageSync('userId')
-    console.log(userId)
     this.userInfo = wx.getStorageSync('userInfo')
     this.$http.get({// 二维码
       url: '/api/qrcode/getUserQrcode',
@@ -178,7 +176,6 @@ export default {
       }
     }).then(res => {
       this.qrCodeImg = res.data.url
-      console.log(this.qrCodeImg, 111)
     })
   },
   onShow () {
@@ -211,6 +208,7 @@ export default {
         wx.removeStorageSync('userId')
       }
     })
+    this.cont = 0// 默认查看人脉圈信息，避免页面缓存数据
     // 请求人脉圈的数据
     this.$http.get({
       url: 'api/appUser/selectAllUsers',
@@ -228,6 +226,7 @@ export default {
         userId: userId
       }
     }).then(res => {
+      console.log(res)
       if (res.code === '0000011') {
 
       } else {
