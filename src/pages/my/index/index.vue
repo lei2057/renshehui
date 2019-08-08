@@ -268,7 +268,7 @@ export default {
     },
     // 点击保存到相册
     saveShareImg () {
-    // var that = this
+      var that = this
       wx.showLoading({
         title: '正在保存',
         mask: true
@@ -295,11 +295,72 @@ export default {
                 })
               },
               fail: function (res) {
-                wx.showToast({
-                  title: res.errMsg,
-                  icon: 'none',
-                  duration: 2000
-                })
+                // wx.showToast({
+                //   title: res.errMsg,
+                //   icon: 'none',
+                //   duration: 2000
+                // })
+                console.log(res)
+                if (res.errMsg === 'saveImageToPhotosAlbum:fail auth deny') {
+                  // this.openSettingBtnHidden = false
+                  that.setData({
+                    openSettingBtnHidden: false
+                  })
+                  wx.showToast({
+                    title: '缺少授权，请点击授权',
+                    icon: 'none',
+                    duration: 2000
+                  })
+                  // this.$apply()
+                } else if (res.errMsg === 'saveImageToPhotosAlbum:fail cancel') {
+                  // this.openSettingBtnHidden = false
+                  that.setData({
+                    openSettingBtnHidden: true
+                  })
+                  wx.showToast({
+                    title: '取消保存',
+                    icon: 'none',
+                    duration: 2000
+                  })
+                  // this.$apply()
+                } else if (res.errMsg === 'saveImageToPhotosAlbum:fail:auth denied') {
+                  // this.openSettingBtnHidden = false
+                  that.setData({
+                    openSettingBtnHidden: false
+                  })
+                  wx.showToast({
+                    title: '已拒绝授权，请点击重新授权',
+                    icon: 'none',
+                    duration: 2000
+                  })
+                  // this.$apply()
+                }
+
+                // console.log(err);
+                // if (err.errMsg === "saveImageToPhotosAlbum:fail auth deny") {
+                // console.log("用户一开始拒绝了，我们想再次发起授权")
+                // wx.authorize({
+                //   scope: 'scope.writePhotosAlbum',
+                //   success(successdata) {
+                //     console.log('授权成功')
+                //   },
+                //   fail(faildata) {
+                //     console.log('授权失败')
+                //     console.log(faildata)
+                //   }
+                // })
+                // console.log('打开设置窗口')
+                // wx.openSetting({
+                //   success(settingdata) {
+                //     console.log(settingdata)
+                //     if (settingdata.authSetting['scope.writePhotosAlbum']) {
+                //       console.log('获取权限成功，给出再次点击图片保存到相册的提示。')
+                //     } else {
+                //       console.log('获取权限失败，给出不给权限就无法正常使用的提示')
+                //     }
+                //   }
+                // })
+                // }
               }
             })
           }
