@@ -352,7 +352,7 @@ export default {
         })
       } else {
         wx.navigateTo({
-          url: '../../connections/exchangeCard/main'
+          url: '../../connections/exchangeCard/main?key=0'
         })
       }
     },
