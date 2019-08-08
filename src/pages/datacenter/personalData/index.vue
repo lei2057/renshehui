@@ -33,7 +33,7 @@
               <div v-for="item in dataarr" :key="item">
                 <div class="list" @click="godataDetails(item.id)">
                   <div class="listleft">
-                    <img :src="item.type==0?'https://wmqhouse.top/static/system/image/wordicon.png':item.type==1?'https://wmqhouse.top/static/system/image/tabericon.png':item.type==2?'../../../assets/ppticon.png':item.type==3?'../../../assets/picon.png':item.type==4?'https://wmqhouse.top/static/system/image/yasuoicon.png':'https://wmqhouse.top/static/system/image/qitaicon.png'" alt="">
+                    <img :src="item.type==0?'https://hrotp.com/static/system/image/wordicon.png':item.type==1?'https://hrotp.com/static/system/image/tabericon.png':item.type==2?'../../../assets/ppticon.png':item.type==3?'../../../assets/picon.png':item.type==4?'https://hrotp.com/static/system/image/yasuoicon.png':'https://hrotp.com/static/system/image/qitaicon.png'" alt="">
                   </div>
                   <div class="listright">
                     <div class="righttop">
@@ -50,7 +50,7 @@
             </div>
           </div>
           <div v-show="!result">
-            <div class="nullCont-img"><img src="https://wmqhouse.top/static/system/image/null.png" alt=""></div>
+            <div class="nullCont-img"><img src="https://hrotp.com/static/system/image/null.png" alt=""></div>
             <div class="nullCont-text">还没有资料哦，赶紧去海量资料查找</div>
           </div>
         </div>

@@ -2,7 +2,7 @@
   <div>
     <div class="mycard-wrapper">
       <div class="mycard-cont">
-        <img src="https://wmqhouse.top/static/system/image/img03.png" alt="">
+        <img src="https://hrotp.com/static/system/image/img03.png" alt="">
         <div class="qrcode-jiao">
           <div class="qrcode"><img src="../assets/qrcodeban.png" alt=""></div>
         </div>

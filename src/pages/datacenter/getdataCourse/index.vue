@@ -5,22 +5,22 @@
        <div class="msg1">第一步：点击上方"获取文件"按钮</div>
      </div>
      <div class="tu1">
-       <img src="https://wmqhouse.top/static/system/image/jiaochengtu1.png" alt="">
+       <img src="https://hrotp.com/static/system/image/jiaochengtu1.png" alt="">
      </div>
      <div class="msg2">当屏幕上出现小程序码的预览图片时</div>
      <div class="tu2">
-       <img src="https://wmqhouse.top/static/system/image/jiaochengtu2.png" alt="">
+       <img src="https://hrotp.com/static/system/image/jiaochengtu2.png" alt="">
      </div>
      <div class="msg2">按住手机屏幕，点击识别图中小程序码</div>
      <div class="tu3">
-       <img src="https://wmqhouse.top/static/system/image/jiaochengtu3.png" alt="">
+       <img src="https://hrotp.com/static/system/image/jiaochengtu3.png" alt="">
      </div>
      <div class="buzhou">
        <div class="landian"></div>
        <div class="msg1">第二步：在识别后打开的页面即可保存文件</div>
      </div>
      <div class="tu4">
-       <img src="https://wmqhouse.top/static/system/image/jiaochengtu4.png" alt="">
+       <img src="https://hrotp.com/static/system/image/jiaochengtu4.png" alt="">
      </div>
      <div class="msg2">按住手机屏幕，点击识别图中小程序码</div>
      <div class="btn" @click="fanhui">看懂了，马上去试试</div>
