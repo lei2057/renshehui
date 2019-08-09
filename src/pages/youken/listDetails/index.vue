@@ -197,7 +197,7 @@ export default {
     var shareObj = {
       title: '转发',
       path: '/pages/youken/listDetails/main?id=' + this.categoryId,
-      imageUrl: 'https://hrotp.com/static/system/image/null.png',
+      imageUrl: 'https://zodeng.com/static/system/image/null.png',
       success: function (res) {
         console.log('成功', res)
       }
@@ -214,7 +214,7 @@ export default {
   margin-bottom: 15px;
   box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  background-image: url('https://hrotp.com/static/system/image/detailsBg.png'); 
+  background-image: url('https://zodeng.com/static/system/image/detailsBg.png'); 
   background-size: 100% 100%;
   .details-cont {
     margin-left: 18px;
@@ -274,7 +274,7 @@ export default {
   width: 275px;
   .popup-top {
     height: 65px;
-    background-image: url('https://hrotp.com/static/system/image/empowerBg.png');
+    background-image: url('https://zodeng.com/static/system/image/empowerBg.png');
     background-size: 100% 100%;
     .popup-out {
       height: 25px;

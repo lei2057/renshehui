@@ -202,7 +202,7 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   margin: 0 13px;
-  background-image: url('https://hrotp.com/static/system/image/cardBg.png');
+  background-image: url('https://zodeng.com/static/system/image/cardBg.png');
   background-size: 100% 100%;
   .newCard-photo {
     width: 90px;

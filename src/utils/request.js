@@ -1,6 +1,6 @@
 import conver from './conver.js'
 // const host = 'http://192.168.10.69/'
-const host = 'https://hrotp.com/'
+const host = 'https://zodeng.com/'
 
 function request (url, method, data, header = {}) {
   wx.showLoading({

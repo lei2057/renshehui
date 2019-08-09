@@ -21,7 +21,7 @@ export default {
 <style lang="scss" scoped>
 .popup-top {
   height: 65px;
-  background-image: url('https://hrotp.com/static/system/image/empowerBg.png');
+  background-image: url('https://zodeng.com/static/system/image/empowerBg.png');
   background-size: 100% 100%;
   .popup-out {
     height: 25px;

@@ -66,7 +66,7 @@ export default {
     // var shareObj = {
     //   title: '转发',
     //   path: '/pages/youken/listDetails/main?id=' + this.categoryId,
-    //   imageUrl: 'https://hrotp.com/static/system/image/null.png',
+    //   imageUrl: 'https://zodeng.com/static/system/image/null.png',
     //   success: function (res) {
     //     console.log('成功', res)
     //   }

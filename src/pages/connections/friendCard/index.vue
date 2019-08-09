@@ -2,7 +2,7 @@
   <div style="padding: 0 10px;">
     <div class="mycard-wrapper">
       <div class="mycard-cont">
-        <img src="https://hrotp.com/static/system/image/img03.png" alt="">
+        <img src="https://zodeng.com/static/system/image/img03.png" alt="">
         <div class="mycard-info">
           <div class="info-top disflex">
             <div class="info-photo"><img :src="userinfo.headPhoto" alt=""></div>
@@ -300,7 +300,7 @@ export default {
   width: 275px;
   .popup-top {
     height: 65px;
-    background-image: url('https://hrotp.com/static/system/image/empowerBg.png'); 
+    background-image: url('https://zodeng.com/static/system/image/empowerBg.png'); 
     background-size: 100% 100%;
     .popup-out {
       height: 25px;
