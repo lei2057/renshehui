@@ -27,7 +27,7 @@
             <div class="content" @click="goselection(item.id)" v-for="item in erjidata" :key="item.id">
               <div class="contentlist">
                 <p>{{item.name}}</p>
-                <img src="https://zodeng.com/static/system/image/jichurenshi.png" alt="">
+                <img src="https://wmqhouse.top/static/system/image/jichurenshi.png" alt="">
               </div>
             </div>
           </div>

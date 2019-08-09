@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="connectionsBg">
-      <img src="https://zodeng.com/static/system/image/renmaiBg.png" alt="">
+      <img src="https://wmqhouse.top/static/system/image/renmaiBg.png" alt="">
     </div>
     <div class="sousuo-wrapper" id="head_wrapper" v-if="!souShow">
       <div class="sousuo disflex">
@@ -73,7 +73,7 @@
           </div>
         </div>
         <div v-else>
-          <null text="你还没有收到名片哦赶紧去人脉圈交换吧" img="https://zodeng.com/static/system/image/null.png"></null>
+          <null text="你还没有收到名片哦赶紧去人脉圈交换吧" img="https://wmqhouse.top/static/system/image/null.png"></null>
         </div>
       </div>
     </div>
@@ -561,7 +561,7 @@ export default {
   width: 275px;
   .popup-top {
     height: 65px;
-    background-image: url('https://zodeng.com/static/system/image/empowerBg.png'); 
+    background-image: url('https://wmqhouse.top/static/system/image/empowerBg.png'); 
     background-size: 100% 100%;
     .popup-out {
       height: 25px;

@@ -2,7 +2,7 @@
   <div>
     <div class="mycard-wrapper">
       <div class="mycard-cont">
-        <img src="https://zodeng.com/static/system/image/img03.png" alt="">
+        <img src="https://wmqhouse.top/static/system/image/img03.png" alt="">
         <div class="mycard-info">
           <div class="info-top disflex">
             <div class="info-photo"><img :src="userinfo.headPhoto" alt=""></div>

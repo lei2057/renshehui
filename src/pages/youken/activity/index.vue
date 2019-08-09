@@ -12,7 +12,7 @@
         <div class="activity-cont">{{content.detail}}</div>
       </div>
       <div class="enroll-wrapper disflex">
-        <img src="https://zodeng.com/static/system/image/img02.png" alt="">
+        <img src="https://wmqhouse.top/static/system/image/img02.png" alt="">
         <div class="enroll-introduce disflex">
           此活动已有 <div class="enroll-people" v-if="content.personNum<9999">{{content.personNum}}</div><div class="enroll-people" v-else>9999+</div> 人参与，赶紧报名吧！
         </div>
@@ -63,7 +63,7 @@
             </div>保存海报</div> -->
             <button @click="saveShareImg" class="flex share-btn">
               <view  class="share-icon">
-                <cover-image  mode="widthFix" src="https://zodeng.com/static/system/image/pyq.png"></cover-image>
+                <cover-image  mode="widthFix" src="https://wmqhouse.top/static/system/image/pyq.png"></cover-image>
               </view>
               <view>保存海报</view>
             </button>
@@ -73,7 +73,7 @@
             </div>分享好友</div> -->
             <button openType="share" class="flex share-btn">
               <view  class="share-icon">
-                <cover-image  mode="widthFix" src="https://zodeng.com/static/system/image/haoyou.png"></cover-image>
+                <cover-image  mode="widthFix" src="https://wmqhouse.top/static/system/image/haoyou.png"></cover-image>
               </view>
               <view>分享好友</view>
             </button>
@@ -479,7 +479,7 @@ export default {
 .activity-table {
   height: 100%;
   margin-bottom: 50px;
-  background-image: url('https://zodeng.com/static/system/image/activityBg.png');
+  background-image: url('https://wmqhouse.top/static/system/image/activityBg.png');
   background-size: 100% 100%;
   .activity-table-title {
     font-size: 17px;

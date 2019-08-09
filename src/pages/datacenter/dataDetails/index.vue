@@ -2,15 +2,15 @@
   <div>
      <div class="z-top">
        <img class="bgtu" src="../../../assets/bg.png" alt="">
-       <img class="wjtu" :src="data.type==0?'https://zodeng.com/static/system/image/wordicon.png':data.type==1?'../../../assets/tabericon.png':data.type==2?'../../../assets/ppticon.png':data.type==3?'../../../assets/picon.png':data.type==4?'https://zodeng.com/static/system/image/yasuoicon.png':'https://zodeng.com/static/system/image/qitaicon.png'" alt="">
+       <img class="wjtu" :src="data.type==0?'https://wmqhouse.top/static/system/image/wordicon.png':data.type==1?'../../../assets/tabericon.png':data.type==2?'../../../assets/ppticon.png':data.type==3?'../../../assets/picon.png':data.type==4?'https://wmqhouse.top/static/system/image/yasuoicon.png':'https://wmqhouse.top/static/system/image/qitaicon.png'" alt="">
        <!-- <img class="fxtu" src="../../../assets/fenxiang.png" alt=""> -->
        <button  class="fxtu" openType="share">
-          <cover-image  mode="widthFix" src="https://zodeng.com/static/system/image/fenxiang.png"></cover-image>
+          <cover-image  mode="widthFix" src="https://wmqhouse.top/static/system/image/fenxiang.png"></cover-image>
       </button>
        <p class="p1">文件名称：{{data.title}}</p>
        <p class="p2">存储模式：百度云盘</p><p  class="p3">文件格式：{{type}}</p>
        <p class="p4">共享时间：{{data.publishTime}}</p>
-       <img class="sctu" :src="islike==1?'https://zodeng.com/static/system/image/shoucang.png':'https://zodeng.com/static/system/image/shoucang2.png'" alt="" @click="shoucang">
+       <img class="sctu" :src="islike==1?'https://wmqhouse.top/static/system/image/shoucang.png':'https://wmqhouse.top/static/system/image/shoucang2.png'" alt="" @click="shoucang">
      </div>
      <div class="btnf" v-show="isfrist==='0'">
        <div class="btn1" @click="huoquwenjianshow()">获取文件</div>

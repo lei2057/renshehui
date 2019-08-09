@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="my-bg"><img src="https://zodeng.com/static/system/image/renmaiBg.png"></div>
+    <div class="my-bg"><img src="https://wmqhouse.top/static/system/image/renmaiBg.png"></div>
     <div class="my-cont">
       <div class="my-photo disflex" v-if="!userInfo">
         <div class="icon100"><img src="../../../assets/user.png" alt=""></div>
@@ -88,7 +88,7 @@
         </div> -->
         <button @click="saveShareImg" class="flex share-btn" open-type="writePhotosAlbum">
           <view  class="share-icon">
-            <cover-image  mode="widthFix" src="https://zodeng.com/static/system/image/pyq.png"></cover-image>
+            <cover-image  mode="widthFix" src="https://wmqhouse.top/static/system/image/pyq.png"></cover-image>
           </view>
           <view>保存海报</view>
         </button>
@@ -100,7 +100,7 @@
         </div> -->
         <button openType="share" class="flex share-btn">
           <view  class="share-icon">
-            <cover-image  mode="widthFix" src="https://zodeng.com/static/system/image/haoyou.png"></cover-image>
+            <cover-image  mode="widthFix" src="https://wmqhouse.top/static/system/image/haoyou.png"></cover-image>
           </view>
           <view>分享好友</view>
         </button>
@@ -156,7 +156,7 @@ export default {
       var that = this
       wx.downloadFile({
         url: that.qrCodeImg, // 二维码路径
-        // url: 'https://zodeng.com/static/system/image/null.png',
+        // url: 'https://wmqhouse.top/static/system/image/null.png',
         success: function (res) {
           wx.hideLoading()
           if (res.statusCode === 200) {
