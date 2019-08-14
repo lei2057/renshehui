@@ -30,6 +30,7 @@ export default {
     this.id = decodeURIComponent(option.scene)
     console.log(this.id)
     this.userId = wx.getStorageSync('userId')
+    console.log(this.userId)
     // scene 需要使用 decodeURIComponent 才能获取到生成二维码时传入的 scene
     // const scene = decodeURIComponent(option.scene)
   },
@@ -43,6 +44,11 @@ export default {
         }
       }).then(res => {
         console.log(res)
+        wx.showToast({
+          title: '成功',
+          icon: 'success',
+          duration: 2000
+        })
       })
     }
   },
