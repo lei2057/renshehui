@@ -45,7 +45,7 @@ export default {
       }).then(res => {
         console.log(res)
         wx.showToast({
-          title: '成功',
+          title: res.msg,
           icon: 'success',
           duration: 2000
         })
